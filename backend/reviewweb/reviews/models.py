@@ -3,6 +3,19 @@ from users.models import Profile
 from users.models import INFLUENCER_CHOICES, SKINSHADE_CHOICES, SKINTYPE_CHOICES
 import datetime
 
+ONE = 1
+TWO = 2
+THREE = 3
+FOUR = 4
+FIVE = 5
+STAR_CHOICES = (
+    (ONE, "One"),
+    (TWO, "Two"),
+    (THREE, "Three"),
+    (FOUR, "Four"),
+    (FIVE, "Five")
+)
+
 
 class Company(models.Model):
     name = models.CharField(max_length=150)
@@ -30,7 +43,7 @@ class Review(models.Model):
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N")
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    star = models.DecimalField(max_digits=2, decimal_places=1)
+    star = models.IntegerField(default=5, choices=STAR_CHOICES)
 
 
 class Like(models.Model):
@@ -43,9 +56,8 @@ class Feedback(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
 
+
 class Comment(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     content = models.TextField()
     #review = models.ForeignKey(Review, on_delete=models.CASCADE, null=True)
-
-    
