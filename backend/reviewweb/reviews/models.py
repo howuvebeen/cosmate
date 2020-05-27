@@ -48,7 +48,8 @@ class Review(models.Model):
 
 class Like(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
-    review = models.ForeignKey(Review, on_delete=models.CASCADE, null=True)
+    review = models.ForeignKey(
+        Review, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Feedback(models.Model):
