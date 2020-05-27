@@ -25,7 +25,7 @@ SECRET_KEY = '#1k=s2qqzth#s01u#6$(wla*&v+89$+xitkiizo&y5p+v530u0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -124,6 +124,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+EMAIL_FILE_PATH = 'tmp/emails'
+DEFAULT_FROM_EMAIL = 'admin@admin.com'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -135,4 +141,8 @@ REST_REGISTRATION = {
     'REGISTER_VERIFICATION_ENABLED': False,
     'RESET_PASSWORD_VERIFICATION_ENABLED': False,
     'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
+    'REGISTER_VERIFICATION_URL': '127.0.0.1:3000/account/confirm-email',
+    'RESET_PASSWORD_VERIFICATION_URL': '127.0.0.1:3000/reset/confirm',
+    'REGISTER_EMAIL_VERIFICATION_URL': '127.0.0.1:3000/account/confirm-email/',
+    'VERIFICATION_FROM_EMAIL': 'instarepl@instarepl.com',
 }
