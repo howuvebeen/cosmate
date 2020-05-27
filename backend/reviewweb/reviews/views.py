@@ -14,14 +14,14 @@ def api_root(request, format=None):
         'reviews': reverse('review-list', request=request, format=format)
     })
 
-class ReviewList(generics.ListAPIView):
+class ReviewList(generics.ListCreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-class ReviewDetail(generics.RetrieveAPIView):
+class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
