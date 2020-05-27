@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from django.contrib.auth.models import User
-from reviews.models import Company, Ingredient, Product, Review, Like, Feedback, Comment
+from reviews.models import Company, Ingredient, Category, Product, Review, Like, Feedback, Comment
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -31,12 +31,20 @@ class CompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ['name', 'year', 'description']
+        fields = ['name', 'year', 'description', 'products']
 
 class ReviewSerializer(serializers.ModelSerializer):
 
-    likes = LikeSerializer(many = True)
+    #likes = LikeSerializer(many = True)
 
     class Meta:
         model = Review
-        fields = ['author', 'influencer', 'product', 'star', 'likes']
+        fields = ['author', 'influencer', 'product', 'star']
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    products = ProductSerializer(many = True)
+
+    class Meta:
+        model = Category
+        fields = ['name', 'products']
