@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 from rest_framework import generics
-from reviews.models import Review
-from reviews.serializers import ReviewSerializer
+from reviews.models import Review, Like
+from reviews.serializers import ReviewSerializer, LikeSerializer
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -25,5 +25,14 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
+class LikeList(generics.ListCreateAPIView):
+    queryset = Like.objects.all()
+    serializer_ckass = LikeSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+class ListDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Like.objects.all()
+    serializer_ckass = LikeSerializer
 
 # Create your views here.
