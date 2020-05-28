@@ -11,10 +11,12 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
 
+    reviews = serializers.StringRelatedField(many=True, read_only=True)
+
     class Meta:
         model = Product
         fields = ['name', 'company', 'category',
-                  'skintype', 'skinshade', 'ingredients']
+                  'skintype', 'skinshade', 'ingredients', 'reviews']
 
 
 class LikeSerializer(serializers.ModelSerializer):
@@ -40,16 +42,18 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
 
-    likes = serializers.PrimaryKeyRelatedField(many=True, read_only = True)
-    
+    likes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Review
-        fields = ['author', 'influencer', 'product', 'star', 'likes']
+        read_only_fields = ['pub_date']
+        fields = ['author', 'influencer', 'product',
+                  'star', 'review', 'pub_date', 'likes']
+
 
 class CategorySerializer(serializers.ModelSerializer):
 
-    products = ProductSerializer(many = True)
+    products = ProductSerializer(many=True)
 
     class Meta:
         model = Category

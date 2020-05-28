@@ -25,17 +25,20 @@ class Company(models.Model):
     def __str__(self):
         return self.name
 
+
 class Ingredient(models.Model):
     name = models.CharField(max_length=150)
 
     def __str__(self):
         return self.name
 
+
 class Category(models.Model):
-    name = models.CharField(max_length= 50)
+    name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
+
 
 class Product(models.Model):
     name = models.CharField(max_length=150)
@@ -55,14 +58,25 @@ class Review(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product, related_name='reviews', on_delete=models.CASCADE)
     star = models.IntegerField(default=5, choices=STAR_CHOICES)
+    review = models.TextField(max_length=5000, null=True, blank=True)
+    pub_date = models.DateField(default=datetime.date.today)
+
+    class Meta:
+        ordering = ['pk']
+
+    def __str__(self):
+        return '%d, %s, %s, %s, %d, %s, %s' % (self.pk, self.author, self.influencer, self.product, self.star, self.review, self.pub_date)
+
+    # Function that returns number of reviews per
 
 
 class Like(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     review = models.ForeignKey(
-        Review, related_name = 'likes', on_delete=models.CASCADE, null=True, blank=True)
+        Review, related_name='likes', on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Feedback(models.Model):

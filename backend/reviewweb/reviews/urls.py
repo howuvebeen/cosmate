@@ -7,5 +7,7 @@ urlpatterns = [
     path('reviews/<int:pk>/', views.ReviewDetail.as_view(), name='review-detail'),
     path('likes/', views.LikeList.as_view(), name='like-list'),
     path('likes/<int:pk>/', views.LikeDetail.as_view(), name='like-detail'),
+    path('products/', views.ProductList.as_view(), name='product-list'),
+    path('products/<int:pk>/', views.ProductDetail.as_view(), name='product-detail'),
 
 ]
