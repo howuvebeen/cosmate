@@ -1,10 +1,8 @@
 from django.shortcuts import render
 
 from rest_framework import generics
-from reviews.models import Review, Like, Product
-from reviews.serializers import ReviewSerializer, LikeSerializer, ProductSerializer
-from users.models import Profile
-from django.contrib.auth.models import User
+from .models import Review, Like
+from .serializers import ReviewSerializer, LikeSerializer
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -38,13 +36,3 @@ class LikeList(generics.ListCreateAPIView):
 class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
-
-
-class ProductList(generics.ListCreateAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-
-class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
