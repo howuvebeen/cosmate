@@ -40,11 +40,12 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
 
-    likes = LikeSerializer(many=True)
+    likes = serializers.PrimaryKeyRelatedField(many=True, read_only = True)
+    
 
     class Meta:
         model = Review
-        fields = ['author', 'influencer', 'product', 'star']
+        fields = ['author', 'influencer', 'product', 'star', 'likes']
 
 class CategorySerializer(serializers.ModelSerializer):
 

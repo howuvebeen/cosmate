@@ -3,11 +3,13 @@ from django.shortcuts import render
 from rest_framework import generics
 from reviews.models import Review, Like
 from reviews.serializers import ReviewSerializer, LikeSerializer
+from users.models import Profile
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+from django.shortcuts import get_object_or_404
 
 @api_view(['GET'])
 def api_root(request, format=None):
@@ -21,7 +23,10 @@ class ReviewList(generics.ListCreateAPIView):
     serializer_class = ReviewSerializer
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+
+        profile = get_object_or_404(Profile, user = self.request.user.pk)
+
+        serializer.save(author=profile)
 
 
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -34,7 +39,7 @@ class LikeList(generics.ListCreateAPIView):
     serializer_class = LikeSerializer
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(author=self.request.profile)
 
 
 class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
