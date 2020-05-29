@@ -17,9 +17,14 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def get_like_number(self, obj):
         likelist = list(Like.objects.filter(review=obj))
+        likenum = 0
         for like in likelist:
-            obj.like_number += 1
+            likenum += 1
 
+        if likenum > obj.like_number:
+            obj.like_number = likenum
+
+        obj.save()
         return obj.like_number
 
     class Meta:

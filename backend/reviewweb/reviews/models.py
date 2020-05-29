@@ -3,6 +3,8 @@ from users.models import Profile
 from products.models import Product
 from users.models import INFLUENCER_CHOICES, SKINSHADE_CHOICES, SKINTYPE_CHOICES
 import datetime
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 ONE = 1
 TWO = 2
@@ -27,15 +29,13 @@ class Review(models.Model):
     star = models.IntegerField(default=5, choices=STAR_CHOICES)
     review = models.TextField(max_length=5000, null=True, blank=True)
     pub_date = models.DateField(default=datetime.date.today)
-    like_number = models.IntegerField(default = 0)
+    like_number = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['pk']
 
     def __str__(self):
         return '%d, %s, %s, %s, %d, %s, %s, %s' % (self.pk, self.author, self.influencer, self.product, self.star, self.review, self.pub_date, self.like_number)
-
-    # Function that returns number of reviews per
 
 
 class Like(models.Model):

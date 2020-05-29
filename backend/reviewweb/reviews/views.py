@@ -43,7 +43,7 @@ class ProductReviewList(generics.ListAPIView):
 
 
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Review.objects.all()
+    queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
 
 
