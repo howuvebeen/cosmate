@@ -17,4 +17,4 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         read_only_fields = ['pub_date']
         fields = ['author', 'influencer', 'product',
-                  'star', 'review', 'pub_date', 'likes']
+                  'star', 'review', 'pub_date', 'like_number', 'likes']

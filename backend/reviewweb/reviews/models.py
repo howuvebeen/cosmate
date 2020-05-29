@@ -27,12 +27,13 @@ class Review(models.Model):
     star = models.IntegerField(default=5, choices=STAR_CHOICES)
     review = models.TextField(max_length=5000, null=True, blank=True)
     pub_date = models.DateField(default=datetime.date.today)
+    like_number = models.IntegerField(default = 0)
 
     class Meta:
         ordering = ['pk']
 
     def __str__(self):
-        return '%d, %s, %s, %s, %d, %s, %s' % (self.pk, self.author, self.influencer, self.product, self.star, self.review, self.pub_date)
+        return '%d, %s, %s, %s, %d, %s, %s, %s' % (self.pk, self.author, self.influencer, self.product, self.star, self.review, self.pub_date, self.like_number)
 
     # Function that returns number of reviews per
 
