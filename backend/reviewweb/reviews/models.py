@@ -34,20 +34,6 @@ class Review(models.Model):
     class Meta:
         ordering = ['pk']
 
-    # @receiver(post_save, sender=Like)
-    # def save_user_profile(sender, instance, **kwargs):
-    #     review = instance.review
-    #     likelist = list(Like.objects.filter(review=review))
-    #     likenum = 0
-    #     for like in likelist:
-    #         likenum += 1
-
-    #     if likenum > review.like_number:
-    #         review.like_number = likenum
-
-    #     review.save()
-    #     return review.like_number
-
     def __str__(self):
         return '%d, %s, %s, %s, %d, %s, %s, %s' % (self.pk, self.author, self.influencer, self.product, self.star, self.review, self.pub_date, self.like_number)
 
