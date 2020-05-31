@@ -11,7 +11,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ['name', 'company', 'category',
                   'skintype', 'skinshade', 'ingredients', 
-                  'reviews', 'average_star', 'star_number', 'star_sum']
+                  'reviews', 'average_star', 'star_number', 'star_sum', 'profile']
 
 
 class CompanySerializer(serializers.ModelSerializer):

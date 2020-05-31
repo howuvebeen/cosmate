@@ -1,6 +1,7 @@
 from django.db import models
-from users.models import INFLUENCER_CHOICES, SKINSHADE_CHOICES, SKINTYPE_CHOICES
+from users.models import INFLUENCER_CHOICES, SKINSHADE_CHOICES, SKINTYPE_CHOICES, Profile
 import datetime
+from django.db.models import signals
 
 
 class Company(models.Model):
@@ -38,6 +39,15 @@ class Product(models.Model):
     average_star = models.FloatField(default = 0)
     star_number = models.IntegerField(default = 0)
     star_sum = models.FloatField(default = 0)
+    profile = models.ManyToManyField(Profile, related_name = 'interested_product', blank=True)
 
     def __str__(self):
         return self.name
+
+    # def save_product_update(sender, instance, *args, **kwargs):
+    #     profile = instance.profile
+    #     profile.interested_product = instance
+    #     profile.save()
+
+
+# signals.post_save.connect(Product.save_product_update, sender=Product)

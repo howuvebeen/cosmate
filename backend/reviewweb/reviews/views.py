@@ -70,12 +70,12 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
 
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
+    # def update(self, request, *args, **kwargs):
+    #     instance = self.get_object()
 
-        serializer = serializers.ReviewSerializer()
+    #     serializer = serializers.ReviewSerializer()
 
-        serializer.is_valid()
+    #     serializer.is_valid()
 
 
 class LikeList(generics.ListCreateAPIView):
