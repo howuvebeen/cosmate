@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 
-from rest_framework import generics
+from rest_framework import generics, filters
 from .models import Review, Like
 from .serializers import ReviewSerializer, LikeSerializer
 
@@ -26,10 +26,33 @@ class ReviewList(generics.ListCreateAPIView):
     """
     List all reviews, or create a review
     """
-    queryset = Review.objects.all()
+    queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['author', 'product__name']
+
+    def post(self, request, format=None):
+        serializer = ReviewSerializer(data = request.data)
+        if serializer.is_valid():
+            review = serializer.save()
+            star = review.star
+            product = review.product
+
+            product.star_number += 1
+            product.star_sum += review.star
+            product.average_star = round(((product.star_sum)/product.star_number), 2)
+
+            product.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, format=None):
+        serializer = ReviewSerializer(data= request.data)
+
+        if()
+
+        return serializer.data
+
 
 
 class ProductReviewList(generics.ListAPIView):
@@ -47,10 +70,20 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        serializer = serializers.ReviewSerializer()
+        
+        serializer.is_valid()
+
 
 class LikeList(generics.ListCreateAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
+    # filter_backends = [filters.OrderingFilter]
+    # ordering_fields = ['like_number']
+    # ordering = ['like_number']
 
     def post(self, request, format=None):
         serializer = LikeSerializer(data=request.data)
@@ -63,7 +96,7 @@ class LikeList(generics.ListCreateAPIView):
             for like in likelist:
                 likenum += 1
 
-            if likenum > review.like_number:
+            if likenum != review.like_number:
                 review.like_number = likenum
 
             review.save()
@@ -74,3 +107,4 @@ class LikeList(generics.ListCreateAPIView):
 class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
+
