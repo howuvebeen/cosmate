@@ -9,7 +9,7 @@ class LikeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Like
-        fields = ['author', 'review']
+        fields = ['pk', 'author', 'review']
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -19,5 +19,5 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         read_only_fields = ['pub_date']
-        fields = ['author', 'influencer', 'product',
+        fields = ['pk', 'author', 'influencer', 'product',
                   'star', 'review', 'pub_date', 'like_number', 'likes']
