@@ -32,7 +32,7 @@ class ReviewList(generics.ListCreateAPIView):
     filterset_fields = ['author', 'product__name']
 
     def post(self, request, format=None):
-        serializer = ReviewSerializer(data = request.data)
+        serializer = ReviewSerializer(data=request.data)
         if serializer.is_valid():
             review = serializer.save()
             star = review.star
@@ -40,19 +40,19 @@ class ReviewList(generics.ListCreateAPIView):
 
             product.star_number += 1
             product.star_sum += review.star
-            product.average_star = round(((product.star_sum)/product.star_number), 2)
+            product.average_star = round(
+                ((product.star_sum)/product.star_number), 2)
 
             product.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, format=None):
-        serializer = ReviewSerializer(data= request.data)
+    # def put(self, request, format=None):
+    #     serializer = ReviewSerializer(data= request.data)
 
-        if()
+    #     if()
 
-        return serializer.data
-
+    #     return serializer.data
 
 
 class ProductReviewList(generics.ListAPIView):
@@ -74,7 +74,7 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
 
         serializer = serializers.ReviewSerializer()
-        
+
         serializer.is_valid()
 
 
@@ -104,4 +104,3 @@ class LikeList(generics.ListCreateAPIView):
 class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
-
