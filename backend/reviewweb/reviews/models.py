@@ -7,16 +7,24 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 ONE = 1
+ONE_AND_HALF = 1.5
 TWO = 2
+TWO_AND_HALF = 2.5
 THREE = 3
+THREE_AND_HALF = 3.5
 FOUR = 4
+FOUR_AND_HALF = 4.5
 FIVE = 5
 STAR_CHOICES = (
-    (ONE, "One"),
-    (TWO, "Two"),
-    (THREE, "Three"),
-    (FOUR, "Four"),
-    (FIVE, "Five")
+    (ONE, "1"),
+    (ONE_AND_HALF, "1.5"),
+    (TWO, "2"),
+    (TWO_AND_HALF, "2.5"),
+    (THREE, "3"),
+    (THREE_AND_HALF, "3.5"),
+    (FOUR, "4"),
+    (FOUR_AND_HALF, "4.5"),
+    (FIVE, "5")
 )
 
 
@@ -26,7 +34,10 @@ class Review(models.Model):
         max_length=20, choices=INFLUENCER_CHOICES, default="N")
     product = models.ForeignKey(
         Product, related_name='reviews', on_delete=models.CASCADE)
-    star = models.IntegerField(default=5, choices=STAR_CHOICES)
+    star = models.FloatField(
+        default=5, 
+        choices=STAR_CHOICES
+        )
     review = models.TextField(max_length=5000, null=True, blank=True)
     pub_date = models.DateField(default=datetime.date.today)
     like_number = models.IntegerField(default=0)
