@@ -16,11 +16,6 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     likes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
-    like_number = serializers.SerializerMethodField()
-
-    def get_like_number(self, obj):
-        return obj.like_number
-
     class Meta:
         model = Review
         read_only_fields = ['pub_date']

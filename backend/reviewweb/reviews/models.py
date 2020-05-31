@@ -3,7 +3,8 @@ from users.models import Profile
 from products.models import Product
 from users.models import INFLUENCER_CHOICES, SKINSHADE_CHOICES, SKINTYPE_CHOICES
 import datetime
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete, post_delete
+from django.db.models import signals
 from django.dispatch import receiver
 
 ONE = 1
@@ -53,6 +54,22 @@ class Like(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     review = models.ForeignKey(
         Review, related_name='likes', on_delete=models.CASCADE, null=True, blank=True)
+
+    def save_like_update(sender, instance, *args, **kwargs):
+        review = instance.review
+        likelist = list(Like.objects.filter(review=review))
+        review.like_number = len(likelist)
+        review.save()
+
+    def delete_like_update(sender, instance, *args, **kwargs):
+        review = instance.review
+        likelist = list(Like.objects.filter(review=review))
+        review.like_number = len(likelist)
+        review.save()
+
+
+signals.post_save.connect(Like.save_like_update, sender=Like)
+signals.post_delete.connect(Like.delete_like_update, sender=Like)
 
 
 class Feedback(models.Model):

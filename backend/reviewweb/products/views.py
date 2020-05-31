@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 @api_view(['GET'])
@@ -20,10 +21,29 @@ def api_root(request, format=None):
 
 
 class ProductList(generics.ListCreateAPIView):
-    queryset = Product.objects.all()
+    """
+    View with POST request for creating product and listing products
+    Products can be categorized by name, company, 
+    category, skintype, skinshade, and ingredients
+    """
+    queryset = Product.objects.all().order_by('-average_star')
     serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'name',
+        'company', 
+        'category', 
+        'skintype', 
+        'skinshade', 
+        'ingredients',
+        'average_star'
+        ]
 
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View GET, PUT, DELETE request for retrieving, updating, and destroying
+    specific product object
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer

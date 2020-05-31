@@ -10,7 +10,8 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['name', 'company', 'category',
-                  'skintype', 'skinshade', 'ingredients', 'reviews']
+                  'skintype', 'skinshade', 'ingredients', 
+                  'reviews', 'average_star', 'star_number', 'star_sum']
 
 
 class CompanySerializer(serializers.ModelSerializer):

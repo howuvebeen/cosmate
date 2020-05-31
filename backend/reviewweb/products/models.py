@@ -35,6 +35,9 @@ class Product(models.Model):
     skinshade = models.CharField(
         max_length=20,  choices=SKINSHADE_CHOICES, default="F")
     ingredients = models.ManyToManyField(Ingredient)
+    average_star = models.FloatField(default = 0)
+    star_number = models.IntegerField(default = 0)
+    star_sum = models.FloatField(default = 0)
 
     def __str__(self):
         return self.name
