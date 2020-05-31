@@ -49,6 +49,22 @@ class Review(models.Model):
     def __str__(self):
         return '%d, %s, %s, %s, %d, %s, %s, %s' % (self.pk, self.author, self.influencer, self.product, self.star, self.review, self.pub_date, self.like_number)
 
+    # def save_review_update(sender, instance, *args, **kwargs):
+    #     review = instance
+    #     review.save()
+
+    def delete_review_update(sender, instance, *args, **kwargs):
+        review = instance
+        product = review.product
+        product.star_number -= 1
+        product.star_sum -= review.star
+        product.average_star = round((product.star_sum/product.star_number), 2)
+        product.save()
+        
+
+# signals.post_save.connect(Review.save_review_update, sender=Review)
+signals.post_delete.connect(Review.delete_review_update, sender=Review)
+
 
 class Like(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
