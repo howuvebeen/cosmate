@@ -14,6 +14,8 @@ import IdReset from "./auth/IdReset.js";
 import IdResetDone from "./auth/IdResetDone.js";
 import UserProfile from "./auth/UserProfile.js";
 import UserProfileEdit from "./auth/UserProfileEdit.js";
+import Skincare from "./auth/Skincare.js";
+import Product from "./auth/Product.js";
 import NoMatch from "./NoMatch";
 
 const MainContent = () => (
@@ -32,6 +34,8 @@ const MainContent = () => (
             <Route path="/reset_id_done" component={IdResetDone}/>
             <Route path="/profile" component={UserProfile}/>
             <Route path="/profile_edit" component={UserProfileEdit}/>
+            <Route exact path="/skincare" component={Skincare}/>
+            <Route exact path="/skincare/:product" component={Product}/>
             <Route component={NoMatch}/>
         </Switch>
     </div>
