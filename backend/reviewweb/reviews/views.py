@@ -24,7 +24,9 @@ def api_root(request, format=None):
 
 class ReviewList(generics.ListCreateAPIView):
     """
-    List all reviews, or create a review
+    View with POST request for creating review and listing reviews
+    Reviews can be categorized by author, influencer, 
+    product, star, review, pub_date, like_number
     """
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
