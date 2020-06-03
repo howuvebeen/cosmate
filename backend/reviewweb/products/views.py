@@ -24,7 +24,7 @@ class ProductList(generics.ListCreateAPIView):
     """
     View with POST request for creating product and listing products
     Products can be categorized by name, company, 
-    category, skintype, skinshade, and ingredients
+    category, skintype, skinissue, and ingredients
     """
     queryset = Product.objects.all().order_by('-average_star')
     serializer_class = ProductSerializer
@@ -34,7 +34,7 @@ class ProductList(generics.ListCreateAPIView):
         'company', 
         'category', 
         'skintype', 
-        'skinshade', 
+        'skinissue', 
         'ingredients',
         'average_star'
         ]

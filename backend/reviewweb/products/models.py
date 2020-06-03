@@ -1,8 +1,9 @@
 from django.db import models
-from users.models import INFLUENCER_CHOICES, SKINSHADE_CHOICES, SKINTYPE_CHOICES, Profile
+from users.models import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES, Profile
 import datetime
 from django.db.models import signals
 
+from multiselectfield import MultiSelectField
 
 class Company(models.Model):
     name = models.CharField(max_length=150)
@@ -29,12 +30,14 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=150)
+    photo = models.ImageField(default = 'static/product_default_image.png', upload_to = 'media')
+    description = models.TextField(max_length=1000, default = 'No Description')
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     category = models.ManyToManyField(Category)
-    skintype = models.CharField(
-        max_length=20,  choices=SKINTYPE_CHOICES, default="C")
-    skinshade = models.CharField(
-        max_length=20,  choices=SKINSHADE_CHOICES, default="F")
+    skintype = MultiSelectField(
+        max_length = 20, choices = SKINTYPE_CHOICES, default = 'C')
+    skinissue = MultiSelectField(
+        max_length = 30, choices = SKINISSUE_CHOICES, default = 'N/A')
     ingredients = models.ManyToManyField(Ingredient)
     average_star = models.FloatField(default = 0)
     star_number = models.IntegerField(default = 0)

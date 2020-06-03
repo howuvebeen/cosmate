@@ -23,4 +23,4 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['user', 'gender', 'dob',
-                  'skintype', 'skinshade', 'influencer', 'interested_product']
+                  'skintype', 'skinissue', 'influencer', 'interested_product']
