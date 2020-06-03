@@ -1,30 +1,22 @@
 from django.db import models
 from users.models import Profile
 from products.models import Product
-from users.models import INFLUENCER_CHOICES, SKINSHADE_CHOICES, SKINTYPE_CHOICES
+from users.models import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES
 import datetime
 from django.db.models.signals import post_save, pre_delete, post_delete
 from django.db.models import signals
 from django.dispatch import receiver
 
 ONE = 1
-ONE_AND_HALF = 1.5
 TWO = 2
-TWO_AND_HALF = 2.5
 THREE = 3
-THREE_AND_HALF = 3.5
 FOUR = 4
-FOUR_AND_HALF = 4.5
 FIVE = 5
 STAR_CHOICES = (
     (ONE, "1"),
-    (ONE_AND_HALF, "1.5"),
     (TWO, "2"),
-    (TWO_AND_HALF, "2.5"),
     (THREE, "3"),
-    (THREE_AND_HALF, "3.5"),
     (FOUR, "4"),
-    (FOUR_AND_HALF, "4.5"),
     (FIVE, "5")
 )
 
@@ -36,7 +28,7 @@ class Review(models.Model):
         max_length=20, choices=INFLUENCER_CHOICES, default="N")
     product = models.ForeignKey(
         Product, related_name='reviews', on_delete=models.CASCADE)
-    star = models.FloatField(
+    star = models.IntegerField(
         default=5,
         choices=STAR_CHOICES
     )
@@ -59,8 +51,13 @@ class Review(models.Model):
         product = review.product
         product.star_number -= 1
         product.star_sum -= review.star
-        product.average_star = round((product.star_sum/product.star_number), 2)
-        product.save()
+        if product.star_number == 0:
+            product.average_star = 0
+            product.save()
+        else:
+            product.average_star = round(
+                (product.star_sum/product.star_number), 1)
+            product.save()
 
 
 # signals.post_save.connect(Review.save_review_update, sender=Review)

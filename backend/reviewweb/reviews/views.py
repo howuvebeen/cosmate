@@ -43,7 +43,7 @@ class ReviewList(generics.ListCreateAPIView):
             product.star_number += 1
             product.star_sum += review.star
             product.average_star = round(
-                ((product.star_sum)/product.star_number), 2)
+                ((product.star_sum)/product.star_number), 1)
 
             product.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

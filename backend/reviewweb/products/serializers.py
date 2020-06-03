@@ -1,20 +1,21 @@
-from rest_framework import serializers
+from rest_framework import serializers, fields
 
 from .models import Company, Ingredient, Product, Category
-from reviews.serializers import ReviewSerializer
+from users.models import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES
 
 
 class ProductSerializer(serializers.ModelSerializer):
 
-    # reviews = serializers.StringRelatedField(many=True, read_only=True)
-    reviews = ReviewSerializer(many=True, read_only=True)
-    ingredients = serializers.StringRelatedField(many=True, read_only=True)
-    category = serializers.StringRelatedField(many=True, read_only=True)
+    skintype = fields.MultipleChoiceField(
+        choices=SKINTYPE_CHOICES, default='C')
+    skinissue = fields.MultipleChoiceField(
+        choices=SKINISSUE_CHOICES, default='N/A')
+    reviews = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Product
-        fields = ['pk', 'name', 'company', 'category',
-                  'skintype', 'skinshade', 'ingredients',
+        fields = ['name', 'photo', 'description', 'company', 'category',
+                  'skintype', 'skinissue', 'ingredients',
                   'reviews', 'average_star', 'star_number', 'star_sum', 'profile']
 
 

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'reviews',
     'products',
     'likes',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [
@@ -152,3 +153,9 @@ REST_REGISTRATION = {
     'REGISTER_EMAIL_VERIFICATION_URL': '127.0.0.1:3000/account/confirm-email/',
     'VERIFICATION_FROM_EMAIL': 'instarepl@instarepl.com',
 }
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'media'),
+)

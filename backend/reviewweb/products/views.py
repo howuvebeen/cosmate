@@ -24,17 +24,17 @@ class ProductList(generics.ListCreateAPIView):
     """
     View with POST request for creating product and listing products
     Products can be categorized by name, company, 
-    category, skintype, skinshade, and ingredients
+    category, skintype, skinissue, and ingredients
     """
     queryset = Product.objects.all().order_by('-average_star')
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = [
         'name',
-        'company',
-        'category',
-        'skintype',
-        'skinshade',
+        'company', 
+        'category', 
+        'skintype', 
+        'skinissue', 
         'ingredients',
         'average_star'
     ]

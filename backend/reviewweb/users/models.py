@@ -17,11 +17,12 @@ SKINTYPE_CHOICES = (
     ("D", "Dry"),
     ("C", "Combinational"),
 )
-SKINSHADE_CHOICES = (
-    ("F", "Fair"),
-    ("L", "Light"),
-    ("M", "Medium"),
-    ("D", "Dark"),
+#Trouble / Acne / Sensitive Skin / None
+SKINISSUE_CHOICES = (
+    ("T", "Trouble"),
+    ("A", "Acne"),
+    ("SS", "Sensitive Skin"),
+    ("N/A", "None"),
 )
 INFLUENCER_CHOICES = (
     ("Y", "Yes"),
@@ -38,8 +39,8 @@ class Profile(models.Model):
         default=datetime.date.today, blank=True, null=True)
     skintype = models.CharField(
         max_length=20, choices=SKINTYPE_CHOICES, default="C", null=True)
-    skinshade = models.CharField(
-        max_length=20, choices=SKINSHADE_CHOICES, default="F", null=True)
+    skinissue = models.CharField(
+        max_length = 30, choices = SKINISSUE_CHOICES, default = 'N/A')
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N", null=True)
 
