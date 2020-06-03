@@ -16,26 +16,23 @@ export function authLogin(token) {
 }
 
 export function loginUser(formValues, dispatch, props) {
-  const loginUrl = AuthUrls.LOGIN;
+    const loginUrl = AuthUrls.LOGIN;
 
-  return axios
-    .post(loginUrl, formValues)
-    .then((response) => {
-      // If request is good update state to indicate user is authenticated
-      // Store key from data to const token
-      const token = response.data.key;
-      // Dispatch token to function authLogin() and AuthTypes.LOGIN
-      dispatch(authLogin(token));
+    return axios.post(loginUrl, formValues).then((response) => {
+        // If request is good update state to indicate user is authenticated
+        // Store key from data to const token
+        const token = response.data.key;
+        // Dispatch token to function authLogin() and AuthTypes.LOGIN 
+        dispatch(authLogin(token));
 
-      // Store the changed token to token in localStorage
-      localStorage.setItem("token", token);
+        // Store the changed token to token in localStorage 
+        localStorage.setItem("token", token);
 
-      // redirect to the route '/'
-      history.push("/newsfeed");
-    })
-    .catch((error) => {
-      const processedError = processServerError(error.response.data);
-      throw new SubmissionError(processedError);
+        // redirect to the route '/'
+        history.push("/");
+    }).catch(error => {
+        const processedError = processServerError(error.response.data);
+        throw new SubmissionError(processedError);
     });
 }
 
@@ -49,6 +46,7 @@ export function logoutUser() {
 }
 
 export function signupUser(formValues) {
+<<<<<<< HEAD
   const signupUrl = AuthUrls.SIGNUP;
 
   return axios
@@ -65,6 +63,23 @@ export function signupUser(formValues) {
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
+=======
+    const signupUrl = AuthUrls.SIGNUP;
+
+    return axios.post(signupUrl, formValues)
+        .then((response) => {
+            // email need to be verified, so don't login and send user to signup_done page.
+            // redirect to signup done page.
+            history.push("/signup_done");
+        })
+        .catch((error) => {
+            console.log(error);
+            // If request is bad...
+            // Show an error to the user
+            const processedError = processServerError(error.response.data);
+            throw new SubmissionError(processedError);
+        });
+>>>>>>> 335f07e31439ddd6e03b8cded2a948e6b34f700a
 }
 
 export function activateUserAccount(formValues, dispatch, props) {
@@ -222,6 +237,72 @@ export function updateUserProfile(formValues, dispatch, props) {
       throw new SubmissionError(processedError);
     });
 }
+
+function setproductList(payload) {
+    return {
+        type: AuthTypes.PRODUCT_LIST,
+        payload: payload
+    };
+}
+
+export function getproductList() {
+    const productListUrl = AuthUrls.PRODUCT_LIST;
+    return function(dispatch) {
+        axios.get(productListUrl)
+        .then(response => {
+            dispatch(setproductList(response.data));
+        }).catch((error) => {
+            // If request is bad...
+            // Show an error to the user
+            // TODO: send notification and redirect
+        });
+    }
+}
+
+function setProduct(payload) {
+    return {
+        type: AuthTypes.PRODUCT,
+        payload: payload
+    };
+}
+
+export function getProduct(props) { 
+    const { product } = props.match.params;
+    const productUrl = AuthUrls.PRODUCT+product;
+
+    return function(dispatch) {
+        axios.get(productUrl)
+        .then(response => {
+            dispatch(setProduct(response.data));
+        }).catch((error) => {
+            // If request is bad...
+            // Show an error to the user
+            // TODO: send notification and redirect
+        });
+    }
+}
+
+function setReviewList(payload) {
+    return {
+        type: AuthTypes.REVIEW_LIST,
+        payload: payload
+    };
+}
+
+export function getReviewList() {
+    const reviewListUrl = AuthUrls.REVIEW_LIST;
+    return function(dispatch) {
+        axios.get(reviewListUrl)
+        .then(response => {
+            dispatch(setReviewList(response.data));
+        }).catch((error) => {
+            // If request is bad...
+            // Show an error to the user
+            // TODO: send notification and redirect
+        });
+    }
+}
+
 // util functions
 function processServerError(error) {
   return Object.keys(error).reduce(
