@@ -31,7 +31,7 @@ class ReviewList(generics.ListCreateAPIView):
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['author', 'product__name']
+    filterset_fields = ['author', 'product']
 
     def post(self, request, format=None):
         serializer = ReviewSerializer(data=request.data)

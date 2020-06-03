@@ -31,12 +31,13 @@ class Product(models.Model):
     name = models.CharField(max_length=150)
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name='products')
-    category = models.ManyToManyField(Category)
+    category = models.ManyToManyField(Category, related_name='categories')
     skintype = models.CharField(
         max_length=20,  choices=SKINTYPE_CHOICES, default="C")
     skinshade = models.CharField(
         max_length=20,  choices=SKINSHADE_CHOICES, default="F")
-    ingredients = models.ManyToManyField(Ingredient)
+    ingredients = models.ManyToManyField(
+        Ingredient, related_name='ingredients')
     average_star = models.FloatField(default=0)
     star_number = models.IntegerField(default=0)
     star_sum = models.FloatField(default=0)

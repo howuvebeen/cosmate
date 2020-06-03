@@ -1,11 +1,15 @@
 from rest_framework import serializers
 
 from .models import Company, Ingredient, Product, Category
+from reviews.serializers import ReviewSerializer
 
 
 class ProductSerializer(serializers.ModelSerializer):
 
-    reviews = serializers.StringRelatedField(many=True, read_only=True)
+    # reviews = serializers.StringRelatedField(many=True, read_only=True)
+    reviews = ReviewSerializer(many=True, read_only=True)
+    ingredients = serializers.StringRelatedField(many=True, read_only=True)
+    category = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Product

@@ -30,15 +30,16 @@ STAR_CHOICES = (
 
 
 class Review(models.Model):
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, null=True, related_name='author')
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N")
     product = models.ForeignKey(
         Product, related_name='reviews', on_delete=models.CASCADE)
     star = models.FloatField(
-        default=5, 
+        default=5,
         choices=STAR_CHOICES
-        )
+    )
     review = models.TextField(max_length=5000, null=True, blank=True)
     pub_date = models.DateField(default=datetime.date.today)
     like_number = models.IntegerField(default=0)
@@ -60,7 +61,7 @@ class Review(models.Model):
         product.star_sum -= review.star
         product.average_star = round((product.star_sum/product.star_number), 2)
         product.save()
-        
+
 
 # signals.post_save.connect(Review.save_review_update, sender=Review)
 signals.post_delete.connect(Review.delete_review_update, sender=Review)
