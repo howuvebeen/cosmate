@@ -19,17 +19,17 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class CompanySerializer(serializers.ModelSerializer):
 
-    products = ProductSerializer(many=True)
+    products = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Company
-        fields = ['name', 'year', 'description', 'products']
+        fields = ['pk', 'name', 'year', 'description', 'products']
 
 
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
-        fields = ['name']
+        fields = ['pk', 'name']
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -38,4 +38,4 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['name', 'products']
+        fields = ['pk', 'name', 'products']

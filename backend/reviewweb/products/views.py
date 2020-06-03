@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 from rest_framework import generics
-from .models import Product
-from .serializers import ProductSerializer
+from .models import Product, Company
+from .serializers import ProductSerializer, CompanySerializer
 
 
 from rest_framework.decorators import api_view
@@ -37,7 +37,7 @@ class ProductList(generics.ListCreateAPIView):
         'skinissue', 
         'ingredients',
         'average_star'
-        ]
+    ]
 
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -47,3 +47,22 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+
+class CompanyList(generics.ListCreateAPIView):
+    """
+    View with POST request for creating comapny and listing companies
+    Companies can be categorized by pk, name, year, description,
+    products
+    """
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+
+
+class CompanyDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View GET, PUT, DELETE request for retrieving, updating, and destroying
+    specific company object
+    """
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
