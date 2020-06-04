@@ -6,6 +6,8 @@ from django.dispatch import receiver
 
 import datetime
 
+from dateutil.relativedelta import relativedelta
+
 
 GENDER_CHOICES = (
     ("M", "Male"),
@@ -37,6 +39,7 @@ class Profile(models.Model):
         max_length=20, choices=GENDER_CHOICES, default="D")
     dob = models.DateField(
         default=datetime.date.today, blank=True, null=True)
+    age = models.IntegerField(default = 0)
     skintype = models.CharField(
         max_length=20, choices=SKINTYPE_CHOICES, default="C", null=True)
     skinissue = models.CharField(
@@ -45,8 +48,12 @@ class Profile(models.Model):
         max_length=20, choices=INFLUENCER_CHOICES, default="N", null=True)
 
     def __str__(self):
-        return self.user.username
-
+        return self.user.first_name
+    
+    def save(self, *args, **kwargs):
+        today = datetime.date.today()
+        self.age = today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))
+        super(Profile, self).save(*args, **kwargs)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
