@@ -22,7 +22,7 @@ def api_root(request, format=None):
 
 class ProductList(generics.ListCreateAPIView):
     """
-    View with POST request for creating product and listing products
+    View with POST, GET request for creating product and listing products
     Products can be categorized by name, company, 
     category, skintype, skinissue, and ingredients
     """
@@ -51,7 +51,7 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class CompanyList(generics.ListCreateAPIView):
     """
-    View with POST request for creating comapny and listing companies
+    View with POST, GET request for creating comapny and listing companies
     Companies can be categorized by pk, name, year, description,
     products
     """

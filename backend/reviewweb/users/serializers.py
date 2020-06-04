@@ -10,6 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
     """
     Serialize User Model
     """
+
     class Meta:
         model = User
         fields = ['pk', 'username', 'email',
@@ -30,5 +31,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
+        read_only_fields = ['user', 'interested_product']
         fields = ['user', 'gender', 'dob', 'age',
                   'skintype', 'skinissue', 'influencer', 'interested_product']

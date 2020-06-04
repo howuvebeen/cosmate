@@ -21,10 +21,22 @@ STAR_CHOICES = (
 )
 
 
+def star_sum_calculator(instance):
+    """
+    Adds the number of stars that a product received from the reviews
+    """
+    sum = 0
+    for object in instance:
+        print(object.title)
+        sum += object.star
+
+    return sum
+
+
 class Review(models.Model):
     author = models.ForeignKey(
         Profile, on_delete=models.CASCADE, null=True, related_name='author')
-    title = models.CharField(max_length = 200, default = 'Put Title Here')
+    title = models.CharField(max_length=200, default='Put Title Here')
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N")
     product = models.ForeignKey(
@@ -44,43 +56,37 @@ class Review(models.Model):
         return '%d, %s, %s, %s, %d, %s, %s, %s' % (self.pk, self.author, self.influencer, self.product, self.star, self.review, self.pub_date, self.like_number)
 
     def after_save_review_update(sender, instance, *args, **kwargs):
+        """
+        Summing stars, adding star number, calculating average star
+        when review was saved(created or updated)
+        """
         review = instance
         product = review.product
 
-        reviewlist = list(Review.objects.filter(product = product))
+        reviewlist = list(Review.objects.filter(product=product))
         print(len(reviewlist))
         product.review_number = len(reviewlist)
-
-        def star_sum_calculator(instance):
-            sum = 0
-            for object in instance:
-                print(object.title)
-                sum += object.star
-        
-            return sum
 
         product.star_sum = star_sum_calculator(reviewlist)
 
         product.star_number = len(reviewlist)
         product.average_star = round(
-                (product.star_sum/product.star_number), 1)
+            (product.star_sum/product.star_number), 1)
 
         product.review_number = product.star_number
 
         product.save()
 
     def delete_review_update(sender, instance, *args, **kwargs):
+        """
+        Subtracting stars, subtracting star number, calculating average star
+        when review was deleted
+        """
         review = instance
         product = review.product
-        reviewlist = list(Review.objects.filter(product = product))
+        reviewlist = list(Review.objects.filter(product=product))
         product.star_number = len(reviewlist)
-        
-        def star_sum_calculator(instance):
-            sum = 0
-            for object in instance:
-                sum += object.star
-        
-            return sum
+
         product.review_number = product.star_number
         product.star_sum = star_sum_calculator(reviewlist)
         if product.star_number == 0:
@@ -92,7 +98,6 @@ class Review(models.Model):
             product.save()
 
 
-# signals.post_init.connect(Review.post_review_update, sender=Review)
 signals.post_save.connect(Review.after_save_review_update, sender=Review)
 signals.post_delete.connect(Review.delete_review_update, sender=Review)
 
@@ -103,12 +108,19 @@ class Like(models.Model):
         Review, related_name='likes', on_delete=models.CASCADE, null=True, blank=True)
 
     def save_like_update(sender, instance, *args, **kwargs):
+        """
+        Adding the number of likes of a review when a new like object was saved.
+        """
         review = instance.review
         likelist = list(Like.objects.filter(review=review))
         review.like_number = len(likelist)
         review.save()
 
     def delete_like_update(sender, instance, *args, **kwargs):
+        """
+        Subtracting the number of likes of a review when a new like object
+        was deleted.
+        """
         review = instance.review
         likelist = list(Like.objects.filter(review=review))
         review.like_number = len(likelist)

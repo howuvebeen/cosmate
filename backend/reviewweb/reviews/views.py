@@ -24,8 +24,8 @@ def api_root(request, format=None):
 
 class ReviewList(generics.ListCreateAPIView):
     """
-    View with POST request for creating review and listing reviews
-    Reviews can be categorized by author, influencer, 
+    View with POST, GET request for creating review and listing reviews
+    Reviews can be categorized by author, influencer,
     product, star, review, pub_date, like_number
     """
     queryset = Review.objects.all().order_by('-like_number')
@@ -49,26 +49,12 @@ class ReviewList(generics.ListCreateAPIView):
     #         return Response(serializer.data, status=status.HTTP_201_CREATED)
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # def put(self, request, format=None):
-    #     serializer = ReviewSerializer(data= request.data)
-
-    #     if()
-
-    #     return serializer.data
-
-
-class ProductReviewList(generics.ListAPIView):
-    """
-    List all reviews for a specific product
-    """
-    serializer_class = ReviewSerializer
-
-    def get_queryset(self):
-        product = self.kwargs['product']
-        return Review.objects.filter(product__name=product)
-
 
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View GET, PUT, DELETE request for retrieving, updating, and destroying
+    specific review object
+    """
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
 
@@ -81,6 +67,10 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class LikeList(generics.ListCreateAPIView):
+    """
+    View with POST, GET request for creating like and listing likes
+    Likes can be categorized by author and review
+    """
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     # filter_backends = [filters.OrderingFilter]
@@ -104,5 +94,9 @@ class LikeList(generics.ListCreateAPIView):
 
 
 class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View GET, PUT, DELETE request for retrieving, updating, and destroying
+    specific like object
+    """
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
