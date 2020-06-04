@@ -32,7 +32,7 @@ class Product(models.Model):
     name = models.CharField(max_length=150)
     photo = models.ImageField(
         default='static/product_default_image.png', upload_to='media')
-    description = models.TextField(max_length=1000, default='No Description')
+    description = models.TextField(max_length=5000, default='No Description')
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name='products')
     category = models.ManyToManyField(Category)
