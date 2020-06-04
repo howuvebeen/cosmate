@@ -107,7 +107,7 @@ class Product extends Component {
           {reviews.map((review) => (
             <div class="row p-3">
               <div class="pr-3">
-                <h4>{review.author}</h4>
+                <h4>{review.author.user}</h4>
                 <p>{review.pub_date}</p>
               </div>
               <div class="pl-3">

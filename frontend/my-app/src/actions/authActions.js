@@ -259,7 +259,7 @@ export function getProduct(props) {
 
   return function (dispatch) {
     axios
-      .get("http://www.mocky.io/v2/5ed881bc3100002c00c4e4d5") //"http://www.mocky.io/v2/5ed881bc3100002c00c4e4d5"
+      .get("http://www.mocky.io/v2/5ed8991b3100006700c4e590") //"http://www.mocky.io/v2/5ed8991b3100006700c4e590"
       .then((response) => {
         dispatch(setProduct(response.data));
       })
