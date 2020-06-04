@@ -19,9 +19,9 @@ class ProfileSerializer(serializers.ModelSerializer):
     Serialize Profile model
     """
 
-    interested_product = ProductSerializer(many=True)
+    interested_product = ProductSerializer(many=True, required = False)
 
     class Meta:
         model = Profile
-        fields = ['user', 'gender', 'dob',
+        fields = ['user', 'gender', 'dob', 'age',
                   'skintype', 'skinissue', 'influencer', 'interested_product']
