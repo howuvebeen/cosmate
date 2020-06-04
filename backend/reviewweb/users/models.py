@@ -6,7 +6,6 @@ from django.dispatch import receiver
 
 import datetime
 
-
 GENDER_CHOICES = (
     ("M", "Male"),
     ("F", "Female"),
