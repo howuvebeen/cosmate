@@ -25,7 +25,8 @@ class ReviewSerializer(serializers.ModelSerializer):
     """
 
     likes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    # author = serializers.StringRelatedField(read_only=False)
+    author = ProfileSerializer()
+    product = serializers.StringRelatedField()
 
     class Meta:
         model = Review

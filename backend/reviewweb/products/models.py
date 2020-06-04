@@ -44,13 +44,12 @@ class Product(models.Model):
     average_star = models.FloatField(default=0)
     star_number = models.IntegerField(default=0)
     star_sum = models.FloatField(default=0)
-    review_number = models.IntegerField(default = 0)
+    review_number = models.IntegerField(default=0)
     profile = models.ManyToManyField(
         Profile, related_name='interested_product', blank=True)
 
-
-def __str__(self):
-    return self.name
+    def __str__(self):
+        return self.name
 
     # def save_product_update(sender, instance, *args, **kwargs):
     #     profile = instance.profile
