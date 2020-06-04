@@ -31,7 +31,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=150)
     photo = models.ImageField(
-        default='static/product_default_image.png', upload_to='media')
+        default='media/product_default_image.png', blank = True)
     description = models.TextField(max_length=5000, default='No Description')
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name='products')
@@ -49,8 +49,8 @@ class Product(models.Model):
         Profile, related_name='interested_product', blank=True)
 
 
-def __str__(self):
-    return self.name
+    def __str__(self):
+        return self.name
 
     # def save_product_update(sender, instance, *args, **kwargs):
     #     profile = instance.profile
