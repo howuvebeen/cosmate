@@ -296,14 +296,32 @@ export function getReviewList(props) {
   };
 }
 
-export function newReview(formValues) {
-  const resetIdUrl = AuthUrls.RESET_ID;
+export function uploadReview(props, formValues) {
+  const { product } = props.match.params;
+  const uploadReviewUrl = AuthUrls.REVIEW;
 
   return axios
-    .post(resetIdUrl, formValues)
+    .post(uploadReviewUrl, formValues)
     .then((response) => {
       // redirect to reset done page
-      history.push("/reset_id_done");
+      history.push("/skincare/"+product);
+    })
+    .catch((error) => {
+      // If request is bad...
+      // Show an error to the user
+      const processedError = processServerError(error.response.data);
+      throw new SubmissionError(processedError);
+    });
+}
+
+export function editReview(formValues) {
+  const editReviewUrl = AuthUrls.REVIEW;
+
+  return axios
+    .put(editReviewUrl, formValues)
+    .then((response) => {
+      // redirect to reset done page
+      history.push("/review/edit");
     })
     .catch((error) => {
       // If request is bad...

@@ -16,6 +16,8 @@ import UserProfile from "./auth/UserProfile.js";
 import UserProfileEdit from "./auth/UserProfileEdit.js";
 import Skincare from "./auth/Skincare.js";
 import Product from "./auth/Product.js";
+import UploadReview from "./auth/UploadReview.js";
+import EditReview from "./auth/EditReview.js";
 import NoMatch from "./NoMatch";
 
 const MainContent = () => (
@@ -36,6 +38,8 @@ const MainContent = () => (
             <Route path="/profile_edit" component={UserProfileEdit}/>
             <Route exact path="/skincare" component={Skincare}/>
             <Route exact path="/skincare/:product" component={Product}/>
+            <Route exact path="/review/upload" component={UploadReview}/>
+            <Route exact path="/review/edit" component={EditReview}/>
             <Route component={NoMatch}/>
         </Switch>
     </div>
