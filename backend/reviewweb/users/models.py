@@ -6,9 +6,6 @@ from django.dispatch import receiver
 
 import datetime
 
-from dateutil.relativedelta import relativedelta
-
-
 GENDER_CHOICES = (
     ("M", "Male"),
     ("F", "Female"),
