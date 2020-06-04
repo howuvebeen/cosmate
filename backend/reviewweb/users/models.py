@@ -49,6 +49,9 @@ class Profile(models.Model):
         return self.user.username
 
     def save(self, *args, **kwargs):
+        """
+        Calculating age when profile object is saved
+        """
         today = datetime.date.today()
         self.age = today.year - self.dob.year - \
             ((today.month, today.day) < (self.dob.month, self.dob.day))
@@ -57,17 +60,29 @@ class Profile(models.Model):
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
+    """
+    Creating profile object when user is created
+    """
     if created:
         Profile.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
+    """
+    Saving profile object when user is saved
+    """
     instance.profiles.save()
 
 
 def get_username(self):
+    """
+    Getting user's username
+    """
     return self.username
 
 
+"""
+Overriding user __str__ function with get_username function
+"""
 User.add_to_class("__str__", get_username)

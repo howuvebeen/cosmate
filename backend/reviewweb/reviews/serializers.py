@@ -10,6 +10,9 @@ from rest_framework.response import Response
 
 
 class LikeSerializer(serializers.ModelSerializer):
+    """
+    Serialize Like Model
+    """
 
     class Meta:
         model = Like
@@ -17,10 +20,12 @@ class LikeSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    """
+    Serialize Review Model
+    """
 
     likes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     # author = serializers.StringRelatedField(read_only=False)
-    renderer_classes = [JSONRenderer]
 
     class Meta:
         model = Review
