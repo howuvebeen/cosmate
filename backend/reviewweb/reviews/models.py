@@ -35,7 +35,7 @@ def star_sum_calculator(instance):
 
 class Review(models.Model):
     author = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, null=False, blank=False, related_name='author')
+        Profile, on_delete=models.CASCADE, null=True, blank=True, related_name='author')
     title = models.CharField(max_length=200, default='Put Title Here')
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N")
