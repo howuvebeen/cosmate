@@ -19,7 +19,7 @@ SKINTYPE_CHOICES = (
     ("D", "Dry"),
     ("C", "Combinational"),
 )
-#Trouble / Acne / Sensitive Skin / None
+# Trouble / Acne / Sensitive Skin / None
 SKINISSUE_CHOICES = (
     ("T", "Trouble"),
     ("A", "Acne"),
@@ -43,7 +43,7 @@ class Profile(models.Model):
     skintype = models.CharField(
         max_length=20, choices=SKINTYPE_CHOICES, default="C", null=True)
     skinissue = models.CharField(
-        max_length = 30, choices = SKINISSUE_CHOICES, default = 'N/A')
+        max_length=30, choices=SKINISSUE_CHOICES, default='N/A')
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N", null=True)
 

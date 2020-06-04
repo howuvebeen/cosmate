@@ -6,7 +6,7 @@ from products.serializers import ProductSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     """
-    Serialize User
+    Serialize User Model
     """
     class Meta:
         model = User
@@ -20,6 +20,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     """
 
     interested_product = ProductSerializer(many=True, required = False)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Profile
