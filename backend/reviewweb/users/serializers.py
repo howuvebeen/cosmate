@@ -1,7 +1,9 @@
-from rest_framework import serializers
+from rest_framework import serializers, fields
 from .models import Profile
 from django.contrib.auth.models import User
 from products.serializers import ProductSerializer
+
+from users.models import SKINISSUE_CHOICES, SKINTYPE_CHOICES
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -20,6 +22,10 @@ class ProfileSerializer(serializers.ModelSerializer):
     Serialize Profile model
     """
 
+    skintype = fields.MultipleChoiceField(
+        choices=SKINTYPE_CHOICES, default='C')
+    skinissue = fields.MultipleChoiceField(
+        choices=SKINISSUE_CHOICES, default='N/A')
     interested_product = ProductSerializer(many=True, required=False)
     user = serializers.StringRelatedField(read_only=True)
 

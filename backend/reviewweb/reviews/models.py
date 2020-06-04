@@ -43,15 +43,46 @@ class Review(models.Model):
     def __str__(self):
         return '%d, %s, %s, %s, %d, %s, %s, %s' % (self.pk, self.author, self.influencer, self.product, self.star, self.review, self.pub_date, self.like_number)
 
-    # def save_review_update(sender, instance, *args, **kwargs):
-    #     review = instance
-    #     review.save()
+    def after_save_review_update(sender, instance, *args, **kwargs):
+        review = instance
+        product = review.product
+
+        reviewlist = list(Review.objects.filter(product = product))
+        print(len(reviewlist))
+        product.review_number = len(reviewlist)
+
+        def star_sum_calculator(instance):
+            sum = 0
+            for object in instance:
+                print(object.title)
+                sum += object.star
+        
+            return sum
+
+        product.star_sum = star_sum_calculator(reviewlist)
+
+        product.star_number = len(reviewlist)
+        product.average_star = round(
+                (product.star_sum/product.star_number), 1)
+
+        product.review_number = product.star_number
+
+        product.save()
 
     def delete_review_update(sender, instance, *args, **kwargs):
         review = instance
         product = review.product
-        product.star_number -= 1
-        product.star_sum -= review.star
+        reviewlist = list(Review.objects.filter(product = product))
+        product.star_number = len(reviewlist)
+        
+        def star_sum_calculator(instance):
+            sum = 0
+            for object in instance:
+                sum += object.star
+        
+            return sum
+        product.review_number = product.star_number
+        product.star_sum = star_sum_calculator(reviewlist)
         if product.star_number == 0:
             product.average_star = 0
             product.save()
@@ -61,7 +92,8 @@ class Review(models.Model):
             product.save()
 
 
-# signals.post_save.connect(Review.save_review_update, sender=Review)
+# signals.post_init.connect(Review.post_review_update, sender=Review)
+signals.post_save.connect(Review.after_save_review_update, sender=Review)
 signals.post_delete.connect(Review.delete_review_update, sender=Review)
 
 

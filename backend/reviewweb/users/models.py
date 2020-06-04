@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 import datetime
+from multiselectfield import MultiSelectField
 
 GENDER_CHOICES = (
     ("M", "Male"),
@@ -37,9 +38,9 @@ class Profile(models.Model):
     dob = models.DateField(
         default=datetime.date.today, blank=True, null=True)
     age = models.IntegerField(default=0)
-    skintype = models.CharField(
-        max_length=20, choices=SKINTYPE_CHOICES, default="C", null=True)
-    skinissue = models.CharField(
+    skintype = MultiSelectField(
+        max_length=20, choices=SKINTYPE_CHOICES, default='C')
+    skinissue = MultiSelectField(
         max_length=30, choices=SKINISSUE_CHOICES, default='N/A')
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N", null=True)
