@@ -33,21 +33,21 @@ class ReviewList(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['author', 'product', 'author__influencer']
 
-    def post(self, request, format=None):
-        serializer = ReviewSerializer(data=request.data)
-        if serializer.is_valid():
-            review = serializer.save()
-            star = review.star
-            product = review.product
+    # def post(self, request, format=None):
+    #     serializer = ReviewSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         review = serializer.save()
+    #         star = review.star
+    #         product = review.product
 
-            product.star_number += 1
-            product.star_sum += review.star
-            product.average_star = round(
-                ((product.star_sum)/product.star_number), 1)
+    #         product.star_number += 1
+    #         product.star_sum += review.star
+    #         product.average_star = round(
+    #             ((product.star_sum)/product.star_number), 1)
 
-            product.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #         product.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # def put(self, request, format=None):
     #     serializer = ReviewSerializer(data= request.data)
