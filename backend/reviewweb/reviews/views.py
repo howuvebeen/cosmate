@@ -25,7 +25,7 @@ def api_root(request, format=None):
 class ReviewList(generics.ListCreateAPIView):
     """
     View with POST request for creating review and listing reviews
-    Reviews can be categorized by author, influencer, 
+    Reviews can be categorized by author, influencer,
     product, star, review, pub_date, like_number
     """
     queryset = Review.objects.all().order_by('-like_number')
@@ -48,13 +48,6 @@ class ReviewList(generics.ListCreateAPIView):
             product.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # def put(self, request, format=None):
-    #     serializer = ReviewSerializer(data= request.data)
-
-    #     if()
-
-    #     return serializer.data
 
 
 class ProductReviewList(generics.ListAPIView):

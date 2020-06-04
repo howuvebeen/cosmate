@@ -45,7 +45,7 @@ class Profile(models.Model):
         max_length=20, choices=INFLUENCER_CHOICES, default="N", null=True)
 
     def __str__(self):
-        return self.user.first_name
+        return self.user.username
 
     def save(self, *args, **kwargs):
         today = datetime.date.today()
