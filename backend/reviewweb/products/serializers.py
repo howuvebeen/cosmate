@@ -11,10 +11,13 @@ class ProductSerializer(serializers.ModelSerializer):
     skinissue = fields.MultipleChoiceField(
         choices=SKINISSUE_CHOICES, default='N/A')
     reviews = serializers.StringRelatedField(many=True, read_only=True)
+    ingredients = serializers.StringRelatedField(many=True, read_only=True)
+    category = serializers.StringRelatedField(many=True, read_only=True)
+    company = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Product
-        fields = ['name', 'photo', 'description', 'company', 'category',
+        fields = ['pk', 'name', 'photo', 'description', 'company', 'category',
                   'skintype', 'skinissue', 'ingredients',
                   'reviews', 'average_star', 'star_number', 'star_sum', 'profile']
 

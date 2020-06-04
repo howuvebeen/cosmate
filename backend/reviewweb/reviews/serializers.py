@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import Review, Like, Feedback
-# from users.serializers import UserSerializer
+from users.serializers import ProfileSerializer
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -16,7 +16,7 @@ class LikeSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
 
     likes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    # author = UserSerializer(many=True, read_only=True)
+    author = ProfileSerializer(read_only=True)
 
     class Meta:
         model = Review

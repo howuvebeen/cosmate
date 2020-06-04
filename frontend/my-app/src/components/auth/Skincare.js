@@ -18,6 +18,22 @@ class Skincare extends Component {
     renderProductList() {
         const products  = this.props.product;
         
+        function Star(star){
+            if (star < 1){
+              return "☆☆☆☆☆";
+            } else if (star >=1 && star <2){
+              return "★☆☆☆☆"
+            } else if (star >=2 && star <3){
+              return "★★☆☆☆"
+            } else if (star >=3 && star <4){
+              return "★★★☆☆"
+            } else if (star >=4 && star <5){
+              return "★★★★☆"
+            } else {
+              return "★★★★★"
+            }
+          }
+
         if (products) {
             return (
                 <div class="row p-3">
@@ -28,7 +44,7 @@ class Skincare extends Component {
                                 <Link to={`/skincare/${product.pk}`}><h4>{product.name}</h4></Link>
                             </div>
                             <div>
-                                {product.average_star}
+                                {Star(product.average_star)}
                             </div>
                         </div>
                     ))}

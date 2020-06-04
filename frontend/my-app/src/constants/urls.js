@@ -10,5 +10,5 @@ export const AuthUrls = {
     USER_PROFILE: `${ROOT_URL}users/users/`,
     PRODUCT_LIST: `${ROOT_URL}products/products/`,
     PRODUCT: `${ROOT_URL}products/products/`,
-    REVIEW_LIST: `${ROOT_URL}reviews/reviews/`
+    REVIEW_LIST: `${ROOT_URL}reviews/reviews/?author=&product=`
 };

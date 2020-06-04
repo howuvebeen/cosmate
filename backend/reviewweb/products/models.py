@@ -2,7 +2,6 @@ from django.db import models
 from users.models import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES, Profile
 import datetime
 from django.db.models import signals
-
 from multiselectfield import MultiSelectField
 
 
@@ -31,39 +30,26 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=150)
-
-
-<< << << < HEAD
-company = models.ForeignKey(
-    Company, on_delete=models.CASCADE, related_name='products')
-category = models.ManyToManyField(Category, related_name='categories')
-skintype = models.CharField(
-    max_length=20,  choices=SKINTYPE_CHOICES, default="C")
-skinshade = models.CharField(
-    max_length=20,  choices=SKINSHADE_CHOICES, default="F")
-ingredients = models.ManyToManyField(
-    Ingredient, related_name='ingredients')
-== == == =
-photo = models.ImageField(
-    default='static/product_default_image.png', upload_to='media')
-description = models.TextField(max_length=1000, default='No Description')
-company = models.ForeignKey(Company, on_delete=models.CASCADE)
-category = models.ManyToManyField(Category)
-skintype = MultiSelectField(
-    max_length=20, choices=SKINTYPE_CHOICES, default='C')
-skinissue = MultiSelectField(
-    max_length=30, choices=SKINISSUE_CHOICES, default='N/A')
-ingredients = models.ManyToManyField(Ingredient)
->>>>>> > 3b2fa3621e8fa0d82d0754ffd9985538c5e129c4
-average_star = models.FloatField(default=0)
-star_number = models.IntegerField(default=0)
-star_sum = models.FloatField(default=0)
-profile = models.ManyToManyField(
-    Profile, related_name='interested_product', blank=True)
+    photo = models.ImageField(
+        default='static/product_default_image.png', upload_to='media')
+    description = models.TextField(max_length=1000, default='No Description')
+    company = models.ForeignKey(
+        Company, on_delete=models.CASCADE, related_name='products')
+    category = models.ManyToManyField(Category)
+    skintype = MultiSelectField(
+        max_length=20, choices=SKINTYPE_CHOICES, default='C')
+    skinissue = MultiSelectField(
+        max_length=30, choices=SKINISSUE_CHOICES, default='N/A')
+    ingredients = models.ManyToManyField(Ingredient)
+    average_star = models.FloatField(default=0)
+    star_number = models.IntegerField(default=0)
+    star_sum = models.FloatField(default=0)
+    profile = models.ManyToManyField(
+        Profile, related_name='interested_product', blank=True)
 
 
 def __str__(self):
-        return self.name
+    return self.name
 
     # def save_product_update(sender, instance, *args, **kwargs):
     #     profile = instance.profile
