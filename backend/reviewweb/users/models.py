@@ -57,3 +57,10 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profiles.save()
+
+
+def get_username(self):
+    return self.username
+
+
+User.add_to_class("__str__", get_username)

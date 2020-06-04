@@ -20,7 +20,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     """
 
     interested_product = ProductSerializer(many=True)
-    user = UserSerializer(read_only=True)
+    user = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Profile
