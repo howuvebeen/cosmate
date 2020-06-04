@@ -65,6 +65,8 @@ class Review(models.Model):
         product.average_star = round(
                 (product.star_sum/product.star_number), 1)
 
+        product.review_number = product.star_number
+
         product.save()
 
     def delete_review_update(sender, instance, *args, **kwargs):
@@ -79,7 +81,7 @@ class Review(models.Model):
                 sum += object.star
         
             return sum
-        
+        product.review_number = product.star_number
         product.star_sum = star_sum_calculator(reviewlist)
         if product.star_number == 0:
             product.average_star = 0
