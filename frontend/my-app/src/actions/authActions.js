@@ -255,11 +255,11 @@ function setProduct(payload) {
 
 export function getProduct(props) {
   const { product } = props.match.params;
-  const productUrl = AuthUrls.PRODUCT + product;
+  const productUrl = AuthUrls.PRODUCT+product;
 
   return function (dispatch) {
     axios
-      .get(productUrl)
+      .get("http://www.mocky.io/v2/5ed881bc3100002c00c4e4d5") //"http://www.mocky.io/v2/5ed881bc3100002c00c4e4d5"
       .then((response) => {
         dispatch(setProduct(response.data));
       })
@@ -278,8 +278,10 @@ function setReviewList(payload) {
   };
 }
 
-export function getReviewList() {
-  const reviewListUrl = AuthUrls.REVIEW_LIST;
+export function getReviewList(props) {
+  const { product } = props.match.params;
+  const reviewListUrl = AuthUrls.REVIEW_LIST+product;
+  
   return function (dispatch) {
     axios
       .get(reviewListUrl)
@@ -292,6 +294,23 @@ export function getReviewList() {
         // TODO: send notification and redirect
       });
   };
+}
+
+export function newReview(formValues) {
+  const resetIdUrl = AuthUrls.RESET_ID;
+
+  return axios
+    .post(resetIdUrl, formValues)
+    .then((response) => {
+      // redirect to reset done page
+      history.push("/reset_id_done");
+    })
+    .catch((error) => {
+      // If request is bad...
+      // Show an error to the user
+      const processedError = processServerError(error.response.data);
+      throw new SubmissionError(processedError);
+    });
 }
 
 // util functions
