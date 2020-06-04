@@ -33,7 +33,8 @@ class Product(models.Model):
     photo = models.ImageField(
         default='static/product_default_image.png', upload_to='media')
     description = models.TextField(max_length=1000, default='No Description')
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(
+        Company, on_delete=models.CASCADE, related_name='products')
     category = models.ManyToManyField(Category)
     skintype = MultiSelectField(
         max_length=20, choices=SKINTYPE_CHOICES, default='C')
