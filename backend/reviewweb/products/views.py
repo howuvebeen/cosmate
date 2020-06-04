@@ -31,10 +31,10 @@ class ProductList(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = [
         'name',
-        'company', 
-        'category', 
-        'skintype', 
-        'skinissue', 
+        'company',
+        'category',
+        'skintype',
+        'skinissue',
         'ingredients',
         'average_star'
     ]
