@@ -1,73 +1,17 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { getproductList } from "../../actions/authActions";
+import React from "react";
 import { Link } from "react-router-dom";
 
-class Skincare extends Component {
+const Skincare = () => (
+    <div class="m-5 p-5 col-md-2">
+        <Link to="/skincare/cleansers/" className="navbar-brand">Cleansers</Link>
+        <Link to="/skincare/moisturizers/" className="navbar-brand">Moisturizers</Link>
+        <Link to="/skincare/treatments/" className="navbar-brand">Treatments</Link>
+        <Link to="/skincare/wellness/" className="navbar-brand">Wellness</Link>
+        <Link to="/skincare/masks/" className="navbar-brand">Masks</Link>
+        <Link to="/skincare/eyecare/" className="navbar-brand">Eye care</Link>
+        <Link to="/skincare/suncare/" className="navbar-brand">Sun care</Link>
+        <Link to="/skincare/lipcare/" className="navbar-brand">Lip care</Link>
+    </div>
+);
 
-    static propTypes = {
-        getproductList: PropTypes.func.isRequired,
-        product: PropTypes.object
-    };
-
-    componentWillMount() {
-        this.props.getproductList();
-    }
-
-    renderProductList() {
-        const products  = this.props.product;
-        
-        function Star(star){
-            if (star < 1){
-              return "☆☆☆☆☆";
-            } else if (star >=1 && star <2){
-              return "★☆☆☆☆"
-            } else if (star >=2 && star <3){
-              return "★★☆☆☆"
-            } else if (star >=3 && star <4){
-              return "★★★☆☆"
-            } else if (star >=4 && star <5){
-              return "★★★★☆"
-            } else {
-              return "★★★★★"
-            }
-          }
-
-        if (products) {
-            return (
-                <div class="row p-3">
-                    {products.map(product => (
-                        <div class="p-5">
-                            <div>
-                                <p>{product.company}</p>                               
-                                <Link to={`/skincare/${product.pk}`}><h4>{product.name}</h4></Link>
-                            </div>
-                            <div>
-                                {Star(product.average_star)}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            );
-        }
-        return null;
-    }
-
-    render() {
-        return (
-            <div class="d-flex flex-column align-items-center p-3">
-                {this.renderProductList()}
-            </div>
-        );
-    }
-}
-
-function mapStateToProps(state) {
-    return {
-        product: state.auth.product
-    }
-
-}
-
-export default connect(mapStateToProps, { getproductList } )( Skincare );
+export default Skincare;

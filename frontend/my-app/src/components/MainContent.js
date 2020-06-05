@@ -15,6 +15,7 @@ import IdResetDone from "./auth/IdResetDone.js";
 import UserProfile from "./auth/UserProfile.js";
 import UserProfileEdit from "./auth/UserProfileEdit.js";
 import Skincare from "./auth/Skincare.js";
+import SkinCategory from "./auth/SkinCategory.js";
 import Product from "./auth/Product.js";
 import UploadReview from "./auth/UploadReview.js";
 import EditReview from "./auth/EditReview.js";
@@ -37,8 +38,9 @@ const MainContent = () => (
             <Route path="/profile" component={UserProfile}/>
             <Route path="/profile_edit" component={UserProfileEdit}/>
             <Route exact path="/skincare" component={Skincare}/>
-            <Route exact path="/skincare/:product" component={Product}/>
-            <Route exact path="/review/upload" component={UploadReview}/>
+            <Route exact path="/skincare/:category" component={SkinCategory}/>
+            <Route exact path="/skincare/:category/:product" component={Product}/>
+            <Route exact path="/skincare/:category/:product/review" component={UploadReview}/>
             <Route exact path="/review/edit" component={EditReview}/>
             <Route component={NoMatch}/>
         </Switch>

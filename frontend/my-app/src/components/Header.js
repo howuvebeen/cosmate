@@ -8,6 +8,21 @@ class Header extends Component {
     static propTypes = {
         authenticated: PropTypes.bool
     };
+
+    constructor() {
+        super();
+        this.state = { search: ""};
+    }
+
+    updateSearch(event){
+        this.setState({search: event.target.value.substr(0,20)});
+    }
+
+    renderSearch() {
+        return (
+            <input type="text" value={this.state.search} onChange={this.updateSearch.bind(this)}/>
+        );
+    }
     //If authenticated, show Profile and Logout in nav-bar
     renderLinks() {
         if (this.props.authenticated) {
@@ -16,6 +31,9 @@ class Header extends Component {
                     <nav className="navbar navbar-expand-lg navbar-light bg-light">
                         <Link to="/" className="navbar-brand">Depco</Link>
                         <ul className="navbar-nav float-right">
+                            <li className="nav-item" key="search">
+                                {this.renderSearch()}
+                            </li>
                             <li className="nav-item" key="skincare">
                                 <Link className="nav-link" to="/skincare">Skincare Products</Link>
                             </li>
@@ -43,6 +61,15 @@ class Header extends Component {
                     <nav className="navbar navbar-expand-lg navbar-light bg-light">
                         <Link to="/" className="navbar-brand">Depco</Link>
                         <ul className="navbar-nav pr-0">
+                            <li className="nav-item" key="search">
+                                {this.renderSearch()}
+                            </li>
+                            <li className="nav-item" key="skincare">
+                                <Link className="nav-link" to="/skincare">Skincare Products</Link>
+                            </li>
+                            <li className="nav-item" key="makeup">
+                                <Link className="nav-link" to="/makeup">Makeup Products</Link>
+                            </li>
                             <li className="nav-item" key="signup">
                                 <Link className="nav-link" to="/signup">Create an Account</Link>
                             </li>
