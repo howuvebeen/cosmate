@@ -25,23 +25,8 @@ class MyAuthorRelatedField(serializers.PrimaryKeyRelatedField):
 
     def to_representation(self, value):
         a_list = list(Profile.objects.filter(pk = value.pk))
-        username = a_list[0].user.username
-        skinissue = '['
-        for each in a_list[0].skinissue:
-            if each == a_list[0].skinissue[-1]:
-                skinissue += each + ']'
-            else:
-                skinissue += each + ', ' 
         
-        skintype = '['
-        for each in a_list[0].skintype:
-            if each == a_list[0].skintype[-1]:
-                skintype += each + ']'
-            else:
-                skintype += each + ', ' 
-        result = username + ', ' + skinissue + ', ' + skintype
-
-        return result
+        return a_list[0].user.username
 
 class LikeSerializer(serializers.ModelSerializer):
     """
@@ -61,11 +46,20 @@ class ReviewSerializer(serializers.ModelSerializer):
     product = MyProductRelatedField(queryset = Product.objects.all())
     # product_name = serializers.StringRelatedField(source= 'product', read_only = True)
     author = MyAuthorRelatedField(queryset = Profile.objects.all())
+    skinissue = serializers.SerializerMethodField()
+    skintype = serializers.SerializerMethodField()
 
+    def get_skinissue(self, obj):
+        skinissue = obj.author.skinissue
+        return skinissue
+    
+    def get_skintype(self, obj):
+        skintype = obj.author.skintype
+        return skintype
 
     class Meta:
         model = Review
         read_only_fields = ['pub_date', 'like_number', 'likes']
-        fields = ['pk', 'author', 'title', 'influencer', 'product', 
+        fields = ['pk', 'author', 'title', 'skintype', 'skinissue', 'influencer', 'product', 
                   'star', 'review', 'pub_date', 'like_number', 'likes']
         
