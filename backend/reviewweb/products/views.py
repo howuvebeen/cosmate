@@ -11,6 +11,7 @@ from rest_framework.reverse import reverse
 
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 
 @api_view(['GET'])
@@ -28,7 +29,7 @@ class ProductList(generics.ListCreateAPIView):
     """
     queryset = Product.objects.all().order_by('-average_star')
     serializer_class = ProductSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = [
         'name',
         'company',
@@ -38,6 +39,7 @@ class ProductList(generics.ListCreateAPIView):
         'ingredients',
         'average_star'
     ]
+    ordering_fields = ['average_star']
 
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
