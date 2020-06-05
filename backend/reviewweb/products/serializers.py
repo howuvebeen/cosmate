@@ -3,6 +3,27 @@ from rest_framework import serializers, fields
 from .models import Company, Ingredient, Product, Category
 from users.models import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES
 
+class MyCompanyRelatedField(serializers.PrimaryKeyRelatedField):
+    """
+    Custom Related Field for Company Model
+    """
+    def to_representation(self, value):
+        company_list = list(Company.objects.filter(pk = value.pk))
+        return company_list[0].name
+
+class MyIngredientRelatedField(serializers.PrimaryKeyRelatedField):
+    """
+    Custom Related Field for Ingredient Model
+    """
+    def to_representation(self, value):
+        return value.name
+
+class MyCategoryRelatedField(serializers.PrimaryKeyRelatedField):
+    """
+    Custom Related Field for Category Model
+    """
+    def to_representation(self, value):
+        return value.name
 
 class CompanySerializer(serializers.ModelSerializer):
     """
@@ -36,21 +57,19 @@ class ProductSerializer(serializers.ModelSerializer):
         choices=SKINISSUE_CHOICES, default='N/A')
     photo = serializers.ImageField(use_url = True, required = False, allow_empty_file=True)
     reviews = serializers.StringRelatedField(many=True, read_only=True)
-    ingredients = serializers.PrimaryKeyRelatedField(many=True, queryset=Ingredient.objects.all())
-
-
-    skintype_name = serializers.StringRelatedField(source = 'skintype', read_only = True)
-    skinissue_name = serializers.StringRelatedField(source = 'skinissue', read_only = True)
     
-    ingredient_name = serializers.StringRelatedField(source = 'ingredients.name', read_only = True)
+    company = MyCompanyRelatedField(queryset = Company.objects.all())
+    ingredients = MyIngredientRelatedField(many = True, queryset = Ingredient.objects.all())
+    category = MyCategoryRelatedField(many = True, queryset = Category.objects.all())
+    
 
     class Meta:
         model = Product
         read_only_fields = ['pk', 'reviews', 'average_star',
                             'star_number', 'star_sum', 'review_number', 'profile']
         fields = ['pk', 'name', 'photo', 'description', 'company', 'category',
-                  'skintype', 'skinissue', 'skintype_name', 'skinissue_name', 'ingredients', 
-                  'ingredient_name', 'reviews', 'average_star', 'star_number', 
+                  'skintype', 'skinissue',  'ingredients', 
+                  'reviews', 'average_star', 'star_number', 
                   'star_sum',
                   'review_number', 'profile']
 
