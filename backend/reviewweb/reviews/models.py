@@ -1,7 +1,7 @@
 from django.db import models
 from users.models import Profile
 from products.models import Product
-from users.models import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES
+from users.models import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES, AGE_RANGE_CHOICES
 import datetime
 from django.db.models.signals import post_save, pre_delete, post_delete
 from django.db.models import signals
@@ -48,15 +48,13 @@ class Review(models.Model):
     review = models.TextField(max_length=5000, null=True, blank=True)
     pub_date = models.DateField(default=datetime.date.today)
     like_number = models.IntegerField(default=0)
+    age_range = models.CharField(max_length = 20, choices = AGE_RANGE_CHOICES, default = '20')
 
     class Meta:
         ordering = ['pk']
 
     def __str__(self):
         return '%d' % (self.pk)
-    
-    def return_skin_type(self):
-        return self.author.skintype
 
     def after_save_review_update(sender, instance, *args, **kwargs):
         """

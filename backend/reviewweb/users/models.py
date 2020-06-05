@@ -28,6 +28,16 @@ INFLUENCER_CHOICES = (
     ("Y", "Yes"),
     ("N", "No"),
 )
+AGE_RANGE_CHOICES = (
+    ("0 - 9", "0 - 9"),
+    ("10 - 19", "10 - 19"),
+    ("20 - 29", "20 - 29"),
+    ("30 - 39", "30 - 39"),
+    ("40 - 49", "40 - 49"),
+    ("50 - 59", "50 - 59"),
+    ("60 - 69", "60 - 69"),
+    ("70+", "70+"),
+)
 
 
 class Profile(models.Model):
@@ -44,6 +54,7 @@ class Profile(models.Model):
         max_length=30, choices=SKINISSUE_CHOICES, default='N/A')
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N", null=True)
+    age_range = models.CharField(max_length = 20, choices = AGE_RANGE_CHOICES, default = '20')
 
     def __str__(self):
         return self.user.username
@@ -55,6 +66,22 @@ class Profile(models.Model):
         today = datetime.date.today()
         self.age = today.year - self.dob.year - \
             ((today.month, today.day) < (self.dob.month, self.dob.day))
+        if self.age >= 0 and self.age <= 9:
+            self.age_range = "0 - 9" 
+        elif self.age >= 10 and self.age <= 19:
+            self.age_range = "10 - 19"
+        elif self.age >= 20 and self.age <= 29:
+            self.age_range = "20 - 29"
+        elif self.age >= 30 and self.age <= 39:
+            self.age_range = "30 - 39"
+        elif self.age >= 40 and self.age <= 49:
+            self.age_range = "40 - 49"
+        elif self.age >= 50 and self.age <= 59:
+            self.age_range = "50 - 59"
+        elif self.age >= 60 and self.age <= 69:
+            self.age_range = "60 - 69"
+        elif self.age >= 70:
+            self.age_range = "70+"
         super(Profile, self).save(*args, **kwargs)
 
 

@@ -34,7 +34,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         read_only_fields = ['user', 'interested_product']
         fields = ['user', 'gender', 'dob', 'age',
-                  'skintype', 'skinissue', 'influencer', 'interested_product']
+                  'skintype', 'skinissue', 'influencer', 'interested_product',
+                  'age_range']
 
 
 class TokenSerializer(serializers.ModelSerializer):

@@ -50,6 +50,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     skinissue = serializers.SerializerMethodField()
     skintype = serializers.SerializerMethodField()
     age = serializers.SerializerMethodField()
+    age_range = serializers.SerializerMethodField()
 
     def get_skinissue(self, obj):
         skinissue = obj.author.skinissue
@@ -62,9 +63,13 @@ class ReviewSerializer(serializers.ModelSerializer):
     def get_age(self, obj):
         age = obj.author.age
         return age
+    
+    def get_age_range(self, obj):
+        age_range = obj.author.age_range
+        return age_range
 
     class Meta:
         model = Review
         read_only_fields = ['pub_date', 'like_number', 'likes']
         fields = ['pk', 'author', 'title', 'age', 'skintype', 'skinissue', 'influencer', 'product',
-                  'star', 'review', 'pub_date', 'like_number', 'likes']
+                  'star', 'review', 'pub_date', 'like_number', 'likes', 'age_range']
