@@ -279,8 +279,8 @@ function setReviewList(payload) {
 
 export function getReviewList(props) {
   const { product } = props.match.params;
-  const reviewListUrl = AuthUrls.REVIEW_LIST+product;
-  
+  const reviewListUrl = AuthUrls.REVIEW_LIST + product;
+
   return function (dispatch) {
     axios
       .get(reviewListUrl)

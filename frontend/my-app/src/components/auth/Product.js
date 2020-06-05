@@ -25,7 +25,7 @@ class Product extends Component {
   Tag(type) {
     if (type != null){
       var arrayLength = type.length;
-      var result = ""; 
+      var result = "";
       for (var i = 0; i < arrayLength; i++) {
         if (type[i] == "O") {
           var result = result.concat("Oily");
@@ -43,7 +43,7 @@ class Product extends Component {
   List(type) {
     if (type != null){
       var arrayLength = type.length;
-      var result = ""; 
+      var result = "";
       for (var i = 0; i < arrayLength; i++) {
         if (type[i] == "T") {
           var result = result.concat("Trouble");
@@ -64,16 +64,16 @@ class Product extends Component {
     if (star != null){
       if (star < 1){
         return "☆☆☆☆☆";
-      } else if (star >=1 && star <2){
-        return "★☆☆☆☆"
-      } else if (star >=2 && star <3){
-        return "★★☆☆☆"
-      } else if (star >=3 && star <4){
-        return "★★★☆☆"
-      } else if (star >=4 && star <5){
-        return "★★★★☆"
+      } else if (star >= 1 && star < 2) {
+        return "★☆☆☆☆";
+      } else if (star >= 2 && star < 3) {
+        return "★★☆☆☆";
+      } else if (star >= 3 && star < 4) {
+        return "★★★☆☆";
+      } else if (star >= 4 && star < 5) {
+        return "★★★★☆";
       } else {
-        return "★★★★★"
+        return "★★★★★";
       }
     }
   };
@@ -166,7 +166,7 @@ class Product extends Component {
               return null;
             }
           })}
-          <hr/>
+          <hr />
           <h4>Reviews</h4>
           {reviews.map((review) => {
             if (review.influencer == "N"){
@@ -229,7 +229,7 @@ class Product extends Component {
     
     return (
       <div>
-        {this.renderProduct()} 
+        {this.renderProduct()}
         <hr />
         {this.renderReviewList()}
       </div>
@@ -245,4 +245,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { getProduct, getReviewList})(Product);
+export default connect(mapStateToProps, { getProduct, getReviewList })(Product);
