@@ -6,9 +6,11 @@ from rest_framework.response import Response
 
 from django.contrib.auth.models import User
 from .models import Profile
-from .serializers import UserSerializer, ProfileSerializer
+from rest_framework.authtoken.models import Token
+from .serializers import UserSerializer, ProfileSerializer, TokenSerializer
 
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -50,3 +52,9 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+
+class TokenDetail(generics.RetrieveAPIView):
+    queryset = Token.objects.all()
+    serializer_class = TokenSerializer
+    lookup_field = 'key'
