@@ -71,7 +71,8 @@ class ProductSerializer(serializers.ModelSerializer):
                   'skintype', 'skinissue',  'ingredients', 
                   'reviews', 'average_star', 'star_number', 
                   'star_sum',
-                  'review_number', 'profile']
+                  'review_number', 'profile', 
+                  'rank_score']
 
 
 class CategorySerializer(serializers.ModelSerializer):
