@@ -39,7 +39,7 @@ class ProductList(generics.ListCreateAPIView):
         'ingredients',
         'average_star'
     ]
-    ordering_fields = ['average_star']
+    ordering_fields = ['']
 
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
