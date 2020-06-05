@@ -26,7 +26,7 @@ class ProductList(generics.ListCreateAPIView):
     Products can be categorized by name, company, 
     category, skintype, skinissue, and ingredients
     """
-    queryset = Product.objects.all().order_by('-average_star')
+    queryset = Product.objects.all().order_by('-rank_score')
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = [
