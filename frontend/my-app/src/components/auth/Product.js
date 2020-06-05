@@ -12,36 +12,36 @@ class Product extends Component {
     product: PropTypes.object,
 
     getReviewList: PropTypes.func.isRequired,
-    review: PropTypes.object
+    review: PropTypes.object,
   };
 
   componentWillMount() {
     this.props.getProduct(this.props);
     this.props.getReviewList(this.props, "N");
   }
-  
+
   renderProduct() {
     const product = this.props.product;
 
-    function Star(star){
-      if (star < 1){
+    function Star(star) {
+      if (star < 1) {
         return "☆☆☆☆☆";
-      } else if (star >=1 && star <2){
-        return "★☆☆☆☆"
-      } else if (star >=2 && star <3){
-        return "★★☆☆☆"
-      } else if (star >=3 && star <4){
-        return "★★★☆☆"
-      } else if (star >=4 && star <5){
-        return "★★★★☆"
+      } else if (star >= 1 && star < 2) {
+        return "★☆☆☆☆";
+      } else if (star >= 2 && star < 3) {
+        return "★★☆☆☆";
+      } else if (star >= 3 && star < 4) {
+        return "★★★☆☆";
+      } else if (star >= 4 && star < 5) {
+        return "★★★★☆";
       } else {
-        return "★★★★★"
+        return "★★★★★";
       }
     }
 
     function Tag(type) {
       var arrayLength = type.length;
-      var result = ""; 
+      var result = "";
       for (var i = 0; i < arrayLength; i++) {
         if (type[i] == "O") {
           var result = result.concat("Oily");
@@ -53,18 +53,18 @@ class Product extends Component {
         var result = result.concat(" ");
       }
       return result;
-    };  
+    }
 
     function Space(ingredient) {
       var arrayLength = ingredient.length;
-      var result = ""; 
+      var result = "";
       for (var i = 0; i < arrayLength; i++) {
         var result = result.concat(ingredient[i]);
         var result = result.concat(" ");
       }
       return result;
-    };  
-      
+    }
+
     if (product) {
       return (
         <div className="p-5">
@@ -85,7 +85,7 @@ class Product extends Component {
 
     function Tag(type) {
       var arrayLength = type.length;
-      var result = ""; 
+      var result = "";
       for (var i = 0; i < arrayLength; i++) {
         if (type[i] == "O") {
           var result = result.concat("Oily");
@@ -97,11 +97,11 @@ class Product extends Component {
         var result = result.concat(" ");
       }
       return result;
-    };  
+    }
 
     function List(type) {
       var arrayLength = type.length;
-      var result = ""; 
+      var result = "";
       for (var i = 0; i < arrayLength; i++) {
         if (type[i] == "T") {
           var result = result.concat("Trouble");
@@ -115,21 +115,21 @@ class Product extends Component {
         var result = result.concat(" ");
       }
       return result;
-    };  
-    
-    function Star(star){
-      if (star < 1){
+    }
+
+    function Star(star) {
+      if (star < 1) {
         return "☆☆☆☆☆";
-      } else if (star >=1 && star <2){
-        return "★☆☆☆☆"
-      } else if (star >=2 && star <3){
-        return "★★☆☆☆"
-      } else if (star >=3 && star <4){
-        return "★★★☆☆"
-      } else if (star >=4 && star <5){
-        return "★★★★☆"
+      } else if (star >= 1 && star < 2) {
+        return "★☆☆☆☆";
+      } else if (star >= 2 && star < 3) {
+        return "★★☆☆☆";
+      } else if (star >= 3 && star < 4) {
+        return "★★★☆☆";
+      } else if (star >= 4 && star < 5) {
+        return "★★★★☆";
       } else {
-        return "★★★★★"
+        return "★★★★★";
       }
     }
 
@@ -138,7 +138,7 @@ class Product extends Component {
         <div class="col p-3">
           <h4>Influencer Reviews</h4>
           {reviews.map((review) => {
-            if (review.author.influencer == "Y"){
+            if (review.author.influencer == "Y") {
               return (
                 <div class="row p-3 ml-3">
                   <div class="col-md-3">
@@ -154,21 +154,27 @@ class Product extends Component {
                     <p>{review.review}</p>
                   </div>
                   <div class="ml-auto col-md-1">
-                    <Link to="/review/like" class="text-md-left"><button className="btn btn-light">Like</button></Link>
-                    <Link to="/review/edit" class="text-md-left"><button className="btn btn-light">Edit</button></Link>
-                    <Link to="/review/delete" class="text-md-left"><button className="btn btn-light">Delete</button></Link>
-                  </div> 
-                </div> 
+                    <Link to="/review/like" class="text-md-left">
+                      <button className="btn btn-light">Like</button>
+                    </Link>
+                    <Link to="/review/edit" class="text-md-left">
+                      <button className="btn btn-light">Edit</button>
+                    </Link>
+                    <Link to="/review/delete" class="text-md-left">
+                      <button className="btn btn-light">Delete</button>
+                    </Link>
+                  </div>
+                </div>
               );
             } else {
               return null;
             }
           })}
-          <hr/>
+          <hr />
           <h4>Reviews</h4>
           {reviews.map((review) => {
-            if (review.author.influencer == "N"){
-              return ( 
+            if (review.author.influencer == "N") {
+              return (
                 <div class="row p-3 ml-3">
                   <div class="col-md-3">
                     <h4>{review.author.user}</h4>
@@ -183,10 +189,16 @@ class Product extends Component {
                     <p>{review.review}</p>
                   </div>
                   <div class="ml-auto col-md-1">
-                    <Link to="/review/like" class="text-md-left"><button className="btn btn-light">Like</button></Link>
-                    <Link to="/review/edit" class="text-md-left"><button className="btn btn-light">Edit</button></Link>
-                    <Link to="/review/delete" class="text-md-left"><button className="btn btn-light">Delete</button></Link>
-                  </div> 
+                    <Link to="/review/like" class="text-md-left">
+                      <button className="btn btn-light">Like</button>
+                    </Link>
+                    <Link to="/review/edit" class="text-md-left">
+                      <button className="btn btn-light">Edit</button>
+                    </Link>
+                    <Link to="/review/delete" class="text-md-left">
+                      <button className="btn btn-light">Delete</button>
+                    </Link>
+                  </div>
                 </div>
               );
             } else {
@@ -194,8 +206,11 @@ class Product extends Component {
             }
           })}
           <div class="ml-auto text-right">
-            <Link to="/review/upload" class="text-md-left"><button className="btn btn-info">New Review</button></Link>
-          </div>      
+            <Link to="/review/upload" class="text-md-left">
+              <button className="btn btn-info">New Review</button>
+            </Link>
+          </div>
+                
         </div>
       );
     }
@@ -205,7 +220,7 @@ class Product extends Component {
   render() {
     return (
       <div>
-        {this.renderProduct()} 
+        {this.renderProduct()}
         <hr />
         {this.renderReviewList()}
       </div>
@@ -216,8 +231,8 @@ class Product extends Component {
 function mapStateToProps(state) {
   return {
     product: state.auth.product,
-    review: state.auth.review
+    review: state.auth.review,
   };
 }
 
-export default connect(mapStateToProps, { getProduct, getReviewList})(Product);
+export default connect(mapStateToProps, { getProduct, getReviewList })(Product);

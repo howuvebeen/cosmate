@@ -255,11 +255,11 @@ function setProduct(payload) {
 
 export function getProduct(props) {
   const { product } = props.match.params;
-  const productUrl = AuthUrls.PRODUCT+product;
+  const productUrl = AuthUrls.PRODUCT + product + "/";
 
   return function (dispatch) {
     axios
-      .get("http://www.mocky.io/v2/5ed8991b3100006700c4e590") //"http://www.mocky.io/v2/5ed8991b3100006700c4e590"
+      .get(productUrl) //"http://www.mocky.io/v2/5ed8991b3100006700c4e590"
       .then((response) => {
         dispatch(setProduct(response.data));
       })
@@ -280,8 +280,8 @@ function setReviewList(payload) {
 
 export function getReviewList(props) {
   const { product } = props.match.params;
-  const reviewListUrl = AuthUrls.REVIEW_LIST+product;
-  
+  const reviewListUrl = AuthUrls.REVIEW_LIST + product;
+
   return function (dispatch) {
     axios
       .get(reviewListUrl)
@@ -304,7 +304,7 @@ export function uploadReview(props, formValues) {
     .post(uploadReviewUrl, formValues)
     .then((response) => {
       // redirect to reset done page
-      history.push("/skincare/"+product);
+      history.push("/skincare/" + product);
     })
     .catch((error) => {
       // If request is bad...
