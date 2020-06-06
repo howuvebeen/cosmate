@@ -39,18 +39,22 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         read_only_fields = ['user', 'interested_product',
                             'last_login', 'age_range']
-        fields = ['user', 'gender', 'dob', 'age',
-                  'skintype', 'skinissue', 'influencer', 'interested_product',
-                  'age_range', 'last_login']
+        fields = ['user', 'gender', 'dob', 'age', 'skintype', 'skinissue',
+                  'influencer', 'interested_product', 'age_range', 'last_login']
 
 
 class TokenSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
+    user_pk = serializers.SerializerMethodField()
 
-    def get_user(self, obj):
+    def get_username(self, obj):
         user = obj.user.username
+        return user
+
+    def get_user_pk(self, obj):
+        user = obj.user.pk
         return user
 
     class Meta:
         model = Token
-        fields = ['user', 'key']
+        fields = ['user_pk', 'username', 'key']
