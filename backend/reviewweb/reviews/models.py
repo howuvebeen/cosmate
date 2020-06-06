@@ -1,24 +1,12 @@
 from django.db import models
 from users.models import Profile
 from products.models import Product
-from users.models import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES, AGE_RANGE_CHOICES
+from users.choices import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES, AGE_RANGE_CHOICES
+from .choices import STAR_CHOICES
 import datetime
 from django.db.models.signals import post_save, pre_delete, post_delete
 from django.db.models import signals
 from django.dispatch import receiver
-
-ONE = 1
-TWO = 2
-THREE = 3
-FOUR = 4
-FIVE = 5
-STAR_CHOICES = (
-    (ONE, "1"),
-    (TWO, "2"),
-    (THREE, "3"),
-    (FOUR, "4"),
-    (FIVE, "5")
-)
 
 
 def star_sum_calculator(instance):
@@ -36,7 +24,7 @@ def star_sum_calculator(instance):
 class Review(models.Model):
     author = models.ForeignKey(
         Profile, on_delete=models.CASCADE, null=True, blank=True, related_name='author')
-    title = models.CharField(max_length=200, blank = True, null = True)
+    title = models.CharField(max_length=200, blank=True, null=True)
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N")
     product = models.ForeignKey(
@@ -48,7 +36,8 @@ class Review(models.Model):
     review = models.TextField(max_length=5000, null=True, blank=True)
     pub_date = models.DateField(default=datetime.date.today)
     like_number = models.IntegerField(default=0)
-    age_range = models.CharField(max_length = 20, choices = AGE_RANGE_CHOICES, default = '20')
+    age_range = models.CharField(
+        max_length=20, choices=AGE_RANGE_CHOICES, default='20')
 
     class Meta:
         ordering = ['pk']

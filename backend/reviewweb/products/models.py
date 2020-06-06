@@ -1,5 +1,6 @@
 from django.db import models
-from users.models import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES, Profile
+from users.models import Profile
+from users.choices import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES
 import datetime
 from django.db.models import signals
 from multiselectfield import MultiSelectField
@@ -31,7 +32,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=150)
     photo = models.ImageField(
-        default='media/product_default_image.png', blank = True)
+        default='media/product_default_image.png', blank=True)
     description = models.TextField(max_length=5000, default='No Description')
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name='products')
@@ -47,7 +48,7 @@ class Product(models.Model):
     review_number = models.IntegerField(default=0)
     profile = models.ManyToManyField(
         Profile, related_name='interested_product', blank=True)
-    rank_score = models.FloatField(default = 0.0)
+    rank_score = models.FloatField(default=0.0)
 
     def __str__(self):
         return self.name
@@ -56,7 +57,8 @@ class Product(models.Model):
         from reviews.models import Review
         total_reviews = len(list(Review.objects.all()))
         print(len(list(Review.objects.all())))
-        self.rank_score = round((((self.average_star/5) * 0.86) + ((self.review_number/total_reviews) * 0.14 )),5)
+        self.rank_score = round(
+            (((self.average_star/5) * 0.86) + ((self.review_number/total_reviews) * 0.14)), 5)
         super(Product, self).save(*args, **kwargs)
 
     # def save_product_update(sender, instance, *args, **kwargs):

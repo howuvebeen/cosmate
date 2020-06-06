@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 from rest_framework import generics
-from .models import Product, Company
-from .serializers import ProductSerializer, CompanySerializer
+from .models import Product, Company, Category
+from .serializers import ProductSerializer, CompanySerializer, CategorySerializer
 
 
 from rest_framework.decorators import api_view
@@ -25,11 +25,12 @@ class ProductList(generics.ListCreateAPIView):
     """
     View with POST, GET request for creating product and listing products
     Products can be categorized by name, company, 
-    category, skintype, skinissue, and ingredients
+    category, skintype, skinissue, and ingredients.
+    Filtering by different category is possible.
     """
     queryset = Product.objects.all().order_by('-rank_score')
     serializer_class = ProductSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = [
         'name',
         'company',
@@ -39,7 +40,19 @@ class ProductList(generics.ListCreateAPIView):
         'ingredients',
         'average_star'
     ]
-    ordering_fields = ['']
+    search_fields = ['name', 'company__name',
+                     'skintype', 'skinissue', 'category__name', 'ingredients__name']
+
+
+class ProductSearchList(generics.ListAPIView):
+    """
+    View with GET request for searching for products and listing products.
+    """
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'company__name',
+                     'skintype', 'skinissue', 'category__name', 'ingredients__name']
 
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -68,3 +81,13 @@ class CompanyDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+
+
+class CategoryList(generics.ListCreateAPIView):
+    """
+    View with POST, GET request for creating comapny and listing companies
+    Companies can be categorized by pk, name, year, description,
+    products
+    """
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
