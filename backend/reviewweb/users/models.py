@@ -22,7 +22,6 @@ SKINISSUE_CHOICES = (
     ("T", "Trouble"),
     ("A", "Acne"),
     ("SS", "Sensitive Skin"),
-    ("N/A", "None"),
 )
 INFLUENCER_CHOICES = (
     ("Y", "Yes"),
@@ -51,9 +50,9 @@ class Profile(models.Model):
     skintype = MultiSelectField(
         max_length=20, choices=SKINTYPE_CHOICES, default='C')
     skinissue = MultiSelectField(
-        max_length=30, choices=SKINISSUE_CHOICES, default='N/A')
+        max_length=30, choices=SKINISSUE_CHOICES, default=None)
     influencer = models.CharField(
-        max_length=20, choices=INFLUENCER_CHOICES, default="N", null=True)
+        max_length=20, choices=INFLUENCER_CHOICES, default="N")
     age_range = models.CharField(max_length = 20, choices = AGE_RANGE_CHOICES, default = '20')
 
     def __str__(self):

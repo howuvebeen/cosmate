@@ -26,7 +26,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     skintype = fields.MultipleChoiceField(
         choices=SKINTYPE_CHOICES, default='C')
     skinissue = fields.MultipleChoiceField(
-        choices=SKINISSUE_CHOICES, default='N/A')
+        choices=SKINISSUE_CHOICES)
     interested_product = ProductSerializer(many=True, required=False)
     user = serializers.StringRelatedField(read_only=True)
 
