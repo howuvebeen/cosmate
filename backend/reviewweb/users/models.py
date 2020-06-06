@@ -12,7 +12,7 @@ from multiselectfield import MultiSelectField
 GENDER_CHOICES = (
     ("M", "Male"),
     ("F", "Female"),
-    ("D", "Do not want to select")
+    ("D", "Not Specified")
 )
 SKINTYPE_CHOICES = (
     ("O", "Oily"),
@@ -46,7 +46,7 @@ class Profile(models.Model):
     user = models.OneToOneField(
         'auth.User', related_name='profiles', on_delete=models.CASCADE)
     gender = models.CharField(
-        max_length=20, choices=GENDER_CHOICES, default="D")
+        max_length=20, choices=GENDER_CHOICES, default="Not Specified")
     dob = models.DateField(
         default=datetime.date.today, blank=True, null=True)
     age = models.IntegerField(default=0)
