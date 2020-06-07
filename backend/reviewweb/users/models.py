@@ -4,56 +4,28 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from .choices import GENDER_CHOICES, INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES, AGE_RANGE_CHOICES
+
 import datetime
 from multiselectfield import MultiSelectField
-
-GENDER_CHOICES = (
-    ("M", "Male"),
-    ("F", "Female"),
-    ("D", "Do not want to select")
-)
-SKINTYPE_CHOICES = (
-    ("O", "Oily"),
-    ("D", "Dry"),
-    ("C", "Combinational"),
-)
-# Trouble / Acne / Sensitive Skin / None
-SKINISSUE_CHOICES = (
-    ("T", "Trouble"),
-    ("A", "Acne"),
-    ("SS", "Sensitive Skin"),
-)
-INFLUENCER_CHOICES = (
-    ("Y", "Yes"),
-    ("N", "No"),
-)
-AGE_RANGE_CHOICES = (
-    ("0 - 9", "0 - 9"),
-    ("10 - 19", "10 - 19"),
-    ("20 - 29", "20 - 29"),
-    ("30 - 39", "30 - 39"),
-    ("40 - 49", "40 - 49"),
-    ("50 - 59", "50 - 59"),
-    ("60 - 69", "60 - 69"),
-    ("70+", "70+"),
-)
 
 
 class Profile(models.Model):
     user = models.OneToOneField(
         'auth.User', related_name='profiles', on_delete=models.CASCADE)
     gender = models.CharField(
-        max_length=20, choices=GENDER_CHOICES, default="D")
+        max_length=50, choices=GENDER_CHOICES, default="D")
     dob = models.DateField(
         default=datetime.date.today, blank=True, null=True)
     age = models.IntegerField(default=0)
     skintype = MultiSelectField(
-        max_length=20, choices=SKINTYPE_CHOICES, default='C')
+        max_length=20, choices=SKINTYPE_CHOICES, blank=True, null=True)
     skinissue = MultiSelectField(
-        max_length=30, choices=SKINISSUE_CHOICES, default=None)
+        max_length=30, choices=SKINISSUE_CHOICES, blank=True, null=True)
     influencer = models.CharField(
-        max_length=20, choices=INFLUENCER_CHOICES, default="N")
-    age_range = models.CharField(max_length = 20, choices = AGE_RANGE_CHOICES, default = '20')
+        max_length=20, choices=INFLUENCER_CHOICES, default="N", null=True)
+    age_range = models.CharField(
+        max_length=20, choices=AGE_RANGE_CHOICES, default='20')
 
     def __str__(self):
         return self.user.username
@@ -66,7 +38,7 @@ class Profile(models.Model):
         self.age = today.year - self.dob.year - \
             ((today.month, today.day) < (self.dob.month, self.dob.day))
         if self.age >= 0 and self.age <= 9:
-            self.age_range = "0 - 9" 
+            self.age_range = "0 - 9"
         elif self.age >= 10 and self.age <= 19:
             self.age_range = "10 - 19"
         elif self.age >= 20 and self.age <= 29:

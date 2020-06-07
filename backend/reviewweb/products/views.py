@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from rest_framework import generics
+from rest_framework import generics, permissions
 from .models import Product, Company, Category
 from .serializers import ProductSerializer, CompanySerializer, CategorySerializer
 
@@ -28,6 +28,8 @@ class ProductList(generics.ListCreateAPIView):
     category, skintype, skinissue, and ingredients.
     Filtering by different category is possible.
     """
+    permissions_classes = [permissions.IsAdminUser]
+
     queryset = Product.objects.all().order_by('-rank_score')
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
@@ -48,6 +50,8 @@ class ProductSearchList(generics.ListAPIView):
     """
     View with GET request for searching for products and listing products.
     """
+    permissions_classes = [permissions.AllowAny]
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [filters.SearchFilter]
@@ -60,6 +64,8 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific product object
     """
+    permissions_classes = [permissions.IsAdminUser]
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -70,6 +76,8 @@ class CompanyList(generics.ListCreateAPIView):
     Companies can be categorized by pk, name, year, description,
     products
     """
+    permissions_classes = [permissions.IsAdminUser]
+
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
@@ -79,6 +87,8 @@ class CompanyDetail(generics.RetrieveUpdateDestroyAPIView):
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific company object
     """
+    permissions_classes = [permissions.IsAdminUser]
+
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
@@ -89,5 +99,7 @@ class CategoryList(generics.ListCreateAPIView):
     Companies can be categorized by pk, name, year, description,
     products
     """
+    permissions_classes = [permissions.IsAdminUser]
+
     queryset = Category.objects.all()
     serializer_class = CategorySerializer

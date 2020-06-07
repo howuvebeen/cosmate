@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from products.serializers import ProductSerializer
 from rest_framework.authtoken.models import Token
 
-from users.models import SKINISSUE_CHOICES, SKINTYPE_CHOICES
+from users.choices import SKINISSUE_CHOICES, SKINTYPE_CHOICES
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -29,22 +29,32 @@ class ProfileSerializer(serializers.ModelSerializer):
         choices=SKINISSUE_CHOICES)
     interested_product = ProductSerializer(many=True, required=False)
     user = serializers.StringRelatedField(read_only=True)
+    last_login = serializers.SerializerMethodField()
+
+    def get_last_login(self, obj):
+        last_login = obj.user.last_login
+        return last_login
 
     class Meta:
         model = Profile
-        read_only_fields = ['user', 'interested_product']
-        fields = ['user', 'gender', 'dob', 'age',
-                  'skintype', 'skinissue', 'influencer', 'interested_product',
-                  'age_range']
+        read_only_fields = ['user', 'interested_product',
+                            'last_login', 'age_range']
+        fields = ['user', 'gender', 'dob', 'age', 'skintype', 'skinissue',
+                  'influencer', 'interested_product', 'age_range', 'last_login']
 
 
 class TokenSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
+    user_pk = serializers.SerializerMethodField()
 
-    def get_user(self, obj):
+    def get_username(self, obj):
         user = obj.user.username
+        return user
+
+    def get_user_pk(self, obj):
+        user = obj.user.pk
         return user
 
     class Meta:
         model = Token
-        fields = ['user', 'key']
+        fields = ['user_pk', 'username', 'key']
