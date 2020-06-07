@@ -36,7 +36,7 @@ const MainContent = () => (
             <Route path="/reset_id" component={IdReset}/>
             <Route path="/reset_id_done" component={IdResetDone}/>
             <Route path="/profile" component={UserProfile}/>
-            <Route path="/profile_edit" component={UserProfileEdit}/>
+            <Route path="/profile/edit" component={UserProfileEdit}/>
             <Route exact path="/skincare" component={Skincare}/>
             <Route exact path="/skincare/:category" component={SkinCategory}/>
             <Route exact path="/skincare/:category/:product" component={Product}/>

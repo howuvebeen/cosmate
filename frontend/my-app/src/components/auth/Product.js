@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { authLogin } from "../../actions/authActions";
+import { getTokenUser } from "../../actions/authActions";
 import { getProduct } from "../../actions/authActions";
 import { getReviewList } from "../../actions/authActions";
 
@@ -15,13 +15,18 @@ class Product extends Component {
     getReviewList: PropTypes.func.isRequired,
     review: PropTypes.object,
 
+    getTokenUser: PropTypes.func.isRequired,
+    user: PropTypes.object,
+
     authenticated: PropTypes.bool
   };
 
   componentWillMount() {
     this.props.getProduct(this.props);
     this.props.getReviewList(this.props);
+    this.props.getTokenUser();
   }
+
   Tag(type) {
     if (type != null){
       var arrayLength = type.length;
@@ -109,8 +114,11 @@ class Product extends Component {
 
   renderReviewList() {
     const { handleSubmit, error } = this.props;
+    const product = this.props.product;
     const reviews = this.props.review;
     const authenticated = this.props.authenticated;
+    const user = this.props.user;
+    console.log(user);
 
     if (reviews) {
       return (
@@ -118,7 +126,7 @@ class Product extends Component {
           <h4>Influencer Reviews</h4>
           {reviews.map((review) => {
             if (review.influencer == "Y"){
-              if (authenticated){
+              if (authenticated && user.username == review.author){
                 return (
                   <div>
                     <div class="row p-3 ml-3">
@@ -138,6 +146,28 @@ class Product extends Component {
                         <Link to="/review/like" class="text-md-left"><button className="btn btn-light">Like</button></Link>
                         <Link to="/review/edit" class="text-md-left"><button className="btn btn-light">Edit</button></Link>
                         <Link to="/review/delete" class="text-md-left"><button className="btn btn-light">Delete</button></Link>
+                      </div>
+                    </div>
+                  </div>
+                );
+              } else if (authenticated){
+                return (
+                  <div>
+                    <div class="row p-3 ml-3">
+                      <div class="col-md-3">
+                        <h4>{review.author} ✅</h4>
+                        <p>{review.pub_date}</p>
+                        <p>Skin Type: {this.Tag(review.skintype)}</p>
+                        <p>Skin Issue: {this.List(review.skinissue)}</p>
+                        <p>Age: {review.age}</p>
+                      </div>
+                      <div class="col-md-6">
+                        <p>{this.Star(review.star)}</p>
+                        <h5>{review.title}</h5>
+                        <p>{review.review}</p>
+                      </div>
+                      <div class="ml-auto col-md-1">
+                        <Link to="/review/like" class="text-md-left"><button className="btn btn-light">Like</button></Link>
                       </div>
                     </div>
                   </div>
@@ -170,7 +200,7 @@ class Product extends Component {
           <h4>Reviews</h4>
           {reviews.map((review) => {
             if (review.influencer == "N"){
-              if (authenticated){
+              if (authenticated && user.username == review.author){
                 return (
                   <div>
                     <div class="row p-3 ml-3">
@@ -194,20 +224,44 @@ class Product extends Component {
                     </div>
                   </div>
                 );
+              } else if (authenticated){
+                return (
+                  <div>
+                    <div class="row p-3 ml-3">
+                      <div class="col-md-3">
+                        <h4>{review.author}</h4>
+                        <p>{review.pub_date}</p>
+                        <p>Skin Type: {this.Tag(review.skintype)}</p>
+                        <p>Skin Issue: {this.List(review.skinissue)}</p>
+                        <p>Age: {review.age}</p>
+                      </div>
+                      <div class="col-md-6">
+                        <p>{this.Star(review.star)}</p>
+                        <h5>{review.title}</h5>
+                        <p>{review.review}</p>
+                      </div>
+                      <div class="ml-auto col-md-1">
+                        <Link to="/review/like" class="text-md-left"><button className="btn btn-light">Like</button></Link>
+                      </div>
+                    </div>
+                  </div>
+                );
               } else {
                 return (
-                  <div class="row p-3 ml-3">
-                    <div class="col-md-3">
-                      <h4>{review.author}</h4>
-                      <p>{review.pub_date}</p>
-                      <p>Skin Type: {this.Tag(review.skintype)}</p>
-                      <p>Skin Issue: {this.List(review.skinissue)}</p>
-                      <p>Age: {review.age}</p>
-                    </div>
-                    <div class="col-md-6">
-                      <p>{this.Star(review.star)}</p>
-                      <h5>{review.title}</h5>
-                      <p>{review.review}</p>
+                  <div>
+                    <div class="row p-3 ml-3">
+                      <div class="col-md-3">
+                        <h4>{review.author} </h4>
+                        <p>{review.pub_date}</p>
+                        <p>Skin Type: {this.Tag(review.skintype)}</p>
+                        <p>Skin Issue: {this.List(review.skinissue)}</p>
+                        <p>Age: {review.age}</p>
+                      </div>
+                      <div class="col-md-6">
+                        <p>{this.Star(review.star)}</p>
+                        <h5>{review.title}</h5>
+                        <p>{review.review}</p>
+                      </div>
                     </div>
                   </div>
                 );
@@ -217,7 +271,7 @@ class Product extends Component {
             }
           })}
           <div class="ml-auto text-right">
-            <Link to="/skincare/cleansers/1/review" class="text-md-left"><button className="btn btn-info">New Review</button></Link>
+            <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review`} class="text-md-left"><button className="btn btn-info">New Review</button></Link>
           </div>      
         </div>
       );
@@ -241,8 +295,9 @@ function mapStateToProps(state) {
   return {
     product: state.auth.product,
     review: state.auth.review,
-    authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated,
+    user: state.auth.user
   };
 }
 
-export default connect(mapStateToProps, { getProduct, getReviewList })(Product);
+export default connect(mapStateToProps, { getProduct, getReviewList, getTokenUser})(Product);

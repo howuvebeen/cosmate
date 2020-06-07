@@ -23,10 +23,10 @@ export function loginUser(formValues, dispatch, props) {
     .then((response) => {
       // If request is good update state to indicate user is authenticated
       // Store key from data to const token
-      const token = response.data.key;
+      const token = response.data.token;
       // Dispatch token to function authLogin() and AuthTypes.LOGIN
       dispatch(authLogin(token));
-
+      dispatch(getTokenUser(token));
       // Store the changed token to token in localStorage
       localStorage.setItem("token", token);
       // redirect to the route '/'
@@ -38,8 +38,38 @@ export function loginUser(formValues, dispatch, props) {
     });
 }
 
+function setTokenUser(payload) {
+  return {
+    type: AuthTypes.TOKEN,
+    payload: payload
+  };
+}
+
+export function getTokenUser(token) {
+  const tokenUrl = AuthUrls.TOKEN+token+"/";
+
+  return function (dispatch) {
+    axios
+      .get(tokenUrl)
+      .then((response) => {
+        const userpk = response.data.user_pk;
+        localStorage.setItem("userpk", userpk);
+
+        dispatch(setTokenUser(response.data));
+
+      })
+      .catch((error) => {
+        // If request is bad...
+        // Show an error to the user
+        // TODO: send notification and redirect
+      });
+  };
+}
+
 export function logoutUser() {
   // Remove the token from localStorage
+  localStorage.removeItem("userpk");
+
   localStorage.removeItem("token");
   history.push("/login");
   return {
@@ -167,34 +197,31 @@ export function resetId(formValues) {
 function setUserProfile(payload) {
   return {
     type: AuthTypes.USER_PROFILE,
-    payload: payload,
+    payload: payload
   };
 }
 
 export function getUserProfile() {
-  return function (dispatch) {
-    const token = getUserToken(store.getState());
-    if (token) {
+  const userpk = localStorage.getItem("userpk");
+  const profileUrl = AuthUrls.USER_PROFILE+userpk+"/";
+
+  if (userpk != null){
+    return function (dispatch) {
       axios
-        .get(AuthUrls.USER_PROFILE, {
-          headers: {
-            authorization: "Token " + token,
-          },
-        })
+        .get(profileUrl)
         .then((response) => {
           dispatch(setUserProfile(response.data));
         })
         .catch((error) => {
           // If request is bad...
           // Show an error to the user
-          console.log(error);
           // TODO: send notification and redirect
         });
-    }
-  };
+    };
+  }
 }
 
-export function updateUserProfile(formValues, dispatch, props) {
+export function userProfileEdit(formValues, dispatch, props) {
   const token = getUserToken(store.getState());
 
   return axios
@@ -225,7 +252,7 @@ export function updateUserProfile(formValues, dispatch, props) {
 function setproductList(payload) {
   return {
     type: AuthTypes.PRODUCT_LIST,
-    payload: payload,
+    payload: payload
   };
 }
 
@@ -295,13 +322,20 @@ export function getReviewList(props) {
   };
 }
 
-export function uploadReview(props, formValues) {
+export function uploadReview(formValues, props) {
   const { category } = props.match.params;
   const { product } = props.match.params;
+  const username = getTokenUser();
+
   const uploadReviewUrl = AuthUrls.REVIEW;
 
+  const data = Object.assign(formValues, {
+    product: product,
+    author: username
+  });
+
   return axios
-    .post(uploadReviewUrl, formValues)
+    .post(uploadReviewUrl, data)
     .then((response) => {
       // redirect to reset done page
       history.push("/skincare/"+category+"/"+product);

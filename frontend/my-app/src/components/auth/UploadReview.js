@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-// import PropTypes from "prop-types";
 import { reduxForm, Field, propTypes } from "redux-form";
-import { Link } from "react-router-dom";
 import { required } from "redux-form-validators"
-
 import { renderField, renderError} from "../../utils/renderUtils";
+
 import { uploadReview } from "../../actions/authActions";
 
 class UploadReview extends Component {
@@ -58,7 +56,8 @@ class UploadReview extends Component {
     }
 }
 
+
 export default reduxForm({
-    form: "uploadreview",
+    form: "upload",
     onSubmit: uploadReview
 })(UploadReview);

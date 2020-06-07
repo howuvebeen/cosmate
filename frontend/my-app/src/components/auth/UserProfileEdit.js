@@ -3,9 +3,9 @@ import { reduxForm, Field, propTypes } from "redux-form";
 import { connect } from 'react-redux'
 
 import { renderField, renderTextAreaField, renderError} from "../../utils/renderUtils";
-import { updateUserProfile } from "../../actions/authActions";
+import { userProfileEdit } from "../../actions/authActions";
 
-class Login extends Component {
+class UserProfileEdit extends Component {
 
     static propTypes = {
         ...propTypes
@@ -59,6 +59,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(reduxForm({
-    form: "update_user_profile",
-    onSubmit: updateUserProfile
-})(Login));
+    form: "userProfileEdit",
+    onSubmit: userProfileEdit
+})(UserProfileEdit));
