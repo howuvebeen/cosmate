@@ -41,7 +41,7 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
     """
-    Serialize Review Model
+    Serialize Review Model for Review Lish
     """
     likes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     product = MyProductRelatedField(queryset=Product.objects.all())
@@ -63,7 +63,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     def get_age(self, obj):
         age = obj.author.age
         return age
-    
+
     def get_age_range(self, obj):
         age_range = obj.author.age_range
         return age_range
@@ -73,3 +73,23 @@ class ReviewSerializer(serializers.ModelSerializer):
         read_only_fields = ['pub_date', 'like_number', 'likes']
         fields = ['pk', 'author', 'title', 'age', 'skintype', 'skinissue', 'influencer', 'product',
                   'star', 'review', 'pub_date', 'like_number', 'likes', 'age_range']
+
+
+class ProfileReviewSerializer(serializers.ModelSerializer):
+    """
+    Serialize Review Model for Profile List
+    """
+    product_name = serializers.SerializerMethodField()
+    product_pk = serializers.SerializerMethodField()
+
+    def get_product_name(self, obj):
+        product_name = obj.product.name
+        return product_name
+
+    def get_product_pk(self, obj):
+        product_pk = obj.product.pk
+        return product_pk
+
+    class Meta:
+        model = Review
+        fields = ['pk', 'title', 'product_pk', 'product_name']
