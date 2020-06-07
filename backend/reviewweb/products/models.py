@@ -56,7 +56,6 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         from reviews.models import Review
         total_reviews = len(list(Review.objects.all()))
-        print(len(list(Review.objects.all())))
         self.rank_score = round(
             (((self.average_star/5) * 0.86) + ((self.review_number/total_reviews) * 0.14)), 5)
         super(Product, self).save(*args, **kwargs)

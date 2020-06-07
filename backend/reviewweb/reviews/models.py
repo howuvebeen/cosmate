@@ -45,6 +45,9 @@ class Review(models.Model):
     def __str__(self):
         return '%d' % (self.pk)
 
+    def create(self, *args, **kwargs):
+        super(Review, self).create(*args, **kwargs)
+
     def after_save_review_update(sender, instance, *args, **kwargs):
         """
         Summing stars, adding star number, calculating average star
@@ -54,7 +57,6 @@ class Review(models.Model):
         product = review.product
 
         reviewlist = list(Review.objects.filter(product=product))
-        print(len(reviewlist))
         product.review_number = len(reviewlist)
 
         product.star_sum = star_sum_calculator(reviewlist)
