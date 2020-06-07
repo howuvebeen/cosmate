@@ -1,5 +1,6 @@
 from rest_framework import serializers, fields
 from .models import Profile
+from reviews.models import Review
 from django.contrib.auth.models import User
 from products.serializers import ProductSerializer
 from rest_framework.authtoken.models import Token
@@ -18,6 +19,14 @@ class UserSerializer(serializers.ModelSerializer):
                   'first_name', 'last_name', 'is_active']
 
 
+class MyReviewRelatedField(serializers.PrimaryKeyRelatedField):
+
+    def to_representation(self, value):
+        a_list = list(Review.objects.filter(pk=value.pk))
+
+        return a_list[0].user.username
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     """
     Serialize Profile model
@@ -33,6 +42,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     lastname = serializers.SerializerMethodField()
     email = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
+    reviews = serializers.SerializerMethodField()
 
     def get_last_login(self, obj):
         last_login = obj.user.last_login
@@ -50,13 +60,19 @@ class ProfileSerializer(serializers.ModelSerializer):
         email = obj.user.email
         return email
 
+    def get_reviews(self, obj):
+        from reviews.serializers import ProfileReviewSerializer
+        reviews = Review.objects.filter(author=obj.pk)
+        return ProfileReviewSerializer(reviews, many=True).data
+
     class Meta:
         model = Profile
         read_only_fields = ['user', 'interested_product',
                             'last_login', 'age_range']
         fields = ['user', 'firstname', 'lastname', 'email', 'last_login',
-                  'gender', 'dob', 'age', 'skintype', 'skinissue', 'influencer',
-                  'interested_product', 'age_range']
+                  'gender', 'dob', 'age', 'age_range',
+                  'skintype', 'skinissue', 'influencer', 'interested_product',
+                  'reviews']
 
 
 class TokenSerializer(serializers.ModelSerializer):

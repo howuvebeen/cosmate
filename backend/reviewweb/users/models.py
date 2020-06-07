@@ -113,6 +113,6 @@ def get_username(self):
 
 
 """
-Overriding user __str__ function with get_username function
+Overriding User model's __str__ function with get_username function
 """
 User.add_to_class("__str__", get_username)
