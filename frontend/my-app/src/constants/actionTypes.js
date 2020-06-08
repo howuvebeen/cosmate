@@ -1,6 +1,7 @@
 export const AuthTypes = {
     LOGIN: "LOGIN",
     LOGOUT: "LOGOUT",
+    TOKEN: "TOKEN",
     USER_PROFILE: "USER_PROFILE",
     USER: "USER",
     PRODUCT_LIST: "PRODUCT_LIST",

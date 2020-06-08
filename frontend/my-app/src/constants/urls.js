@@ -7,9 +7,10 @@ export const AuthUrls = {
     RESET_PASSWORD: `${ROOT_URL}users/send-reset-password-link/`,
     RESET_PASSWORD_CONFIRM: `${ROOT_URL}users/register-email/`,
     RESET_ID: `${ROOT_URL}users/send-reset-password-link/`,
-    USER_PROFILE: `${ROOT_URL}users/users/`,
+    USER_PROFILE: `${ROOT_URL}users/profiles/`,
     PRODUCT_LIST: `${ROOT_URL}products/products/`,
     PRODUCT: `${ROOT_URL}products/products/`,
     REVIEW_LIST: `${ROOT_URL}reviews/reviews/?author=&product=`,
-    REVIEW: `${ROOT_URL}reviews/reviews/`
+    REVIEW: `${ROOT_URL}reviews/reviews/`,
+    TOKEN: `${ROOT_URL}users/tokens/`
 };

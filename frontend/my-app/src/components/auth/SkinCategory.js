@@ -8,7 +8,7 @@ class SkinCategory extends Component {
 
     static propTypes = {
         getproductList: PropTypes.func.isRequired,
-        product: PropTypes.object
+        lproduct: PropTypes.object
     };
 
     componentWillMount() {
@@ -34,19 +34,19 @@ class SkinCategory extends Component {
     };
 
     renderProductList() {
-        const products  = this.props.product;
+        const lproducts  = this.props.lproduct;
 
-        if (products) {
+        if (lproducts) {
             return (
                 <div class="row p-3">
-                    {products.map((product) => (
+                    {lproducts.map((lproduct) => (
                         <div class="p-5">
                             <div>
-                                <p>{product.company}</p>
-                                <Link to={`/skincare/${product.category[0]}/${product.pk}/`}><h4>{product.name}</h4></Link>
+                                <p>{lproduct.company}</p>
+                                <Link to={`/skincare/${lproduct.category[0].toLowerCase()}/${lproduct.pk}/`}><h4>{lproduct.name}</h4></Link>
                             </div>
                             <div>
-                                {this.Star(product.average_star)}
+                                {this.Star(lproduct.average_star)}
                             </div>
                         </div>
                     ))}
@@ -67,9 +67,9 @@ class SkinCategory extends Component {
 
 function mapStateToProps(state) {
     return {
-        product: state.auth.product
+        lproduct: state.auth.lproduct
     }
-
 }
+
 
 export default connect(mapStateToProps, { getproductList } )( SkinCategory );
