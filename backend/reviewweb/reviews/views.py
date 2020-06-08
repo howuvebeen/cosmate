@@ -29,7 +29,7 @@ class ReviewList(generics.ListCreateAPIView):
     Reviews can be categorized by author, influencer,
     product, star, review, pub_date, like_number
     """
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
@@ -43,7 +43,7 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     specific review object
     """
     permission_classes = [
-        permissions.IsAdminUser]
+        permissions.IsAdminUser] # change with new IsOwnerOrReadOnly
 
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
@@ -66,7 +66,7 @@ class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
     specific like object
     """
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+        permissions.IsAdminUser] # change with new IsOwnerOrReadOnly
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
