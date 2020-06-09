@@ -12,6 +12,11 @@ class UserSerializer(serializers.ModelSerializer):
     """
     Serialize User Model
     """
+    email = serializers.SerializerMethodField(read_only = True)
+
+    def get_email(self, obj):
+        email = obj.email
+        return email
 
     class Meta:
         model = User
