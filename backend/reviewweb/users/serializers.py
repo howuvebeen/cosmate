@@ -40,6 +40,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     firstname = serializers.SerializerMethodField()
     lastname = serializers.SerializerMethodField()
+    age = serializers.SerializerMethodField(read_only = True)
     email = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField()
@@ -55,6 +56,9 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_lastname(self, obj):
         lastname = obj.user.last_name
         return lastname
+
+    def get_age(self, obj):
+        return obj.age
 
     def get_email(self, obj):
         email = obj.user.email
