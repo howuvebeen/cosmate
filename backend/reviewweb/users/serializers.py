@@ -78,6 +78,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class TokenSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
     user_pk = serializers.SerializerMethodField()
+    influencer = serializers.SerializerMethodField()
 
     def get_username(self, obj):
         user = obj.user.username
@@ -87,6 +88,13 @@ class TokenSerializer(serializers.ModelSerializer):
         user = obj.user.pk
         return user
 
+    def get_influencer(self, obj):
+        profile_l = list(Profile.objects.filter(pk = obj.user.pk))
+        profile = profile_l[0]
+        influencer = profile.influencer
+        return influencer
+        
+
     class Meta:
         model = Token
-        fields = ['user_pk', 'username', 'key']
+        fields = ['user_pk', 'username', 'influencer', 'key']
