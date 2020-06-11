@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { reduxForm, Field, Select, propTypes } from "redux-form";
-import { renderField, renderLabelField, renderTextAreaField, renderError} from "../../utils/renderUtils";
+import { renderField, renderSelect, renderError} from "../../utils/renderUtils";
 import { required } from "redux-form-validators"
 
-import { editReview } from "../../actions/authActions";
+import { userProfileComplete } from "../../actions/authActions";
 
-class EditReview extends Component {
+class UserProfileComplete extends Component {
 
     static propTypes = {
         ...propTypes
@@ -20,30 +20,40 @@ class EditReview extends Component {
                     className="col col-sm-4 card mt-3 p-2"
                     onSubmit={handleSubmit}
                 >
-                    <h4 className="text-md-center">Edit Review</h4>
+                    <h4 className="text-md-center">Complete Your Profile</h4>
 
                     <fieldset className="form-group">
-                    <   Field label="Rating:" name="star" component={renderLabelField}
+                        <Field name="gender" component={renderField}
                                type="text" validate={[required({message: "This field is required."})]}
+                               placeholder="Gender"
                         />
                     </fieldset>
 
                     <fieldset className="form-group">
-                        <Field label="Review Title:" name="title" component={renderLabelField}
-                               type="text" validate={[required({message: "This field is required."})]}
+                        <Field name="dob" component={renderField}
+                               type="date" validate={[required({message: "This field is required."})]}
+                               placeholder="Date of Birth"
                         />
                     </fieldset>
 
                     <fieldset className="form-group">
-                        <Field label="Review:" name="review" component={renderLabelField}
+                        <Field name="skintype" component={renderField}
                                type="text" validate={[required({message: "This field is required."})]}
+                               placeholder="Skin Type"
                         />
                     </fieldset>
 
                     <fieldset className="form-group">
-                        { renderError(error) }
-                        <button action="submit" className="btn btn-primary w-100">Write a Review</button>
+                        <Field name="skinissue" component={renderField}
+                               type="text" validate={[required({message: "This field is required."})]}
+                               placeholder="Skin Issue"
+                        />
                     </fieldset>
+
+                    <fieldset className="form-group">
+                        <button action="submit" className="btn btn-primary w-100">Profile</button>
+                    </fieldset>
+
                 </form>
             </div>
         )
@@ -51,6 +61,6 @@ class EditReview extends Component {
 }
 
 export default (reduxForm({
-    form: "edit_review",
-    onSubmit: editReview
-})(EditReview));
+    form: "userProfileComplete",
+    onSubmit: userProfileComplete
+})(UserProfileComplete));

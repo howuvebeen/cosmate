@@ -29,8 +29,13 @@ export function loginUser(formValues, dispatch, props) {
       dispatch(getTokenUser(token));
       // Store the changed token to token in localStorage
       localStorage.setItem("token", token);
+      const lastlogin = localStorage.getItem("lastlogin");
       // redirect to the route '/'
-      history.push("/");
+      if (lastlogin=="null"){
+        history.push("/profile/complete");
+      } else {
+        history.push("/");
+      }
     })
     .catch((error) => {
       const processedError = processServerError(error.response.data);
@@ -55,8 +60,16 @@ export function getTokenUser(token) {
         const userpk = response.data.user_pk;
         localStorage.setItem("userpk", userpk);
 
-        dispatch(setTokenUser(response.data));
+        const username = response.data.username;
+        localStorage.setItem("username", username);
 
+        const influencer = response.data.influencer;
+        localStorage.setItem("influencer", influencer);
+
+        const lastlogin = response.data.last_login;
+        localStorage.setItem("lastlogin", lastlogin);
+
+        dispatch(setTokenUser(response.data));
       })
       .catch((error) => {
         // If request is bad...
@@ -69,8 +82,9 @@ export function getTokenUser(token) {
 export function logoutUser() {
   // Remove the token from localStorage
   localStorage.removeItem("userpk");
-
   localStorage.removeItem("token");
+  localStorage.removeItem("influencer");
+
   history.push("/login");
   return {
     type: AuthTypes.LOGOUT,
@@ -85,7 +99,26 @@ export function signupUser(formValues) {
     .then((response) => {
       // email need to be verified, so don't login and send user to signup_done page.
       // redirect to signup done page.
-      history.push("/signup_done");
+      history.push("/signup/done");
+    })
+    .catch((error) => {
+      console.log(error);
+      // If request is bad...
+      // Show an error to the user
+      const processedError = processServerError(error.response.data);
+      throw new SubmissionError(processedError);
+    });
+}
+
+export function signupUserInfluencer(formValues) {
+  const signupUrl = AuthUrls.SIGNUP;
+
+  return axios
+    .post(signupUrl, formValues)
+    .then((response) => {
+      // email need to be verified, so don't login and send user to signup_done page.
+      // redirect to signup done page.
+      history.push("/signup/done");
     })
     .catch((error) => {
       console.log(error);
@@ -222,14 +255,15 @@ export function getUserProfile() {
 }
 
 export function userProfileEdit(formValues, dispatch, props) {
-  const token = getUserToken(store.getState());
+  const userpk = localStorage.getItem("userpk");
+  const profileUrl = AuthUrls.USER_PROFILE+userpk+"/";
+  const userUrl = AuthUrls.USER_USER+userpk+"/";
+
+  const requestOne = axios.put(profileUrl, formValues);
+  const requestTwo = axios.put(userUrl, formValues);
 
   return axios
-    .patch(AuthUrls.USER_PROFILE, formValues, {
-      headers: {
-        authorization: "Token " + token,
-      },
-    })
+    .all([requestOne, requestTwo])
     .then((response) => {
       dispatch(
         notifSend({
@@ -240,6 +274,32 @@ export function userProfileEdit(formValues, dispatch, props) {
       );
 
       history.push("/profile");
+    })
+    .catch((error) => {
+      // If request is bad...
+      // Show an error to the user
+      const processedError = processServerError(error.response.data);
+      throw new SubmissionError(processedError);
+    });
+}
+
+
+export function userProfileComplete(formValues, dispatch, props) {
+  const userpk = localStorage.getItem("userpk");
+  const profileUrl = AuthUrls.USER_PROFILE+userpk+"/";
+
+  return axios
+    .put(profileUrl, formValues)
+    .then((response) => {
+      dispatch(
+        notifSend({
+          message: "Your profile has been updated successfully",
+          kind: "info",
+          dismissAfter: 5000,
+        })
+      );
+
+      history.push("/");
     })
     .catch((error) => {
       // If request is bad...
@@ -322,21 +382,34 @@ export function getReviewList(props) {
   };
 }
 
-export function uploadReview(formValues, props) {
-  const { category } = props.match.params;
+export function uploadReview(formValues, dispatch, props) {
+  const { category } = "Moisturizers";
   const { product } = props.match.params;
-  const username = getTokenUser();
+
+  const userpk = localStorage.getItem("userpk");
+  const influencer = localStorage.getItem("influencer");
 
   const uploadReviewUrl = AuthUrls.REVIEW;
 
   const data = Object.assign(formValues, {
     product: product,
-    author: username
+    author: userpk,
+    influencer: influencer
   });
+  console.log(data);
 
   return axios
     .post(uploadReviewUrl, data)
     .then((response) => {
+      console.log(response);
+      dispatch(
+        notifSend({
+          message:
+            "Your review has been uploaded successfully",
+          kind: "info",
+          dismissAfter: 5000,
+        })
+      );
       // redirect to reset done page
       history.push("/skincare/"+category+"/"+product);
     })
@@ -348,7 +421,57 @@ export function uploadReview(formValues, props) {
     });
 }
 
-export function editReview(formValues) {
+export function editReview(formValues, dispatch, props) {
+  const { category } = "1";
+  const { product } = props.match.params;
+
+  const userpk = localStorage.getItem("userpk");
+  const influencer = localStorage.getItem("influencer");
+
+  const data = Object.assign(formValues, {
+    product: product,
+    author: userpk,
+    influencer: influencer
+  });
+
+  const deleteReviewUrl = AuthUrls.REVIEW+"?author="+userpk+"&product="+product+"&author__influencer="+influencer;
+
+  return axios
+    .get(deleteReviewUrl)
+    .then((response) => {
+      const reviewpk = response.data[0].pk;
+      axios.put(AuthUrls.REVIEW+reviewpk+"/", data);
+      history.push("/skincare/"+category+"/"+product);
+      // redirect to reset done page
+    })
+}
+
+export function deleteReview(formValues, dispatch, props) {
+  const { category } = "1";
+  const { product } = props.match.params;
+
+  const userpk = localStorage.getItem("userpk");
+  const influencer = localStorage.getItem("influencer");
+
+  const data = Object.assign(formValues, {
+    product: product,
+    author: userpk,
+    influencer: influencer
+  });
+
+  const deleteReviewUrl = AuthUrls.REVIEW+"?author="+userpk+"&product="+product+"&author__influencer="+influencer;
+
+  return axios
+    .get(deleteReviewUrl)
+    .then((response) => {
+      const reviewpk = response.data[0].pk;
+      axios.delete(AuthUrls.REVIEW+reviewpk+"/", data);
+      history.push("/skincare/"+category+"/"+product);
+      // redirect to reset done page
+    })
+}
+
+export function likeReview(formValues) {
   const editReviewUrl = AuthUrls.REVIEW;
 
   return axios
