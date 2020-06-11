@@ -12,14 +12,10 @@ class UserSerializer(serializers.ModelSerializer):
     """
     Serialize User Model
     """
-    email = serializers.SerializerMethodField(read_only = True)
-
-    def get_email(self, obj):
-        email = obj.email
-        return email
 
     class Meta:
         model = User
+        read_only_fields = ['email']
         fields = ['pk', 'username', 'email',
                   'first_name', 'last_name', 'is_active']
 
@@ -80,7 +76,7 @@ class ProfileSerializer(serializers.ModelSerializer):
                             'last_login', 'age_range']
         fields = ['user', 'firstname', 'lastname', 'email', 'last_login',
                   'gender', 'dob', 'age', 'age_range',
-                  'skintype', 'skinissue', 'influencer', 'interested_product',
+                  'skintype', 'skinissue', 'influencer', 'influencer_link', 'interested_product',
                   'reviews']
 
 
