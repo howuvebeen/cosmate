@@ -15,6 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
+        read_only_fields = ['email']
         fields = ['pk', 'username', 'email',
                   'first_name', 'last_name', 'is_active']
 
@@ -40,6 +41,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     firstname = serializers.SerializerMethodField()
     lastname = serializers.SerializerMethodField()
+    age = serializers.SerializerMethodField(read_only = True)
     email = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField()
@@ -56,6 +58,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         lastname = obj.user.last_name
         return lastname
 
+    def get_age(self, obj):
+        return obj.age
+
     def get_email(self, obj):
         email = obj.user.email
         return email
@@ -71,7 +76,7 @@ class ProfileSerializer(serializers.ModelSerializer):
                             'last_login', 'age_range']
         fields = ['user', 'firstname', 'lastname', 'email', 'last_login',
                   'gender', 'dob', 'age', 'age_range',
-                  'skintype', 'skinissue', 'influencer', 'interested_product',
+                  'skintype', 'skinissue', 'influencer', 'influencer_link', 'interested_product',
                   'reviews']
 
 

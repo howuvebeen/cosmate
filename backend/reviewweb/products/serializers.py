@@ -1,7 +1,7 @@
 from rest_framework import serializers, fields
 
 from .models import Company, Ingredient, Product, Category
-from users.choices import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES
+from users.models import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES
 
 
 class MyCompanyRelatedField(serializers.PrimaryKeyRelatedField):
@@ -74,10 +74,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        read_only_fields = ['pk', 'reviews', 'average_star', 'star_number',
+        read_only_fields = ['pk', 'reviews', 'average_star', 'price', 'star_number',
                             'star_sum', 'review_number', 'profile',
                             'rank_score']
-        fields = ['pk', 'name', 'photo', 'description', 'company', 'category',
+        fields = ['pk', 'name', 'photo', 'price', 'quantity', 'description', 'company', 'category',
                   'skintype', 'skinissue',  'ingredients', 'reviews',
                   'average_star', 'star_number', 'star_sum', 'review_number',
                   'profile', 'rank_score']

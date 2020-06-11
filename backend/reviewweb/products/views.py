@@ -32,7 +32,7 @@ class ProductList(generics.ListCreateAPIView):
 
     queryset = Product.objects.all().order_by('-rank_score')
     serializer_class = ProductSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = [
         'name',
         'company',
@@ -42,6 +42,7 @@ class ProductList(generics.ListCreateAPIView):
         'ingredients',
         'average_star'
     ]
+    ordering_fields = ['rank_score', 'average_star', 'review_number']
 
 
 class ProductSearchList(generics.ListAPIView):

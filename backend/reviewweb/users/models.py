@@ -18,12 +18,13 @@ class Profile(models.Model):
     dob = models.DateField(
         default=datetime.date.today, blank=True, null=True)
     age = models.IntegerField(default=0)
-    skintype = MultiSelectField(
+    skintype = models.CharField(
         max_length=20, choices=SKINTYPE_CHOICES, blank=True, null=True)
-    skinissue = MultiSelectField(
+    skinissue = models.CharField(
         max_length=30, choices=SKINISSUE_CHOICES, blank=True, null=True)
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N", null=True)
+    influencer_link = models.URLField(max_length = 200, null=True)
     age_range = models.CharField(
         max_length=20, choices=AGE_RANGE_CHOICES, default='20')
 
