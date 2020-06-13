@@ -31,6 +31,7 @@ class MyAuthorRelatedField(serializers.PrimaryKeyRelatedField):
 
         return a_list[0].user.username
 
+
 class LikeSerializer(serializers.ModelSerializer):
     """
     Serialize Like Model
@@ -39,6 +40,18 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ['pk', 'author', 'review']
+
+
+class SkinTypeSerializer(serializers.PrimaryKeyRelatedField):
+
+    def to_representation(self, value):
+        return value.name
+
+
+class SkinIssueSerializer(serializers.PrimaryKeyRelatedField):
+
+    def to_representation(self, value):
+        return value.name
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -56,28 +69,6 @@ class ReviewSerializer(serializers.ModelSerializer):
     age = serializers.SerializerMethodField()
     age_range = serializers.SerializerMethodField()
 
-    def get_skinissue(self, obj):
-        alist = list(Profile.objects.filter(pk = obj.author.pk))
-        pklist = []
-        for a in alist:
-            pklist.append(a.pk)
-
-        skinissue = obj.skinissue
-        skinissue = SkinIssue.objects.filter(author__pk=obj.author.pk)
-        print(skinissue)
-        return skinissue
-
-    def get_skintype(self, obj):
-        alist = list(Profile.objects.filter(pk = obj.author.pk))
-        pklist = []
-        for a in alist:
-            pklist.append(a.pk)
-
-        skintype = obj.skintype
-        skintype = SkinType.objects.filter(author__pk__in = pklist)
-        data = serializers.serialize('json', list(skintype), fields = ('name', 'author'))
-        return data
-
     def get_age(self, obj):
         age = obj.author.age
         return age
@@ -85,6 +76,16 @@ class ReviewSerializer(serializers.ModelSerializer):
     def get_age_range(self, obj):
         age_range = obj.author.age_range
         return age_range
+
+    def get_skinissue(self, obj):
+        skinissue = SkinIssue.objects.filter(skinissue=obj.author.pk)
+        # return SkinIssueSerializer(many=True, queryset=skinissue)
+        return skinissue
+
+    def get_skintype(self, obj):
+        skintype = SkinType.objects.filter(skintype=obj.author.pk)
+        # return SkinTypeSerializer(many=True, queryset=skintype)
+        return skintype
 
     class Meta:
         model = Review

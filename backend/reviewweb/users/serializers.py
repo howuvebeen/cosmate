@@ -19,25 +19,17 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['pk', 'username', 'email',
                   'first_name', 'last_name', 'is_active']
 
-class SkinTypeSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = SkinType
-        fields = ['name', 'author']
+class SkinTypeSerializer(serializers.PrimaryKeyRelatedField):
 
     def to_representation(self, value):
-        type_list = list(SkinType.objects.all().filter(pk=value.pk))
-        return type_list[0].name
+        return value.name
 
-class SkinIssueSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = SkinIssue
-        fields = ['name', 'author']
+class SkinIssueSerializer(serializers.PrimaryKeyRelatedField):
 
     def to_representation(self, value):
-        issue_list = list(SkinIssue.objects.all().filter(pk=value.pk))
-        return issue_list[0].name
+        return value.name
 
 
 class MyReviewRelatedField(serializers.PrimaryKeyRelatedField):
@@ -61,8 +53,9 @@ class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField()
-    skintype = SkinTypeSerializer(many = True)
-    skinissue = SkinIssueSerializer(many = True)
+    skintype = SkinTypeSerializer(many=True, queryset=SkinType.objects.all())
+    skinissue = SkinIssueSerializer(
+        many=True, queryset=SkinIssue.objects.all())
 
     # def get_skintype(self, obj):
     #     skintype = obj.author.skintype
@@ -104,6 +97,7 @@ class ProfileSerializer(serializers.ModelSerializer):
                   'gender', 'dob', 'age', 'age_range',
                   'skintype', 'skinissue', 'influencer', 'influencer_link', 'interested_product',
                   'reviews']
+
 
 class TokenSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
