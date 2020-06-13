@@ -42,18 +42,6 @@ class LikeSerializer(serializers.ModelSerializer):
         fields = ['pk', 'author', 'review']
 
 
-class SkinTypeSerializer(serializers.PrimaryKeyRelatedField):
-
-    def to_representation(self, value):
-        return value.name
-
-
-class SkinIssueSerializer(serializers.PrimaryKeyRelatedField):
-
-    def to_representation(self, value):
-        return value.name
-
-
 class ReviewSerializer(serializers.ModelSerializer):
     """
     Serialize Review Model for Review Lish
@@ -78,14 +66,20 @@ class ReviewSerializer(serializers.ModelSerializer):
         return age_range
 
     def get_skinissue(self, obj):
-        skinissue = SkinIssue.objects.filter(skinissue=obj.author.pk)
+        skinissue = list(SkinIssue.objects.filter(skinissue=obj.author.pk))
+        issuelist = []
+        for obj in skinissue:
+            issuelist.append(obj.name)
+
         # return SkinIssueSerializer(many=True, queryset=skinissue)
-        return skinissue
+        return issuelist
 
     def get_skintype(self, obj):
-        skintype = SkinType.objects.filter(skintype=obj.author.pk)
-        # return SkinTypeSerializer(many=True, queryset=skintype)
-        return skintype
+        skintype = list(SkinType.objects.filter(skintype=obj.author.pk))
+        typelist = []
+        for obj in skintype:
+            typelist.append(obj.name)
+        return typelist
 
     class Meta:
         model = Review
