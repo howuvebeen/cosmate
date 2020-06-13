@@ -1,15 +1,18 @@
 from rest_framework import serializers
 
 from .models import Review, Like, Feedback
-from users.serializers import ProfileSerializer
+from users.serializers import ProfileSerializer, SkinTypeSerializer, SkinIssueSerializer
 from products.serializers import ProductSerializer
 from products.models import Product
-from users.models import Profile
+from users.models import Profile, SkinType, SkinIssue
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.db.models import Q
 
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
+
+import json
 
 # from django.utils import six
 
@@ -27,7 +30,6 @@ class MyAuthorRelatedField(serializers.PrimaryKeyRelatedField):
         a_list = list(Profile.objects.filter(pk=value.pk))
 
         return a_list[0].user.username
-
 
 class LikeSerializer(serializers.ModelSerializer):
     """
@@ -47,18 +49,34 @@ class ReviewSerializer(serializers.ModelSerializer):
     product = MyProductRelatedField(queryset=Product.objects.all())
     # product_name = serializers.StringRelatedField(source= 'product', read_only = True)
     author = MyAuthorRelatedField(queryset=Profile.objects.all())
+    photo = serializers.ImageField(
+        use_url=True, required=False, allow_empty_file=True)
     skinissue = serializers.SerializerMethodField()
     skintype = serializers.SerializerMethodField()
     age = serializers.SerializerMethodField()
     age_range = serializers.SerializerMethodField()
 
     def get_skinissue(self, obj):
-        skinissue = obj.author.skinissue
+        alist = list(Profile.objects.filter(pk = obj.author.pk))
+        pklist = []
+        for a in alist:
+            pklist.append(a.pk)
+
+        skinissue = obj.skinissue
+        skinissue = SkinIssue.objects.filter(author__pk=obj.author.pk)
+        print(skinissue)
         return skinissue
 
     def get_skintype(self, obj):
-        skintype = obj.author.skintype
-        return skintype
+        alist = list(Profile.objects.filter(pk = obj.author.pk))
+        pklist = []
+        for a in alist:
+            pklist.append(a.pk)
+
+        skintype = obj.skintype
+        skintype = SkinType.objects.filter(author__pk__in = pklist)
+        data = serializers.serialize('json', list(skintype), fields = ('name', 'author'))
+        return data
 
     def get_age(self, obj):
         age = obj.author.age
@@ -71,7 +89,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         read_only_fields = ['pub_date', 'like_number', 'likes']
-        fields = ['pk', 'author', 'title', 'age', 'skintype', 'skinissue', 'influencer', 'product',
+        fields = ['pk', 'author', 'title', 'photo', 'age', 'skintype', 'skinissue', 'influencer', 'product',
                   'star', 'review', 'pub_date', 'like_number', 'likes', 'age_range']
 
 

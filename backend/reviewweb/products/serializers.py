@@ -57,11 +57,6 @@ class ProductSerializer(serializers.ModelSerializer):
     """
     Serialize Product Model
     """
-
-    skintype = fields.MultipleChoiceField(
-        choices=SKINTYPE_CHOICES, default='C')
-    skinissue = fields.MultipleChoiceField(
-        choices=SKINISSUE_CHOICES, default='N/A')
     photo = serializers.ImageField(
         use_url=True, required=False, allow_empty_file=True)
     reviews = serializers.StringRelatedField(many=True, read_only=True)

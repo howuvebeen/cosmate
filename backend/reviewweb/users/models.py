@@ -9,7 +9,6 @@ from .choices import GENDER_CHOICES, INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKIN
 import datetime
 from multiselectfield import MultiSelectField
 
-
 class Profile(models.Model):
     user = models.OneToOneField(
         'auth.User', related_name='profiles', on_delete=models.CASCADE)
@@ -18,10 +17,6 @@ class Profile(models.Model):
     dob = models.DateField(
         default=datetime.date.today, blank=True, null=True)
     age = models.IntegerField(default=0)
-    skintype = models.CharField(
-        max_length=20, choices=SKINTYPE_CHOICES, blank=True, null=True)
-    skinissue = models.CharField(
-        max_length=30, choices=SKINISSUE_CHOICES, blank=True, null=True)
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N", null=True)
     influencer_link = models.URLField(max_length = 200, null=True)
@@ -56,6 +51,21 @@ class Profile(models.Model):
             self.age_range = "70+"
         super(Profile, self).save(*args, **kwargs)
 
+class SkinType(models.Model):
+    name = models.CharField(max_length = 30)
+    author = models.ManyToManyField(
+        Profile, related_name = 'skintype', blank= True)
+
+    def __str__(self):
+        return self.name
+
+class SkinIssue(models.Model):
+    name = models.CharField(max_length = 30)
+    author = models.ManyToManyField(
+        Profile, related_name = 'skinissue', blank= True)
+
+    def __str__(self):
+        return self.name
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

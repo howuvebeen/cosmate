@@ -1,5 +1,5 @@
 from rest_framework import serializers, fields
-from .models import Profile
+from .models import Profile, SkinType, SkinIssue
 from reviews.models import Review
 from django.contrib.auth.models import User
 from products.serializers import ProductSerializer
@@ -19,6 +19,26 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['pk', 'username', 'email',
                   'first_name', 'last_name', 'is_active']
 
+class SkinTypeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SkinType
+        fields = ['name', 'author']
+
+    def to_representation(self, value):
+        type_list = list(SkinType.objects.all().filter(pk=value.pk))
+        return type_list[0].name
+
+class SkinIssueSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SkinIssue
+        fields = ['name', 'author']
+
+    def to_representation(self, value):
+        issue_list = list(SkinIssue.objects.all().filter(pk=value.pk))
+        return issue_list[0].name
+
 
 class MyReviewRelatedField(serializers.PrimaryKeyRelatedField):
 
@@ -33,10 +53,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     Serialize Profile model
     """
 
-    skintype = fields.MultipleChoiceField(
-        choices=SKINTYPE_CHOICES, default='C')
-    skinissue = fields.MultipleChoiceField(
-        choices=SKINISSUE_CHOICES)
     interested_product = ProductSerializer(many=True, required=False)
     user = serializers.StringRelatedField(read_only=True)
     firstname = serializers.SerializerMethodField()
@@ -45,6 +61,16 @@ class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField()
+    skintype = SkinTypeSerializer(many = True)
+    skinissue = SkinIssueSerializer(many = True)
+
+    # def get_skintype(self, obj):
+    #     skintype = obj.author.skintype
+    #     return skintype
+
+    # def get_skinissue(self, obj):
+    #     skinissue = obj.author.skinissue
+    #     return skinissue
 
     def get_last_login(self, obj):
         last_login = obj.user.last_login
@@ -78,7 +104,6 @@ class ProfileSerializer(serializers.ModelSerializer):
                   'gender', 'dob', 'age', 'age_range',
                   'skintype', 'skinissue', 'influencer', 'influencer_link', 'interested_product',
                   'reviews']
-
 
 class TokenSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()

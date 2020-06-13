@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import Profile
+from users.models import Profile, SkinType, SkinIssue
 from products.models import Product
 from users.choices import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES, AGE_RANGE_CHOICES
 from .choices import STAR_CHOICES
@@ -25,6 +25,8 @@ class Review(models.Model):
     author = models.ForeignKey(
         Profile, on_delete=models.CASCADE, null=True, blank=True, related_name='author')
     title = models.CharField(max_length=200, blank=True, null=True)
+    photo = models.ImageField(
+        blank=True)
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N")
     product = models.ForeignKey(
@@ -33,6 +35,8 @@ class Review(models.Model):
         default=5,
         choices=STAR_CHOICES
     )
+    skintype = models.ManyToManyField(SkinType, blank = True)
+    skinissue = models.ManyToManyField(SkinIssue, blank = True)
     review = models.TextField(max_length=5000, null=True, blank=True)
     pub_date = models.DateField(default=datetime.date.today)
     like_number = models.IntegerField(default=0)
