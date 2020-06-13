@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { reduxForm, Field, propTypes } from "redux-form";
+import { reduxForm, Field, Select, propTypes } from "redux-form";
+import { renderLabelField, renderTextAreaField, renderError} from "../../utils/renderUtils";
 import { required } from "redux-form-validators"
-import { renderField, renderError} from "../../utils/renderUtils";
 
 import { uploadReview } from "../../actions/authActions";
 
@@ -20,35 +20,29 @@ class UploadReview extends Component {
                     className="col col-sm-4 card mt-3 p-2"
                     onSubmit={handleSubmit}
                 >
-                    <h4 className="text-md-center">New Review</h4>
+                    <h4 className="text-md-center">Your DepCo Moisturizers Review</h4>
 
                     <fieldset className="form-group">
-                        <Field name="title" component={renderField}
-                               type="text" validate={[required({message: "This field is required."})]}
-                               placeholder="Subject"
+                    <   Field label="Rating:" name="star" component={renderLabelField}
+                               type="number" validate={[required({message: "This field is required."})]}
                         />
                     </fieldset>
 
                     <fieldset className="form-group">
-                        <Field name="star" component="select">
-                            <option value="1">★☆☆☆☆</option>
-                            <option value="2">★★☆☆☆</option>
-                            <option value="3">★★★☆☆</option>
-                            <option value="4">★★★★☆</option>
-                            <option value="5">★★★★★</option>
-                        </Field>
+                        <Field label="Review Title:" name="title" component={renderLabelField}
+                               type="text" validate={[required({message: "This field is required."})]}
+                        />
                     </fieldset>
 
                     <fieldset className="form-group">
-                        <Field name="review" component={renderField}
+                        <Field label="Review:" name="review" component={renderTextAreaField}
                                type="text" validate={[required({message: "This field is required."})]}
-                               placeholder="Review"
                         />
                     </fieldset>
 
                     <fieldset className="form-group">
                         { renderError(error) }
-                        <button action="submit" className="btn btn-primary w-100">Post</button>
+                        <button action="submit" className="btn btn-primary w-100">Write a Review</button>
                     </fieldset>
                 </form>
             </div>
@@ -56,8 +50,7 @@ class UploadReview extends Component {
     }
 }
 
-
-export default reduxForm({
-    form: "upload",
+export default (reduxForm({
+    form: "upload_review",
     onSubmit: uploadReview
-})(UploadReview);
+})(UploadReview));

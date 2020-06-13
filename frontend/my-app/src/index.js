@@ -11,7 +11,6 @@ import { authLogin, getTokenUser} from "./actions/authActions";
 import App from "./components/App";
 
 const token = localStorage.getItem("token");
-const userpk = localStorage.getItem("userpk");
 
 if (token) {
     store.dispatch(authLogin(token));

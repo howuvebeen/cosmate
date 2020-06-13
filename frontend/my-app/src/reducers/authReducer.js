@@ -10,8 +10,6 @@ export default function(state = {}, action) {
             return { ...state, user: action.payload};
         case AuthTypes.USER_PROFILE:
             return { ...state, profile: action.payload};
-        case AuthTypes.USER:
-            return { ...state, user: action.payload.id};
         case AuthTypes.PRODUCT_LIST:
             return { ...state, lproduct: action.payload};
         case AuthTypes.PRODUCT:

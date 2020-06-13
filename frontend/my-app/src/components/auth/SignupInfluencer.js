@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { reduxForm, Field, propTypes } from "redux-form";
 import { required } from "redux-form-validators"
 import { renderField, renderError } from "../../utils/renderUtils";
-import { signupUser } from "../../actions/authActions";
+import { signupUserInfluencer } from "../../actions/authActions";
 
-class Signup extends Component {
+class SignupInfluencer extends Component {
 
     static propTypes = {
         ...propTypes
@@ -24,7 +24,8 @@ class Signup extends Component {
                 >
                     <h4 className="text-md-center">Create an Account</h4>
 
-                    <p> It's quick and easy.</p>
+                    <p> We will verify that you are an influencer through your social media account. 
+                        It might take 1-3 days.</p>
 
                     <div className="form-group form-row">
                         <fieldset className="col">
@@ -71,10 +72,14 @@ class Signup extends Component {
                         />
                     </fieldset>
 
-                    { renderError(error) }
+                    <fieldset className="form-group">
+                        <Field name="link" component={renderField}
+                               type="link" validate={[required({message: "This field is required."})]}
+                               placeholder="Link to your social media account"
+                        />
+                    </fieldset>
 
-                    <Link to="/signup/influencer">Are you an influencer?</Link>
-                    <br/>
+                    { renderError(error) }
 
                     <fieldset className="form-group">
                         <button action="submit" className="btn btn-primary w-100">Create Account</button>
@@ -100,7 +105,7 @@ const validateForm = values => {
 };
 
 export default reduxForm({
-    form: "signup",
+    form: "signupinfluencer",
     validate: validateForm,
-    onSubmit: signupUser
-})(Signup);
+    onSubmit: signupUserInfluencer
+})(SignupInfluencer);

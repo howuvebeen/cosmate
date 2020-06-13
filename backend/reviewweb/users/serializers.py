@@ -57,7 +57,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     firstname = serializers.SerializerMethodField()
     lastname = serializers.SerializerMethodField()
-    age = serializers.SerializerMethodField(read_only = True)
+    age = serializers.SerializerMethodField(read_only=True)
     email = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField()
@@ -109,6 +109,7 @@ class TokenSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
     user_pk = serializers.SerializerMethodField()
     influencer = serializers.SerializerMethodField()
+    last_login = serializers.SerializerMethodField()
 
     def get_username(self, obj):
         user = obj.user.username
@@ -119,12 +120,15 @@ class TokenSerializer(serializers.ModelSerializer):
         return user
 
     def get_influencer(self, obj):
-        profile_l = list(Profile.objects.filter(pk = obj.user.pk))
+        profile_l = list(Profile.objects.filter(pk=obj.user.pk))
         profile = profile_l[0]
         influencer = profile.influencer
         return influencer
-        
+
+    def get_last_login(self, obj):
+        last_login = obj.user.last_login
+        return last_login
 
     class Meta:
         model = Token
-        fields = ['user_pk', 'username', 'influencer', 'key']
+        fields = ['user_pk', 'username', 'influencer', 'last_login', 'key']

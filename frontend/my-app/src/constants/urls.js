@@ -7,6 +7,7 @@ export const AuthUrls = {
     RESET_PASSWORD: `${ROOT_URL}users/send-reset-password-link/`,
     RESET_PASSWORD_CONFIRM: `${ROOT_URL}users/register-email/`,
     RESET_ID: `${ROOT_URL}users/send-reset-password-link/`,
+    USER_USER: `${ROOT_URL}users/users/`,
     USER_PROFILE: `${ROOT_URL}users/profiles/`,
     PRODUCT_LIST: `${ROOT_URL}products/products/`,
     PRODUCT: `${ROOT_URL}products/products/`,
