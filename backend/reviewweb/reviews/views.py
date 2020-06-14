@@ -16,6 +16,7 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 
 
+
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
@@ -29,7 +30,7 @@ class ReviewList(generics.ListCreateAPIView):
     Reviews can be categorized by author, influencer,
     product, star, review, pub_date, like_number
     """
-    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
@@ -37,13 +38,15 @@ class ReviewList(generics.ListCreateAPIView):
     filterset_fields = ['author', 'product', 'author__influencer']
 
 
+
+
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific review object
     """
-    # permission_classes = [
-    #     permissions.IsAdminUser] # change with new IsOwnerOrReadOnly
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                      IsOwnerOrReadOnly] 
 
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
@@ -54,7 +57,7 @@ class LikeList(generics.ListCreateAPIView):
     View with POST, GET request for creating like and listing likes
     Likes can be categorized by author and review
     """
-    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
@@ -65,8 +68,8 @@ class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific like object
     """
-    # permission_classes = [
-    #     permissions.IsAdminUser] # change with new IsOwnerOrReadOnly
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                      IsOwnerOrReadOnly] 
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
