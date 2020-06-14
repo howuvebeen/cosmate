@@ -8,6 +8,8 @@ from django.db.models.signals import post_save, pre_delete, post_delete
 from django.db.models import signals
 from django.dispatch import receiver
 
+from PIL import Image
+
 
 def star_sum_calculator(instance):
     """
@@ -51,6 +53,16 @@ class Review(models.Model):
 
     def create(self, *args, **kwargs):
         super(Review, self).create(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        super().save()  # saving image first
+
+        img = Image.open(self.photo.path) # Open image using self
+
+        if img.height > 300 or img.width > 300:
+            new_img = (300, 300)
+            img.thumbnail(new_img)
+            img.save(self.photo.path)
 
     def after_save_review_update(sender, instance, *args, **kwargs):
         """
