@@ -34,7 +34,7 @@ class Profile(models.Model):
     age = models.IntegerField(default=0)
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N", null=True)
-    influencer_link = models.URLField(max_length=200, null=True)
+    influencer_link = models.URLField(max_length=200, null=True, blank=True)
     age_range = models.CharField(
         max_length=20, choices=AGE_RANGE_CHOICES, default='20')
     skinissue = models.ManyToManyField(
@@ -69,7 +69,6 @@ class Profile(models.Model):
         elif self.age >= 70:
             self.age_range = "70+"
         super(Profile, self).save(*args, **kwargs)
-
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
