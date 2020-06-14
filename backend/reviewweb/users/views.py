@@ -8,7 +8,8 @@ from django.contrib.auth.models import User
 from .models import Profile
 from rest_framework.authtoken.models import Token
 from .serializers import UserSerializer, ProfileSerializer, TokenSerializer
-from reviews.permissions import IsOwnerOrReadOnly, ProfileIsOwnerOrReadOnly
+from reviews.permissions import ProfileIsOwnerOrReadOnly
+from users.permissions import IsOwnerOrReadOnly
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -36,7 +37,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     specific User object
     """
     permission_classes = [permissions.IsAuthenticated,
-                      IsOwnerOrReadOnly] 
+                          IsOwnerOrReadOnly]
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -47,7 +48,7 @@ class ProfileList(generics.ListAPIView):
     View with GET request for listing Profiles that can be categorized 
     by user, gender, dob, skintype, skinissue, influencer, interested products
     """
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
@@ -58,11 +59,11 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific Profile object
     """
-    permission_classes = [permissions.IsAuthenticated, ProfileIsOwnerOrReadOnly] 
+    permission_classes = [
+        permissions.IsAuthenticated, ProfileIsOwnerOrReadOnly]
 
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-
 
 
 class TokenDetail(generics.RetrieveAPIView):
