@@ -48,7 +48,7 @@ class ProfileList(generics.ListAPIView):
     View with GET request for listing Profiles that can be categorized 
     by user, gender, dob, skintype, skinissue, influencer, interested products
     """
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
