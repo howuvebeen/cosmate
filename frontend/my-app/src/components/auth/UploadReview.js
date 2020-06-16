@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm, Field, Select, propTypes } from "redux-form";
-import { renderLabelField, renderTextAreaField, renderError} from "../../utils/renderUtils";
+import { renderLabelSelect, renderLabelField, renderTextAreaField, renderError} from "../../utils/renderUtils";
 import { required } from "redux-form-validators"
 
 import { uploadReview } from "../../actions/authActions";
@@ -13,6 +13,28 @@ class UploadReview extends Component {
 
     render() {
         const { handleSubmit, error } = this.props;
+        const options = [
+            {
+              label: '★☆☆☆☆',
+              value: '1',
+            },
+            {
+                label: '★★☆☆☆',
+                value: '2',
+              },
+            {
+                label: '★★★☆☆',
+                value: '3',
+            },
+            {
+                label: '★★★★☆',
+                value: '4',
+            },
+            {
+                label: '★★★★★',
+                value: '5',
+            },
+          ];
 
         return (
             <div className="d-flex flex-column align-items-center">
@@ -23,8 +45,8 @@ class UploadReview extends Component {
                     <h4 className="text-md-center">Your DepCo Moisturizers Review</h4>
 
                     <fieldset className="form-group">
-                    <   Field label="Rating:" name="star" component={renderLabelField}
-                               type="number" validate={[required({message: "This field is required."})]}
+                        <Field label="Rating:" name="star" component={renderLabelSelect}
+                                options={options} validate={[required({message: "This field is required."})]}
                         />
                     </fieldset>
 

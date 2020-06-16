@@ -73,7 +73,6 @@ class Signup extends Component {
 
                     { renderError(error) }
 
-                    <Link to="/signup/influencer">Are you an influencer?</Link>
                     <br/>
 
                     <fieldset className="form-group">

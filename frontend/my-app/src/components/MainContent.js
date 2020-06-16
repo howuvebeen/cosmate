@@ -22,6 +22,7 @@ import Product from "./auth/Product";
 import UploadReview from "./auth/UploadReview";
 import EditReview from "./auth/EditReview";
 import DeleteReview from "./auth/DeleteReview";
+import InterestedProduct from "./auth/InterestedProduct";
 import NoMatch from "./NoMatch";
 
 import LikeControl from "./auth/Like";
@@ -51,9 +52,7 @@ const MainContent = () => (
             <Route exact path="/skincare/moisturizers/:product/review/upload" component={UploadReview}/>
             <Route exact path="/skincare/moisturizers/:product/review/edit" component={EditReview}/>
             <Route exact path="/skincare/moisturizers/:product/review/delete" component={DeleteReview}/>
-
-            <Route exact path="/like" component={LikeControl}/>
-
+            <Route exact path="/interest" component={InterestedProduct}/>
             <Route component={NoMatch}/>
         </Switch>
     </div>

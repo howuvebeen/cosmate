@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm, Field, propTypes } from "redux-form";
+import { Link } from "react-router-dom";
 
 import { renderField, renderTextAreaField, renderError} from "../../utils/renderUtils";
 import { deleteReview } from "../../actions/authActions";

@@ -30,6 +30,7 @@ export function loginUser(formValues, dispatch, props) {
       // Store the changed token to token in localStorage
       localStorage.setItem("token", token);
       const lastlogin = localStorage.getItem("lastlogin");
+
       // redirect to the route '/'
       if (lastlogin=="null"){
         history.push("/profile/complete");
@@ -392,16 +393,15 @@ export function uploadReview(formValues, dispatch, props) {
   const uploadReviewUrl = AuthUrls.REVIEW;
 
   const data = Object.assign(formValues, {
+    star: formValues.star.value,
     product: product,
     author: userpk,
     influencer: influencer
   });
-  console.log(data);
 
   return axios
     .post(uploadReviewUrl, data)
     .then((response) => {
-      console.log(response);
       dispatch(
         notifSend({
           message:
@@ -479,6 +479,29 @@ export function likeReview(formValues) {
     .then((response) => {
       // redirect to reset done page
       history.push("/review/edit");
+    })
+    .catch((error) => {
+      // If request is bad...
+      // Show an error to the user
+      const processedError = processServerError(error.response.data);
+      throw new SubmissionError(processedError);
+    });
+}
+
+
+export function sorting(formValues, dispatch) {
+  const skintype = formValues.skintype;
+  const ordering = formValues.sortby.value;
+
+  const sortingUrl = (skintype != null) ? 
+                    AuthUrls.PRODUCT+"?average_star=&company=&name=&ordering="+ordering+"&skinissue=&skintype="+skintype : 
+                    AuthUrls.PRODUCT+"?average_star=&company=&name=&ordering="+ordering+"&skinissue=&skintype=";
+
+  return axios
+    .get(sortingUrl)
+    .then((response) => {
+      // redirect to reset done page
+      dispatch(setproductList(response.data));
     })
     .catch((error) => {
       // If request is bad...
