@@ -41,17 +41,12 @@ class MyReviewRelatedField(serializers.PrimaryKeyRelatedField):
 
 
 class InterestSerializer(serializers.ModelSerializer):
-    product_pk = serializers.SerializerMethodField()
     product_name = serializers.SerializerMethodField()
     product_photo = serializers.SerializerMethodField()
     product_company = serializers.SerializerMethodField()
     product_price = serializers.SerializerMethodField()
     product_quantity = serializers.SerializerMethodField()
     product_average_star = serializers.SerializerMethodField()
-
-    def get_product_pk(self, obj):
-        product_pk = obj.product.pk
-        return product_pk
 
     def get_product_name(self, obj):
         product_name = obj.product.name
@@ -79,7 +74,7 @@ class InterestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Interest
-        fields = ['pk', 'product_pk', 'product_name', 'product_photo', 'product_company',
+        fields = ['pk', 'author', 'product', 'product_name', 'product_photo', 'product_company',
                   'product_price', 'product_quantity', 'product_average_star']
 
 

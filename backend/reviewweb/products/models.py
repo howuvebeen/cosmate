@@ -9,7 +9,7 @@ from multiselectfield import MultiSelectField
 class Company(models.Model):
     name = models.CharField(max_length=150)
     year = models.DateField(default=datetime.date.today, blank=True, null=True)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
