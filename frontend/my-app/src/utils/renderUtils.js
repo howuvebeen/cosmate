@@ -7,7 +7,7 @@ export const renderCheckbox = ({ input, label, name, type, meta: { touched, erro
     <div>
         <div>
             <label>{label}
-            <input {...input} type={type} name={name} onChange={input => input.handleInputChange}/>
+            <input {...input} type={type} name={name} onChange={value => input.onChange(value)}/>
             </label>
         </div>
         {touched && ((error && <div className="alert alert-danger p-1"><small>{error}</small></div>))}

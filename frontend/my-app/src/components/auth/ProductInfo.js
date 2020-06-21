@@ -4,9 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getTokenUser } from "../../actions/authActions";
 import { getProduct } from "../../actions/authActions";
-import { getReviewList } from "../../actions/authActions";
 
 class ProductInfo extends Component {
     static propTypes = {
@@ -15,10 +13,9 @@ class ProductInfo extends Component {
     };
   
     componentWillMount() {
-      this.props.getProduct(this.props);
-      console.log(this.props);
+      this.props.getProduct(this.props.UR);
     }
-  
+
     Tag(type) {
       if (type != null){
         var arrayLength = type.length;
@@ -54,51 +51,71 @@ class ProductInfo extends Component {
         }
       }
     };
- 
-    Space(ingredient) {
-        if (ingredient != null){
-          var arrayLength = ingredient.length;
-          var result = ""; 
-          for (var i = 0; i < arrayLength; i++) {
-            var result = result.concat(ingredient[i]);
-            var result = result.concat(" ");
-          }
-          return result;
-        }
-    };  
 
-    renderProduct() {
-      const product = this.props.product;
-  
-      if (product) {
-        return (
-          <div className="p-5">
-            <p>{product.company}</p>
-            <h4>{product.name}</h4>
-            <p>{this.Star(product.average_star)}</p>
-            <p>{this.Tag(product.skintype)}</p>
-            <p>{this.Space(product.ingredients)}</p>
-          </div>
-        );
-      }
-      return null;
-    }
-  
-    render() {
+  renderProduct() {
+    const product = this.props.product;
+    const authenticated = this.props.authenticated;
+    let link; 
+
+    if (product && !(authenticated)) {
       return (
         <div>
-          {this.renderProduct()}
-          <hr />
+          <div class="p-5">
+            <p>{product.company}</p>
+            <h2>{product.name}</h2>
+            <p>{this.Star(product.average_star)} {product.average_star} ({product.review_number})</p>
+            <p>{product.description}</p>
+            <p>{this.Tag(product.skintype)}</p>
+            <p>{product.ingredients}</p>
+          </div>
+          <hr/>
+          <div class="p-3 text-center">
+            <p>{this.Star(product.average_star)}{product.average_star}</p>
+          </div>
+        </div>
+      );
+    } else if (product && authenticated) {
+      return (
+        <div>
+          <div class="p-5">
+            <p>{product.company}</p>
+            <h4>{product.name}</h4>
+            <p>{this.Star(product.average_star)} {product.average_star} ({product.review_number})</p>
+            <p>{product.description}</p>
+            <p>{this.Tag(product.skintype)}</p>
+            <button className="btn btn-light mr-3">Ingredients</button>
+            <button className="btn btn-warning">Add to Interested Product</button>
+          </div>
+          <hr/>
+          <div class="p-3 text-center">
+            <h2>{product.average_star}</h2>
+            <h2>{this.Star(product.average_star)}</h2>
+            <p>{product.review_number} Reviews </p>
+            <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/upload`} class="text-md-left"><button className="btn btn-info">Write Review</button></Link>
+          </div>
         </div>
       );
     }
+    return null;
   }
+
+  
+  render() {
+    return (
+      <div>
+        {this.renderProduct()}
+        <hr />
+      </div>
+    );
+  }
+}
   
   function mapStateToProps(state) {
     return {
-      product: state.auth.product
+      product: state.auth.product,
+      authenticated: state.auth.authenticated
     };
   }
   
-  export default connect(mapStateToProps, { getProduct})(ProductInfo);
+  export default connect(mapStateToProps, { getProduct })(ProductInfo);
   

@@ -26,9 +26,9 @@ class UserProfile extends Component {
           var arrayLength = type.length;
           var result = "";
           for (var i = 0; i < arrayLength; i++) {
-            if (type[i] == "O") {
+            if (type[i] == "Oily") {
               var result = result.concat("Oily");
-            } else if (type[i] == "D") {
+            } else if (type[i] == "Dry") {
               var result = result.concat("Dry");
             } else {
               var result = result.concat("Combinational");

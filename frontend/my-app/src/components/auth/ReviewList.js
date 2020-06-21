@@ -30,8 +30,8 @@ class ReviewList extends Component {
     }
 
     componentWillMount() {
-        this.props.getProduct(this.props);
-        this.props.getReviewList(this.props);
+        this.props.getProduct(this.props.UR);
+        this.props.getReviewList(this.props.UR);
     
         const token = localStorage.getItem("token");
         this.props.getTokenUser(token);
@@ -118,192 +118,196 @@ class ReviewList extends Component {
       }
     };
 
-    renderReviewList() {
+    renderInfluencerA(review) {
       const product = this.props.product;
-      const reviews = this.props.review;
-      const authenticated = this.props.authenticated;
-      const user = this.props.user;
-      const isLoggedIn = this.state.isLoggedIn;
-      let button;
-  
-      if (isLoggedIn) {
-        button = <LikeButton onClick={this.handleLogoutClick} />;
-      } else {
-        button = <UnlikeButton onClick={this.handleLoginClick} />;
-      }
-  
-      if (reviews && product && user) {
-        return (
-          <div class="col p-3">
-            <h4>Influencer Reviews</h4>
-            {reviews.map((review) => {
-              if (review.influencer == "Y"){
-                if (authenticated && user.username == review.author){
-                  return (
-                    <div class="row p-3 ml-3">
-                      <div class="col-md-3">
-                        <h4>{review.author} ✅</h4>
-                        <p>{review.pub_date}</p>
-                        <p>Skin Type: {this.Tag(review.skintype)}</p>
-                        <p>Skin Issue: {this.List(review.skinissue)}</p>
-                        <p>Age: {review.age}</p>
-                      </div>
-                      <div class="col-md-6">
-                        <p>{this.Star(review.star)}</p>
-                        <h5>{review.title}</h5>
-                        <p>{review.review}</p>
-                      </div>
-                      <div class="ml-auto col-md-1">
-                        {button}
-                        <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/edit`} class="text-md-left"><button className="btn btn-light">Edit</button></Link>
-                        <Link to={`/skincare/moisturizers/${product.pk}/review/delete`} class="text-md-left"><button className="btn btn-light">Delete</button></Link>
-                      </div>
-                    </div>
-                  );
-                } else if (authenticated){
-                  return (
-                    <div class="row p-3 ml-3">
-                      <div class="col-md-3">
-                        <h4>{review.author} ✅</h4>
-                        <p>{review.pub_date}</p>
-                        <p>Skin Type: {this.Tag(review.skintype)}</p>
-                        <p>Skin Issue: {this.List(review.skinissue)}</p>
-                        <p>Age: {review.age}</p>
-                      </div>
-                      <div class="col-md-6">
-                        <p>{this.Star(review.star)}</p>
-                        <h5>{review.title}</h5>
-                        <p>{review.review}</p>
-                      </div>
-                      <div class="ml-auto col-md-1">
-                        {button}
-                      </div>
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div class="row p-3 ml-3">
-                      <div class="col-md-3">
-                        <h4>{review.author} ✅</h4>
-                        <p>{review.pub_date}</p>
-                        <p>Skin Type: {this.Tag(review.skintype)}</p>
-                        <p>Skin Issue: {this.List(review.skinissue)}</p>
-                        <p>Age: {review.age}</p>
-                      </div>
-                      <div class="col-md-6">
-                        <p>{this.Star(review.star)}</p>
-                        <h5>{review.title}</h5>
-                        <p>{review.review}</p>
-                      </div>
-                    </div>
-                  );
-                }
-              } else {
-                return null;
-              }
-            })}
-            <hr />
-            <h4>Reviews</h4>
-            {reviews.map((review) => {
-              if (review.influencer == "N"){
-                if (authenticated && user.username == review.author){
-                  return (
-                    <div class="row p-3 ml-3">
-                      <div class="col-md-3">
-                        <h4>{review.author}</h4>
-                        <p>{review.pub_date}</p>
-                        <p>Skin Type: {this.Tag(review.skintype)}</p>
-                        <p>Skin Issue: {this.List(review.skinissue)}</p>
-                        <p>Age: {review.age}</p>
-                      </div>
-                      <div class="col-md-6">
-                        <p>{this.Star(review.star)}</p>
-                        <h5>{review.title}</h5>
-                        <p>{review.review}</p>
-                      </div>
-                      <div class="ml-auto col-md-1">
-                        {button}
-                        <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/edit`} class="text-md-left"><button className="btn btn-light">Edit</button></Link>
-                        <Link to={`/skincare/moisturizers/${product.pk}/review/delete`} class="text-md-left"><button className="btn btn-light">Delete</button></Link>
-                      </div>
-                    </div>
-                  );
-                } else if (authenticated){
-                  return (
-                    <div class="row p-3 ml-3">
-                      <div class="col-md-3">
-                        <h4>{review.author}</h4>
-                        <p>{review.pub_date}</p>
-                        <p>Skin Type: {this.Tag(review.skintype)}</p>
-                        <p>Skin Issue: {this.List(review.skinissue)}</p>
-                        <p>Age: {review.age}</p>
-                      </div>
-                      <div class="col-md-6">
-                        <p>{this.Star(review.star)}</p>
-                        <h5>{review.title}</h5>
-                        <p>{review.review}</p>
-                      </div>
-                      <div class="ml-auto col-md-1">
-                        {button}
-                      </div>
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div class="row p-3 ml-3">
-                      <div class="col-md-3">
-                        <h4>{review.author}</h4>
-                        <p>{review.pub_date}</p>
-                        <p>Skin Type: {this.Tag(review.skintype)}</p>
-                        <p>Skin Issue: {this.List(review.skinissue)}</p>
-                        <p>Age: {review.age}</p>
-                      </div>
-                      <div class="col-md-6">
-                        <p>{this.Star(review.star)}</p>
-                        <h5>{review.title}</h5>
-                        <p>{review.review}</p>
-                      </div>
-                    </div>
-                  );
-                }
-              } else {
-                return (null);
-              }
-            })}
-            <div class="ml-auto text-right">
-              <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/upload`} class="text-md-left"><button className="btn btn-info">New Review</button></Link>
-            </div>      
+
+      return (
+        <div>
+          <div class="row p-3 ml-3">
+            <div class="col-md-6">
+              <h4>{review.author}✅</h4>
+              <p>{review.pub_date}</p>
+              <p>Skin Type: {this.Tag(review.skintype)}</p>
+              <p>Skin Issue: {this.List(review.skinissue)}</p>
+              <p>Age: {review.age}</p>
+            </div>
+            <div class="col-md-5 pt-2">
+              <p>{this.Star(review.star)}</p>
+              <h5>{review.title}</h5>
+              <p>{review.review}</p>
+              <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
+              <Link to={`/skincare/moisturizers/${product.pk}/review/delete`} class="text-md-left">Delete</Link>
+            </div>
+            <div class="pr-auto pt-2">
+              <button action="submit" className="btn btn-light">Like</button>
+            </div>
           </div>
-        );
-      }
-      return null;
+          <hr/>
+        </div>
+      )
+    };
+
+    renderInfluencerN(review) {
+      return (
+        <div>
+          <div class="row p-3 ml-3">
+            <div class="col-md-6">
+              <h4>{review.author}✅</h4>
+              <p>{review.pub_date}</p>
+              <p>Skin Type: {this.Tag(review.skintype)}</p>
+              <p>Skin Issue: {this.List(review.skinissue)}</p>
+              <p>Age: {review.age}</p>
+            </div>
+            <div class="col-md-5 pt-2">
+              <p>{this.Star(review.star)}</p>
+              <h5>{review.title}</h5>
+              <p>{review.review}</p>
+            </div>
+            <div class="pr-auto pt-2">
+              <button action="submit" className="btn btn-light">Like</button>
+            </div>
+          </div>
+          <hr />
+        </div>
+      )
+    };
+
+    renderNoninfluencerA(review) {
+      const product = this.props.product;
+
+      return (
+        <div>
+          <div class="row p-3 ml-3">
+            <div class="col-md-6">
+              <h4>{review.author}</h4>
+              <p>{review.pub_date}</p>
+              <p>Skin Type: {this.Tag(review.skintype)}</p>
+              <p>Skin Issue: {this.List(review.skinissue)}</p>
+              <p>Age: {review.age}</p>
+            </div>
+            <div class="col-md-5 pt-2">
+              <p>{this.Star(review.star)}</p>
+              <h5>{review.title}</h5>
+              <p>{review.review}</p>
+              <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
+              <Link to={`/skincare/moisturizers/${product.pk}/review/delete`} class="text-md-left">Delete</Link>
+            </div>
+            <div class="pr-auto pt-2">
+              <button action="submit" className="btn btn-light">Like</button>
+            </div>
+          </div>
+          <hr />
+        </div>
+      )
+    };
+
+    renderNoninfluencerN(review) {
+      return (
+        <div>
+          <div class="row p-3 ml-3">
+            <div class="col-md-6">
+              <h4>{review.author}</h4>
+              <p>{review.pub_date}</p>
+              <p>Skin Type: {this.Tag(review.skintype)}</p>
+              <p>Skin Issue: {this.List(review.skinissue)}</p>
+              <p>Age: {review.age}</p>
+            </div>
+            <div class="col-md-5 pt-2">
+              <p>{this.Star(review.star)}</p>
+              <h5>{review.title}</h5>
+              <p>{review.review}</p>
+            </div>
+            <div class="pr-auto pt-2">
+              <button action="submit" className="btn btn-light">Like</button>
+            </div>
+          </div>
+          <hr />
+        </div>
+      )
+    };
+
+    renderTitleI(){
+      return(
+        <div>
+          <h4 class="card p-2">Influencer Reviews</h4>
+        </div>
+      )
     }
-  
+
+    renderTitleNI(){
+      return(
+        <div>
+          <h4 class="card p-2">Reviews</h4>
+        </div>
+      )
+    }
+
+    renderReviewList() {
+      const user = this.props.user;
+
+      const reviews = this.props.review;
+      const reviewI = [];
+      const reviewNI = [];
+
+      let result = []; 
+
+      if (reviews != null){
+        let review;
+        let mine = 0;
+        let i;
+        for (i = 0; i < reviews.length; i++) {
+          review = reviews[i];
+          if (review.influencer == "Y"){
+            if (mine != 0 || user.username != review.author){
+              reviewI.push(i);
+            } else {
+              mine = 1;
+              reviewI.unshift(i)
+            }
+          } else if (review.influencer == "N"){
+            if (mine != 0 || user.username != review.author){
+              reviewNI.push(i)
+            } else {
+              mine = -1;
+              reviewNI.unshift(i)
+            } 
+          }
+        }
+
+        result.push(this.renderTitleI());
+        if (reviewI.length > 0) {
+          for (i = 0; i < reviewI.length; i++) {
+            review = reviews[reviewI[i]];
+            if (mine == 1) {
+              result.push(this.renderInfluencerA(review));
+            } else {
+              result.push(this.renderInfluencerN(review));
+            }
+          }
+        }
+
+        result.push(this.renderTitleNI());
+        if (reviewNI.length > 0) {
+          for (i = 0; i < reviewNI.length; i++) {
+            review = reviews[reviewNI[i]];
+            if (mine == -1) {
+              result.push(this.renderNoninfluencerA(review));
+            } else {
+              result.push(this.renderNoninfluencerN(review));
+            }
+          }
+        }
+      } return result;
+    }
+
+    
     render() {
       return (
         <div>
-          {this.renderProduct()}
-          <hr />
           {this.renderReviewList()}
         </div>
       );
     }
-  }
-  
-  function LikeButton(props) {
-    return (
-      <button onClick={props.onClick}>
-        Like
-      </button>
-    );
-  }
-  
-  function UnlikeButton(props) {
-    return (
-      <button onClick={props.onClick}>
-        Unlike
-      </button>
-    );
   }
   
   function mapStateToProps(state) {

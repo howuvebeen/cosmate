@@ -20,11 +20,10 @@ class DeleteReview extends Component {
                     className="col col-sm-4 card mt-3 p-2"
                     onSubmit={handleSubmit}
                 >
-                    <h4 className="text-md-center">Are you sure you want to delete the reivew?</h4>
+                    <p className="text-md-center">Are you sure you want to delete the reivew?</p>
                     <div class="row">
                         <fieldset className="form-group col-sm-12 text-center">
-                            <button className="btn btn-primary btn-md center-block mr-3 col-md-5">No</button>
-                            <button action="submit" className="btn btn-danger btn-md center-block ml-3 col-md-5">Yes</button>
+                            <button action="submit" className="btn btn-danger w-100">Yes</button>
                         </fieldset>
                     </div>
                 </form>

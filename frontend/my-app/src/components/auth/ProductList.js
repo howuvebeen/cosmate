@@ -39,7 +39,7 @@ class ProductList extends Component {
         if (lproducts) {
             return (
                 <div>
-                    <div class="row ml-3 pl-3">
+                    <div class="row ml-3 pl-4">
                         {lproducts.slice(0,3).map((lproduct, rank) => (
                             <div class="m-3 card">
                                 <div class="m-5">

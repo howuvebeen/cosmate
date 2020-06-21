@@ -260,8 +260,14 @@ export function userProfileEdit(formValues, dispatch, props) {
   const profileUrl = AuthUrls.USER_PROFILE+userpk+"/";
   const userUrl = AuthUrls.USER_USER+userpk+"/";
 
-  const requestOne = axios.put(profileUrl, formValues);
-  const requestTwo = axios.put(userUrl, formValues);
+  const data = Object.assign(formValues, {
+    skintype: type(formValues)
+  });
+  
+  console.log(data);
+
+  const requestOne = axios.put(profileUrl, data);
+  const requestTwo = axios.put(userUrl, data);
 
   return axios
     .all([requestOne, requestTwo])
@@ -488,14 +494,36 @@ export function likeReview(formValues) {
     });
 }
 
+function type(skintype){
+  if (skintype.oily == true){
+    return 2;
+  } else if (skintype.dry == true){
+    return 1;
+  } else if (skintype.neutral == true){
+    return 4;
+  } else if (skintype.combinational == true){
+    return 3;
+  } else {
+    return null;
+  }
+}
+
+function url(skintype, ordering){
+  if (skintype == null){
+    return AuthUrls.PRODUCT_OR+ordering;
+  } else if (ordering == null){
+    return AuthUrls.PRODUCT_ST+skintype;
+  } else {
+    return AuthUrls.PRODUCT+"?average_star=&company=&name=&ordering="+ordering+"&skintype="+skintype;
+  }
+}
 
 export function sorting(formValues, dispatch) {
-  const skintype = formValues.skintype;
-  const ordering = formValues.sortby.value;
+  const skintype = type(formValues);
 
-  const sortingUrl = (skintype != null) ? 
-                    AuthUrls.PRODUCT+"?average_star=&company=&name=&ordering="+ordering+"&skinissue=&skintype="+skintype : 
-                    AuthUrls.PRODUCT+"?average_star=&company=&name=&ordering="+ordering+"&skinissue=&skintype=";
+  const ordering = (formValues.sortby != null) ? formValues.sortby.value : null;
+
+  const sortingUrl = url(skintype, ordering);
 
   return axios
     .get(sortingUrl)
@@ -509,6 +537,53 @@ export function sorting(formValues, dispatch) {
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
+}
+
+
+export function sortingReview(formValues, dispatch) {
+  const skintype = type(formValues);
+
+  const ordering = (formValues.sortby != null) ? formValues.sortby.value : null;
+
+  const sortingUrl = url(skintype, ordering);
+
+  return axios
+    .get(sortingUrl)
+    .then((response) => {
+      // redirect to reset done page
+      dispatch(setproductList(response.data));
+    })
+    .catch((error) => {
+      // If request is bad...
+      // Show an error to the user
+      const processedError = processServerError(error.response.data);
+      throw new SubmissionError(processedError);
+    });
+}
+
+function setInterestedProduct(payload) {
+  return {
+    type: AuthTypes.INTEREST,
+    payload: payload
+  };
+}
+
+export function getInterestedProduct() {
+  const userpk = localStorage.getItem("userpk");
+  const interestproductUrl = AuthUrls.INTEREST+userpk;
+
+  return function (dispatch) {
+    axios
+      .get(interestproductUrl)
+      .then((response) => {
+        dispatch(setInterestedProduct(response.data));
+      })
+      .catch((error) => {
+        // If request is bad...
+        // Show an error to the user
+        // TODO: send notification and redirect
+      });
+  };
 }
 
 // util functions

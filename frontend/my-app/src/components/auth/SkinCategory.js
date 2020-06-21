@@ -6,7 +6,7 @@ class SkinCategory extends Component {
     render() {
         return (
             <div>
-                <h3 class="mt-4 mb-5">Moisturizers Ranking</h3>
+                <h3 class="mt-5 ml-3 mb-5">Moisturizers Ranking</h3>
                 <div class="d-flex flex-row">
                     <Sorting class="col-md-4"/>
                     <ProductList class="col-md-6"/>
