@@ -4,7 +4,6 @@ from .models import Company, Ingredient, Product, Category
 from users.models import SkinType, SkinIssue
 
 
-
 class MyCompanyRelatedField(serializers.PrimaryKeyRelatedField):
     """
     Custom Related Field for Company Model
@@ -22,6 +21,7 @@ class MyIngredientRelatedField(serializers.PrimaryKeyRelatedField):
 
     def to_representation(self, value):
         return value.name
+
 
 class MySkinTypeIssueRelatedField(serializers.PrimaryKeyRelatedField):
     def to_representation(self, value):
@@ -71,17 +71,20 @@ class ProductSerializer(serializers.ModelSerializer):
         many=True, queryset=Ingredient.objects.all())
     category = MyCategoryRelatedField(
         many=True, queryset=Category.objects.all())
-    skintype = MySkinTypeIssueRelatedField(many=True, queryset=SkinType.objects.all())
-    skinissue = MySkinTypeIssueRelatedField(many=True, queryset=SkinIssue.objects.all())
+    skintype = MySkinTypeIssueRelatedField(
+        many=True, queryset=SkinType.objects.all())
+    skinissue = MySkinTypeIssueRelatedField(
+        many=True, queryset=SkinIssue.objects.all())
+
     class Meta:
         model = Product
         read_only_fields = ['pk', 'reviews', 'average_star', 'price', 'star_number',
-                            'star_sum', 'review_number', 'profile',
+                            'star_sum', 'review_number',
                             'rank_score']
         fields = ['pk', 'name', 'photo', 'price', 'quantity', 'description', 'company', 'category',
                   'skintype', 'skinissue',  'ingredients', 'reviews',
                   'average_star', 'star_number', 'star_sum', 'review_number',
-                  'profile', 'rank_score']
+                  'rank_score']
 
 
 class CategorySerializer(serializers.ModelSerializer):

@@ -30,7 +30,7 @@ class ProductList(generics.ListCreateAPIView):
     category, skintype, skinissue, and ingredients.
     Filtering by different category is possible.
     """
-    permission_classes = [IsAdminUserOrReadOnly]
+    # permission_classes = [IsAdminUserOrReadOnly]
 
     queryset = Product.objects.all().order_by('-rank_score')
     serializer_class = ProductSerializer

@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import Profile, SkinType, SkinIssue
+from users.models import SkinType, SkinIssue
 from users.choices import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES
 import datetime
 from django.db.models import signals
@@ -37,7 +37,7 @@ class Product(models.Model):
     price = models.IntegerField(default=0)
     quantity = models.IntegerField(default=0)
     company = models.ForeignKey(
-        Company, on_delete=models.CASCADE, related_name='products')
+        Company, on_delete=models.CASCADE, related_name='products', null=True)
     category = models.ManyToManyField(Category)
     skintype = models.ManyToManyField(SkinType)
     skinissue = models.ManyToManyField(SkinIssue)
@@ -46,8 +46,6 @@ class Product(models.Model):
     star_number = models.IntegerField(default=0)
     star_sum = models.FloatField(default=0)
     review_number = models.IntegerField(default=0)
-    profile = models.ManyToManyField(
-        Profile, related_name='interested_product', blank=True)
     rank_score = models.FloatField(default=0.0)
 
     def __str__(self):

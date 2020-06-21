@@ -39,10 +39,14 @@ class MyReviewRelatedField(serializers.PrimaryKeyRelatedField):
 
         return a_list[0].user.username
 
+
 class InterestSerializer(serializers.ModelSerializer):
+
+    product = ProductSerializer()
+
     class Meta:
         model = Interest
-        fields = ['author', 'product']
+        fields = ['pk', 'product']
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -50,7 +54,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     Serialize Profile model
     """
 
-    interest = serializers.PrimaryKeyRelatedField(many = True, read_only=True)
+    interest = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     user = serializers.StringRelatedField(read_only=True)
     firstname = serializers.SerializerMethodField()
     lastname = serializers.SerializerMethodField()
@@ -58,7 +62,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField()
-    skintype = SkinTypeSerializer(many=True, queryset=SkinType.objects.all(), required = False)
+    skintype = SkinTypeSerializer(
+        many=True, queryset=SkinType.objects.all(), required=False)
     skinissue = SkinIssueSerializer(
         many=True, queryset=SkinIssue.objects.all())
 
