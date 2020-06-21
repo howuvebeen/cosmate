@@ -1,5 +1,5 @@
 from rest_framework import serializers, fields
-from .models import Profile, SkinType, SkinIssue
+from .models import Profile, SkinType, SkinIssue, Interest
 from reviews.models import Review
 from django.contrib.auth.models import User
 from products.serializers import ProductSerializer
@@ -39,13 +39,18 @@ class MyReviewRelatedField(serializers.PrimaryKeyRelatedField):
 
         return a_list[0].user.username
 
+class InterestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Interest
+        fields = ['author', 'product']
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     """
     Serialize Profile model
     """
 
-    interested_product = ProductSerializer(many=True, required=False)
+    interest = serializers.PrimaryKeyRelatedField(many = True, read_only=True)
     user = serializers.StringRelatedField(read_only=True)
     firstname = serializers.SerializerMethodField()
     lastname = serializers.SerializerMethodField()
@@ -53,7 +58,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField()
-    skintype = SkinTypeSerializer(many=True, queryset=SkinType.objects.all())
+    skintype = SkinTypeSerializer(many=True, queryset=SkinType.objects.all(), required = False)
     skinissue = SkinIssueSerializer(
         many=True, queryset=SkinIssue.objects.all())
 
@@ -91,11 +96,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        read_only_fields = ['user', 'interested_product',
+        read_only_fields = ['user',
                             'last_login', 'age_range']
         fields = ['user', 'firstname', 'lastname', 'email', 'last_login',
                   'gender', 'dob', 'age', 'age_range',
-                  'skintype', 'skinissue', 'influencer', 'influencer_link', 'interested_product',
+                  'skintype', 'skinissue', 'influencer', 'influencer_link', 'interest',
                   'reviews']
 
 

@@ -5,9 +5,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Interest
 from rest_framework.authtoken.models import Token
-from .serializers import UserSerializer, ProfileSerializer, TokenSerializer
+from .serializers import UserSerializer, ProfileSerializer, TokenSerializer, InterestSerializer
 from reviews.permissions import ProfileIsOwnerOrReadOnly
 from users.permissions import IsOwnerOrReadOnly
 
@@ -36,8 +36,8 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific User object
     """
-    permission_classes = [permissions.IsAuthenticated,
-                          IsOwnerOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticated,
+    #                       IsOwnerOrReadOnly]
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -48,7 +48,7 @@ class ProfileList(generics.ListAPIView):
     View with GET request for listing Profiles that can be categorized 
     by user, gender, dob, skintype, skinissue, influencer, interested products
     """
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
@@ -59,8 +59,8 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific Profile object
     """
-    permission_classes = [
-        permissions.IsAuthenticated, ProfileIsOwnerOrReadOnly]
+    # permission_classes = [
+    #     permissions.IsAuthenticated, ProfileIsOwnerOrReadOnly]
 
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
@@ -72,3 +72,11 @@ class TokenDetail(generics.RetrieveAPIView):
     queryset = Token.objects.all()
     serializer_class = TokenSerializer
     lookup_field = 'key'
+
+class InterestList(generics.ListAPIView):
+    queryset = Interest.objects.all()
+    serializer_class = InterestSerializer
+
+class InterestDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Interest.objects.all()
+    serializer_class = InterestSerializer
