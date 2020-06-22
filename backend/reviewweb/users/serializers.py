@@ -39,10 +39,43 @@ class MyReviewRelatedField(serializers.PrimaryKeyRelatedField):
 
         return a_list[0].user.username
 
+
 class InterestSerializer(serializers.ModelSerializer):
+    product_name = serializers.SerializerMethodField()
+    product_photo = serializers.SerializerMethodField()
+    product_company = serializers.SerializerMethodField()
+    product_price = serializers.SerializerMethodField()
+    product_quantity = serializers.SerializerMethodField()
+    product_average_star = serializers.SerializerMethodField()
+
+    def get_product_name(self, obj):
+        product_name = obj.product.name
+        return product_name
+
+    def get_product_photo(self, obj):
+        product_photo = obj.product.photo.url
+        return product_photo
+
+    def get_product_company(self, obj):
+        product_company = obj.product.company.name
+        return product_company
+
+    def get_product_price(self, obj):
+        product_price = obj.product.price
+        return product_price
+
+    def get_product_quantity(self, obj):
+        product_quantity = obj.product.quantity
+        return product_quantity
+
+    def get_product_average_star(self, obj):
+        product_average_star = obj.product.average_star
+        return product_average_star
+
     class Meta:
         model = Interest
-        fields = ['author', 'product']
+        fields = ['pk', 'author', 'product', 'product_name', 'product_photo', 'product_company',
+                  'product_price', 'product_quantity', 'product_average_star']
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -50,7 +83,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     Serialize Profile model
     """
 
-    interest = serializers.PrimaryKeyRelatedField(many = True, read_only=True)
+    interest = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     user = serializers.StringRelatedField(read_only=True)
     firstname = serializers.SerializerMethodField()
     lastname = serializers.SerializerMethodField()
@@ -58,17 +91,10 @@ class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField()
-    skintype = SkinTypeSerializer(many=True, queryset=SkinType.objects.all(), required = False)
+    skintype = SkinTypeSerializer(
+        many=True, queryset=SkinType.objects.all(), required=False)
     skinissue = SkinIssueSerializer(
         many=True, queryset=SkinIssue.objects.all())
-
-    # def get_skintype(self, obj):
-    #     skintype = obj.author.skintype
-    #     return skintype
-
-    # def get_skinissue(self, obj):
-    #     skinissue = obj.author.skinissue
-    #     return skinissue
 
     def get_last_login(self, obj):
         last_login = obj.user.last_login
@@ -90,9 +116,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         return email
 
     def get_reviews(self, obj):
-        from reviews.serializers import ProfileReviewSerializer
+        from reviews.serializers import ReviewSerializer
         reviews = Review.objects.filter(author=obj.pk)
-        return ProfileReviewSerializer(reviews, many=True).data
+        return ReviewSerializer(reviews, many=True).data
 
     class Meta:
         model = Profile

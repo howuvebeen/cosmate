@@ -14,6 +14,8 @@ export default function(state = {}, action) {
             return { ...state, lproduct: action.payload};
         case AuthTypes.PRODUCT:
             return { ...state, product: action.payload};
+        case AuthTypes.INTEREST:
+            return { ...state, interest: action.payload};
         case AuthTypes.REVIEW_LIST:
             return { ...state, review: action.payload};
     }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm, Field, Select, propTypes } from "redux-form";
-import { renderField, renderSelect, renderError} from "../../utils/renderUtils";
+import { renderCheckbox, renderSelect, renderField } from "../../utils/renderUtils";
 
 import { userProfileEdit } from "../../actions/authActions";
 
@@ -13,6 +13,10 @@ class UserProfileEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            dry: false,
+            oily: false,
+            neutral: false,
+            combinational: false,
             influencer_Y: false,
             influencer_N: false,
         };
@@ -27,7 +31,7 @@ class UserProfileEdit extends Component {
 
         this.setState({
           [name]: value
-      });
+        });
 
     }
     
@@ -79,19 +83,31 @@ class UserProfileEdit extends Component {
                         />
                     </fieldset>
 
-                    <fieldset className="form-group">
-                        <Field name="skintype" component={renderField}
-                               type="text"
-                               placeholder="Skin Type"
-                        />
-                    </fieldset>
-
-                    <fieldset className="form-group">
-                        <Field name="skinissue" component={renderField}
-                               type="text"
-                               placeholder="Skin Issue"
-                        />
-                    </fieldset>
+                    <div class="mb-2 card">
+                    <p class="ml-2 mt-2 mb-0">Skin Type</p>
+                        <div class="ml-2 d-flex flex-row">
+                            <fieldset class="mr-3">
+                                <Field label="oily" component={renderCheckbox}
+                                    type="checkbox" name="oily"
+                                />
+                            </fieldset>
+                            <fieldset class="mr-3">
+                                <Field label="dry" component={renderCheckbox}
+                                    type="checkbox" name="dry"
+                                />
+                            </fieldset>
+                            <fieldset class="mr-3">
+                                <Field label="neutral" component={renderCheckbox}
+                                    type="checkbox" name="neutral"
+                                />
+                            </fieldset>
+                            <fieldset class="mr-3">
+                                <Field label="combinational" component={renderCheckbox}
+                                    type="checkbox" name="combinational"
+                                />
+                            </fieldset>
+                        </div>
+                    </div>
 
                     <fieldset class="form-group row ml-2 mb-0">
                         <p class="mr-3"> Are you an Influencer?</p>

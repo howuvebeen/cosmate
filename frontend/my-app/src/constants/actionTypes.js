@@ -6,6 +6,7 @@ export const AuthTypes = {
     USER: "USER",
     PRODUCT_LIST: "PRODUCT_LIST",
     PRODUCT: "PRODUCT",
+    INTEREST: "INTEREST",
     REVIEW_LIST: "REVIEW_LIST",
     UPLOAD_REVIEW: "UPLOAD_REVIEW"
 };

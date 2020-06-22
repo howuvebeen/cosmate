@@ -13,7 +13,7 @@ from io import BytesIO
 class Company(models.Model):
     name = models.CharField(max_length=150)
     year = models.DateField(default=datetime.date.today, blank=True, null=True)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -62,10 +62,14 @@ class Product(models.Model):
     quantity = models.IntegerField(default=0)
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name='products', null=True)
+<<<<<<< HEAD
     category1 = models.ManyToManyField(Category1)
     category2 = models.ManyToManyField(Category2)
     category3 = models.ManyToManyField(Category3)
     category4 = models.ManyToManyField(Category4)
+=======
+    category = models.ManyToManyField(Category)
+>>>>>>> b06d6fc0139b02e348f8a10ce4d9e542f0e7f23c
     skintype = models.ManyToManyField(SkinType)
     skinissue = models.ManyToManyField(SkinIssue)
     ingredients = models.ManyToManyField(Ingredient)

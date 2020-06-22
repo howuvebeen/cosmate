@@ -73,9 +73,13 @@ class TokenDetail(generics.RetrieveAPIView):
     serializer_class = TokenSerializer
     lookup_field = 'key'
 
-class InterestList(generics.ListAPIView):
+
+class InterestList(generics.ListCreateAPIView):
     queryset = Interest.objects.all()
     serializer_class = InterestSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['author']
+
 
 class InterestDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Interest.objects.all()

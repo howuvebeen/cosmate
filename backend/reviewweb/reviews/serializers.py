@@ -32,16 +32,6 @@ class MyAuthorRelatedField(serializers.PrimaryKeyRelatedField):
         return a_list[0].user.username
 
 
-class LikeSerializer(serializers.ModelSerializer):
-    """
-    Serialize Like Model
-    """
-
-    class Meta:
-        model = Like
-        fields = ['pk', 'author', 'review']
-
-
 class ReviewSerializer(serializers.ModelSerializer):
     """
     Serialize Review Model for Review Lish
@@ -88,21 +78,12 @@ class ReviewSerializer(serializers.ModelSerializer):
                   'star', 'review', 'pub_date', 'like_number', 'likes', 'age_range']
 
 
-class ProfileReviewSerializer(serializers.ModelSerializer):
+class LikeSerializer(serializers.ModelSerializer):
     """
-    Serialize Review Model for Profile List
+    Serialize Like Model
     """
-    product_name = serializers.SerializerMethodField()
-    product_pk = serializers.SerializerMethodField()
-
-    def get_product_name(self, obj):
-        product_name = obj.product.name
-        return product_name
-
-    def get_product_pk(self, obj):
-        product_pk = obj.product.pk
-        return product_pk
+    review = ReviewSerializer()
 
     class Meta:
-        model = Review
-        fields = ['pk', 'title', 'product_pk', 'product_name']
+        model = Like
+        fields = ['pk', 'author', 'review']

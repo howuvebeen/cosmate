@@ -25,9 +25,6 @@ import DeleteReview from "./auth/DeleteReview";
 import InterestedProduct from "./auth/InterestedProduct";
 import NoMatch from "./NoMatch";
 
-import LikeControl from "./auth/Like";
-
-
 const MainContent = () => (
     <div>
         <Switch>

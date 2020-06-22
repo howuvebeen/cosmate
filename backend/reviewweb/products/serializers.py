@@ -6,7 +6,6 @@ from users.models import SkinType, SkinIssue
 from PIL import Image
 
 
-
 class MyCompanyRelatedField(serializers.PrimaryKeyRelatedField):
     """
     Custom Related Field for Company Model
@@ -24,6 +23,7 @@ class MyIngredientRelatedField(serializers.PrimaryKeyRelatedField):
 
     def to_representation(self, value):
         return value.name
+
 
 class MySkinTypeIssueRelatedField(serializers.PrimaryKeyRelatedField):
     def to_representation(self, value):
@@ -93,6 +93,7 @@ class ProductSerializer(serializers.ModelSerializer):
     company = MyCompanyRelatedField(queryset=Company.objects.all())
     ingredients = MyIngredientRelatedField(
         many=True, queryset=Ingredient.objects.all())
+<<<<<<< HEAD
     category1 = MyCategory1RelatedField(
         many=True, queryset=Category1.objects.all())
     category2 = MyCategory2RelatedField(
@@ -101,10 +102,18 @@ class ProductSerializer(serializers.ModelSerializer):
         many=True, queryset=Category3.objects.all())
     category4 = MyCategory4RelatedField(
         many=True, queryset=Category4.objects.all())
+=======
+    category = MyCategoryRelatedField(
+        many=True, queryset=Category.objects.all())
+>>>>>>> b06d6fc0139b02e348f8a10ce4d9e542f0e7f23c
     skintype = MySkinTypeIssueRelatedField(
         many=True, queryset=SkinType.objects.all())
     skinissue = MySkinTypeIssueRelatedField(
         many=True, queryset=SkinIssue.objects.all())
+<<<<<<< HEAD
+=======
+
+>>>>>>> b06d6fc0139b02e348f8a10ce4d9e542f0e7f23c
     class Meta:
         model = Product
         read_only_fields = ['pk', 'reviews', 'average_star', 'price', 'star_number',
@@ -113,6 +122,7 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ['pk', 'name', 'photo', 'price', 'quantity', 'description', 'company',
                   'category1', 'category2', 'category3', 'category4',
                   'skintype', 'skinissue',  'ingredients', 'reviews',
+<<<<<<< HEAD
                   'average_star', 'star_number', 'star_sum', 'review_number', 'rank_score']
     
     # def get_image(self, obj):
@@ -135,6 +145,10 @@ class Category1Serializer(serializers.ModelSerializer):
     """
     Serialize Category Model
     """
+=======
+                  'average_star', 'star_number', 'star_sum', 'review_number',
+                  'rank_score']
+>>>>>>> b06d6fc0139b02e348f8a10ce4d9e542f0e7f23c
 
     class Meta:
         model = Category1

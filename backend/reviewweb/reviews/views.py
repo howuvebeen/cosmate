@@ -16,7 +16,6 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 
 
-
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
@@ -38,15 +37,13 @@ class ReviewList(generics.ListCreateAPIView):
     filterset_fields = ['author', 'product', 'author__influencer']
 
 
-
-
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific review object
     """
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,
-                      IsOwnerOrReadOnly] 
+                          IsOwnerOrReadOnly]
 
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
@@ -58,6 +55,8 @@ class LikeList(generics.ListCreateAPIView):
     Likes can be categorized by author and review
     """
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['author']
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
@@ -69,14 +68,7 @@ class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
     specific like object
     """
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,
-                      IsOwnerOrReadOnly] 
+                          IsOwnerOrReadOnly]
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
-
-
-"""
-http -a dong1:rlaehdgh123 PUT http://127.0.0.1:8000/reviews/reviews/35 title="hello"
-
-brew install httpie --HEAD /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" 
-"""
