@@ -32,6 +32,7 @@ class Category1(models.Model):
     def __str__(self):
         return self.name
 
+
 class Category2(models.Model):
     name = models.CharField(max_length=50)
 
@@ -56,7 +57,7 @@ class Category4(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=160)
     photo = models.ImageField(
-         default='media/product_default_image.png', blank=True)
+        default='media/product_default_image.png', blank=True)
     description = models.TextField(max_length=5000, default='No Description')
     price = models.IntegerField(default=0)
     quantity = models.IntegerField(default=0)
@@ -85,7 +86,6 @@ class Product(models.Model):
 
         # img = Image.open(self.photo.path) # Open image using self
 
-        
         # new_img = (300, 300)
         # img.thumbnail(new_img)
         # img.save(self.photo.path)
@@ -93,21 +93,20 @@ class Product(models.Model):
         # super().save()  # saving image first
 
         # img = Image.open(self.photo.path) # Open image using self
-        
-        
+
         # img.resize((300,300), Image.ANTIALIAS)
         # thumb_io = BytesIO()
         # img.save(thumb_io, img.format, quality=60)
         # self.photo.save(img.filename, ContentFile(thumb_io.getvalue()), save = False)
         # save image path not ContentFile
-        
+
         total_reviews = len(list(Review.objects.all()))
         if total_reviews != 0:
             self.rank_score = round(
                 (((self.average_star/5) * 0.86) + ((self.review_number/total_reviews) * 0.14)), 5)
         super(Product, self).save(*args, **kwargs)
-            
-        img = Image.open(self.photo.path) # Open image using self
+
+        img = Image.open(self.photo.path)  # Open image using self
 
         new_img = (200, 200)
         img.thumbnail(new_img)
@@ -118,8 +117,7 @@ class Product(models.Model):
 #     picture = models.FileField(blank=True)
 #     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
-        #use easy-thumbnails
-
+        # use easy-thumbnails
 
     # def save_product_update(sender, instance, *args, **kwargs):
     #     profile = instance.profile

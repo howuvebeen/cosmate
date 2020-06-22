@@ -38,6 +38,7 @@ class MyCategory1RelatedField(serializers.PrimaryKeyRelatedField):
     def to_representation(self, value):
         return value.name
 
+
 class MyCategory2RelatedField(serializers.PrimaryKeyRelatedField):
     """
     Custom Related Field for Category Model
@@ -45,6 +46,7 @@ class MyCategory2RelatedField(serializers.PrimaryKeyRelatedField):
 
     def to_representation(self, value):
         return value.name
+
 
 class MyCategory3RelatedField(serializers.PrimaryKeyRelatedField):
     """
@@ -54,6 +56,7 @@ class MyCategory3RelatedField(serializers.PrimaryKeyRelatedField):
     def to_representation(self, value):
         return value.name
 
+
 class MyCategory4RelatedField(serializers.PrimaryKeyRelatedField):
     """
     Custom Related Field for Category Model
@@ -61,6 +64,7 @@ class MyCategory4RelatedField(serializers.PrimaryKeyRelatedField):
 
     def to_representation(self, value):
         return value.name
+
 
 class CompanySerializer(serializers.ModelSerializer):
     """
@@ -81,6 +85,7 @@ class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = ['pk', 'name']
+
 
 class ProductSerializer(serializers.ModelSerializer):
     """
@@ -114,7 +119,7 @@ class ProductSerializer(serializers.ModelSerializer):
                   'category1', 'category2', 'category3', 'category4',
                   'skintype', 'skinissue',  'ingredients', 'reviews',
                   'average_star', 'star_number', 'star_sum', 'review_number', 'rank_score']
-    
+
     # def get_image(self, obj):
     #     images = MyImage.objects.filter(product_of_image = obj.pk)
     #     r = []
@@ -140,6 +145,7 @@ class Category1Serializer(serializers.ModelSerializer):
         model = Category1
         fields = ['pk', 'name']
 
+
 class Category2Serializer(serializers.ModelSerializer):
     """
     Serialize Category Model
@@ -148,6 +154,7 @@ class Category2Serializer(serializers.ModelSerializer):
     class Meta:
         model = Category2
         fields = ['pk', 'name']
+
 
 class Category3Serializer(serializers.ModelSerializer):
     """
@@ -158,6 +165,7 @@ class Category3Serializer(serializers.ModelSerializer):
         model = Category3
         fields = ['pk', 'name']
 
+
 class Category4Serializer(serializers.ModelSerializer):
     """
     Serialize Category Model
@@ -166,4 +174,3 @@ class Category4Serializer(serializers.ModelSerializer):
     class Meta:
         model = Category4
         fields = ['pk', 'name']
-
