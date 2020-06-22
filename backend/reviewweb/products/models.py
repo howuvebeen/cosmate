@@ -19,13 +19,6 @@ class Company(models.Model):
         return self.name
 
 
-class Ingredient(models.Model):
-    name = models.CharField(max_length=150)
-
-    def __str__(self):
-        return self.name
-
-
 class Category1(models.Model):
     name = models.CharField(max_length=50)
 
@@ -61,6 +54,7 @@ class Product(models.Model):
     description = models.TextField(max_length=5000, default='No Description')
     price = models.IntegerField(default=0)
     quantity = models.IntegerField(default=0)
+    ingredients = models.CharField(max_length=200, blank = True)
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name='products', null=True)
     category1 = models.ManyToManyField(Category1)
@@ -69,7 +63,6 @@ class Product(models.Model):
     category4 = models.ManyToManyField(Category4)
     skintype = models.ManyToManyField(SkinType)
     skinissue = models.ManyToManyField(SkinIssue)
-    ingredients = models.ManyToManyField(Ingredient)
     average_star = models.FloatField(default=0)
     star_number = models.IntegerField(default=0)
     star_sum = models.FloatField(default=0)

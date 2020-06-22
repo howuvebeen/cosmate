@@ -1,6 +1,6 @@
 from rest_framework import serializers, fields
 
-from .models import Company, Ingredient, Product, Category1, Category2, Category3, Category4
+from .models import Company, Product, Category1, Category2, Category3, Category4
 from users.models import SkinType, SkinIssue
 
 from PIL import Image
@@ -14,16 +14,6 @@ class MyCompanyRelatedField(serializers.PrimaryKeyRelatedField):
     def to_representation(self, value):
         company_list = list(Company.objects.filter(pk=value.pk))
         return company_list[0].name
-
-
-class MyIngredientRelatedField(serializers.PrimaryKeyRelatedField):
-    """
-    Custom Related Field for Ingredient Model
-    """
-
-    def to_representation(self, value):
-        return value.name
-
 
 class MySkinTypeIssueRelatedField(serializers.PrimaryKeyRelatedField):
     def to_representation(self, value):
@@ -78,15 +68,6 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = ['pk', 'name', 'year', 'description', 'products']
 
 
-class IngredientSerializer(serializers.ModelSerializer):
-    """
-    Serialize Ingredient Model
-    """
-    class Meta:
-        model = Ingredient
-        fields = ['pk', 'name']
-
-
 class ProductSerializer(serializers.ModelSerializer):
     """
     Serialize Product Model
@@ -96,8 +77,6 @@ class ProductSerializer(serializers.ModelSerializer):
     # picture = PictureSerializer(source='picture_set', many=True, read_only=True)
     reviews = serializers.StringRelatedField(many=True, read_only=True)
     company = MyCompanyRelatedField(queryset=Company.objects.all())
-    ingredients = MyIngredientRelatedField(
-        many=True, queryset=Ingredient.objects.all())
     category1 = MyCategory1RelatedField(
         many=True, queryset=Category1.objects.all())
     category2 = MyCategory2RelatedField(
@@ -117,7 +96,7 @@ class ProductSerializer(serializers.ModelSerializer):
                             'rank_score']
         fields = ['pk', 'name', 'photo', 'price', 'quantity', 'description', 'company',
                   'category1', 'category2', 'category3', 'category4',
-                  'skintype', 'skinissue',  'ingredients', 'reviews',
+                  'skintype', 'skinissue', 'ingredients', 'reviews',
                   'average_star', 'star_number', 'star_sum', 'review_number', 'rank_score']
 
     # def get_image(self, obj):
