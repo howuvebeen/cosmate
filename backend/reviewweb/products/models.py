@@ -1,9 +1,13 @@
 from django.db import models
-from users.models import Profile, SkinType, SkinIssue
+from users.models import SkinType, SkinIssue
 from users.choices import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES
 import datetime
 from django.db.models import signals
 from multiselectfield import MultiSelectField
+
+from PIL import Image
+from django.core.files.base import ContentFile
+from io import BytesIO
 
 
 class Company(models.Model):
@@ -22,7 +26,27 @@ class Ingredient(models.Model):
         return self.name
 
 
-class Category(models.Model):
+class Category1(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class Category2(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class Category3(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class Category4(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -30,15 +54,18 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=160)
     photo = models.ImageField(
-        default='media/product_default_image.png', blank=True)
+         default='media/product_default_image.png', blank=True)
     description = models.TextField(max_length=5000, default='No Description')
     price = models.IntegerField(default=0)
     quantity = models.IntegerField(default=0)
     company = models.ForeignKey(
-        Company, on_delete=models.CASCADE, related_name='products')
-    category = models.ManyToManyField(Category)
+        Company, on_delete=models.CASCADE, related_name='products', null=True)
+    category1 = models.ManyToManyField(Category1)
+    category2 = models.ManyToManyField(Category2)
+    category3 = models.ManyToManyField(Category3)
+    category4 = models.ManyToManyField(Category4)
     skintype = models.ManyToManyField(SkinType)
     skinissue = models.ManyToManyField(SkinIssue)
     ingredients = models.ManyToManyField(Ingredient)
@@ -46,8 +73,6 @@ class Product(models.Model):
     star_number = models.IntegerField(default=0)
     star_sum = models.FloatField(default=0)
     review_number = models.IntegerField(default=0)
-    profile = models.ManyToManyField(
-        Profile, related_name='interested_product', blank=True)
     rank_score = models.FloatField(default=0.0)
 
     def __str__(self):
@@ -55,11 +80,46 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         from reviews.models import Review
+
+        # # super().save()  # saving image first
+
+        # img = Image.open(self.photo.path) # Open image using self
+
+        
+        # new_img = (300, 300)
+        # img.thumbnail(new_img)
+        # img.save(self.photo.path)
+
+        # super().save()  # saving image first
+
+        # img = Image.open(self.photo.path) # Open image using self
+        
+        
+        # img.resize((300,300), Image.ANTIALIAS)
+        # thumb_io = BytesIO()
+        # img.save(thumb_io, img.format, quality=60)
+        # self.photo.save(img.filename, ContentFile(thumb_io.getvalue()), save = False)
+        # save image path not ContentFile
+        
         total_reviews = len(list(Review.objects.all()))
         if total_reviews != 0:
             self.rank_score = round(
                 (((self.average_star/5) * 0.86) + ((self.review_number/total_reviews) * 0.14)), 5)
         super(Product, self).save(*args, **kwargs)
+            
+        img = Image.open(self.photo.path) # Open image using self
+
+        new_img = (200, 200)
+        img.thumbnail(new_img)
+        img.save(self.photo.path)
+
+
+# class Picture(models.Model):
+#     picture = models.FileField(blank=True)
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+        #use easy-thumbnails
+
 
     # def save_product_update(sender, instance, *args, **kwargs):
     #     profile = instance.profile

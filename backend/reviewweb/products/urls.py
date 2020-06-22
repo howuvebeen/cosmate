@@ -11,5 +11,9 @@ urlpatterns = [
          name='product-search'),
     path('companies/', views.CompanyList.as_view(), name='company-list'),
     path('companies/<int:pk>/', views.CompanyDetail.as_view(), name='company-detail'),
-    path('categories/', views.CategoryList.as_view(), name='category-list')
+    path('category1/', views.Category1List.as_view(), name='category1-list'),
+    path('category2/', views.Category2List.as_view(), name='category2-list'),
+    path('category3/', views.Category3List.as_view(), name='category3-list'),
+    path('category4/', views.Category4List.as_view(), name='category4-list')
 ]
+
