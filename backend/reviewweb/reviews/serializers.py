@@ -82,7 +82,6 @@ class LikeSerializer(serializers.ModelSerializer):
     """
     Serialize Like Model
     """
-    review = ReviewSerializer()
 
     class Meta:
         model = Like

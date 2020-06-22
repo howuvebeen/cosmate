@@ -29,12 +29,13 @@ class ReviewList(generics.ListCreateAPIView):
     Reviews can be categorized by author, influencer,
     product, star, review, pub_date, like_number
     """
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['author', 'product', 'author__influencer']
+    filterset_fields = ['author', 'product',
+                        'author__influencer', 'skintype', 'skinissue', 'age_range']
 
 
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -42,8 +43,8 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific review object
     """
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+    #                       IsOwnerOrReadOnly]
 
     queryset = Review.objects.all().order_by('-like_number')
     serializer_class = ReviewSerializer
@@ -54,7 +55,7 @@ class LikeList(generics.ListCreateAPIView):
     View with POST, GET request for creating like and listing likes
     Likes can be categorized by author and review
     """
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['author']
 
@@ -67,8 +68,8 @@ class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific like object
     """
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+    #                       IsOwnerOrReadOnly]
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
