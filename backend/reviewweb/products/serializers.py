@@ -38,6 +38,7 @@ class MyCategory1RelatedField(serializers.PrimaryKeyRelatedField):
     def to_representation(self, value):
         return value.name
 
+
 class MyCategory2RelatedField(serializers.PrimaryKeyRelatedField):
     """
     Custom Related Field for Category Model
@@ -45,6 +46,7 @@ class MyCategory2RelatedField(serializers.PrimaryKeyRelatedField):
 
     def to_representation(self, value):
         return value.name
+
 
 class MyCategory3RelatedField(serializers.PrimaryKeyRelatedField):
     """
@@ -54,6 +56,7 @@ class MyCategory3RelatedField(serializers.PrimaryKeyRelatedField):
     def to_representation(self, value):
         return value.name
 
+
 class MyCategory4RelatedField(serializers.PrimaryKeyRelatedField):
     """
     Custom Related Field for Category Model
@@ -61,6 +64,7 @@ class MyCategory4RelatedField(serializers.PrimaryKeyRelatedField):
 
     def to_representation(self, value):
         return value.name
+
 
 class CompanySerializer(serializers.ModelSerializer):
     """
@@ -82,6 +86,7 @@ class IngredientSerializer(serializers.ModelSerializer):
         model = Ingredient
         fields = ['pk', 'name']
 
+
 class ProductSerializer(serializers.ModelSerializer):
     """
     Serialize Product Model
@@ -93,7 +98,6 @@ class ProductSerializer(serializers.ModelSerializer):
     company = MyCompanyRelatedField(queryset=Company.objects.all())
     ingredients = MyIngredientRelatedField(
         many=True, queryset=Ingredient.objects.all())
-<<<<<<< HEAD
     category1 = MyCategory1RelatedField(
         many=True, queryset=Category1.objects.all())
     category2 = MyCategory2RelatedField(
@@ -102,18 +106,11 @@ class ProductSerializer(serializers.ModelSerializer):
         many=True, queryset=Category3.objects.all())
     category4 = MyCategory4RelatedField(
         many=True, queryset=Category4.objects.all())
-=======
-    category = MyCategoryRelatedField(
-        many=True, queryset=Category.objects.all())
->>>>>>> b06d6fc0139b02e348f8a10ce4d9e542f0e7f23c
     skintype = MySkinTypeIssueRelatedField(
         many=True, queryset=SkinType.objects.all())
     skinissue = MySkinTypeIssueRelatedField(
         many=True, queryset=SkinIssue.objects.all())
-<<<<<<< HEAD
-=======
 
->>>>>>> b06d6fc0139b02e348f8a10ce4d9e542f0e7f23c
     class Meta:
         model = Product
         read_only_fields = ['pk', 'reviews', 'average_star', 'price', 'star_number',
@@ -122,9 +119,8 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ['pk', 'name', 'photo', 'price', 'quantity', 'description', 'company',
                   'category1', 'category2', 'category3', 'category4',
                   'skintype', 'skinissue',  'ingredients', 'reviews',
-<<<<<<< HEAD
                   'average_star', 'star_number', 'star_sum', 'review_number', 'rank_score']
-    
+
     # def get_image(self, obj):
     #     images = MyImage.objects.filter(product_of_image = obj.pk)
     #     r = []
@@ -145,14 +141,11 @@ class Category1Serializer(serializers.ModelSerializer):
     """
     Serialize Category Model
     """
-=======
-                  'average_star', 'star_number', 'star_sum', 'review_number',
-                  'rank_score']
->>>>>>> b06d6fc0139b02e348f8a10ce4d9e542f0e7f23c
 
     class Meta:
         model = Category1
         fields = ['pk', 'name']
+
 
 class Category2Serializer(serializers.ModelSerializer):
     """
@@ -163,6 +156,7 @@ class Category2Serializer(serializers.ModelSerializer):
         model = Category2
         fields = ['pk', 'name']
 
+
 class Category3Serializer(serializers.ModelSerializer):
     """
     Serialize Category Model
@@ -172,6 +166,7 @@ class Category3Serializer(serializers.ModelSerializer):
         model = Category3
         fields = ['pk', 'name']
 
+
 class Category4Serializer(serializers.ModelSerializer):
     """
     Serialize Category Model
@@ -180,4 +175,3 @@ class Category4Serializer(serializers.ModelSerializer):
     class Meta:
         model = Category4
         fields = ['pk', 'name']
-
