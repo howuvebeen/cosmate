@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
+import django_filters
 
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -24,6 +25,26 @@ def api_root(request, format=None):
     })
 
 
+class ProductFilter(django_filters.FilterSet):
+    min_price = django_filters.NumberFilter(field_name="price", lookup_expr='gte')
+    max_price = django_filters.NumberFilter(field_name="price", lookup_expr='lte')
+    class Meta:
+        model = Product
+        fields = [
+            'name',
+            'company',
+            'category1',
+            'category2',
+            'category3',
+            'category4',
+            'skintype',
+            'skinissue',
+            'ingredients',
+            'average_star', 
+            'min_price',
+            'max_price'
+        ]
+
 
 class ProductList(generics.ListCreateAPIView):
     """
@@ -37,6 +58,7 @@ class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all().order_by('-rank_score')
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filter_class = ProductFilter
     filterset_fields = [
         'name',
         'company',
