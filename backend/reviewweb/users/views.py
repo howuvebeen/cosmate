@@ -3,8 +3,10 @@ from rest_framework import generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, update_last_login
 from .models import Profile, Interest
 from rest_framework.authtoken.models import Token
 from .serializers import UserSerializer, ProfileSerializer, TokenSerializer, InterestSerializer
@@ -17,6 +19,7 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 
 
+
 # Create your views here.
 
 
@@ -25,7 +28,7 @@ class UserList(generics.ListAPIView):
     View with GET request for listing Users that can be categorized 
     by username, email, first name, last name, is_active.
     """
-    permission_classes = [permissions.IsAdminUser]
+    # permission_classes = [permissions.IsAdminUser]
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -84,3 +87,10 @@ class InterestList(generics.ListCreateAPIView):
 class InterestDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Interest.objects.all()
     serializer_class = InterestSerializer
+
+class LoginToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        result = super().post(request, *args, **kwargs)
+        token = Token.objects.get(key=result.data['token'])
+        update_last_login(None, token.user)
+        return result

@@ -13,7 +13,7 @@ from rest_registration.api.views import (
 )
 
 urlpatterns = [
-    path('login/', ObtainAuthToken.as_view(), name='api_token_auth'),
+    path('login/', views.LoginToken.as_view(), name='api_token_auth'),
     path('register/', register, name = 'register'),
     path('verify_registration/', verify_registration, name = 'verify_registration'),
     path('send_reset_password_link/', send_reset_password_link, name = 'send_reset_password_link'),
