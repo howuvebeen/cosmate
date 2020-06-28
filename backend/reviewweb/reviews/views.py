@@ -63,7 +63,7 @@ class LikeList(generics.ListCreateAPIView):
     serializer_class = LikeSerializer
 
 
-class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
+class LikeDetail(generics.RetrieveDestroyAPIView):
     """
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific like object
