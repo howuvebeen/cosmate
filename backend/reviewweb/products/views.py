@@ -84,9 +84,9 @@ class ProductSearchList(generics.ListAPIView):
     serializer_class = ProductSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'company__name',
-                     'skintype', 'skinissue', 
-                     'category1__name', 'category2__name', 'category3__name', 'category4__name',
-                     'ingredients__name']
+                     'skintype__name', 'skinissue__name', 
+                     'category1__name', 'category2__name', 'category3__name', 'category4__name'
+                     ]
 
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -106,7 +106,7 @@ class CompanyList(generics.ListCreateAPIView):
     Companies can be categorized by pk, name, year, description,
     products
     """
-    permission_classes = [IsAdminUserOrReadOnly]
+    # permission_classes = [IsAdminUserOrReadOnly]
 
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
@@ -117,7 +117,7 @@ class CompanyDetail(generics.RetrieveUpdateDestroyAPIView):
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific company object
     """
-    permission_classes = [IsAdminUserOrReadOnly]
+    # permission_classes = [IsAdminUserOrReadOnly]
 
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
@@ -129,7 +129,15 @@ class Category1List(generics.ListCreateAPIView):
     Companies can be categorized by pk, name, year, description,
     products
     """
-    permission_classes = [IsAdminUserOrReadOnly]
+    # permission_classes = [IsAdminUserOrReadOnly]
+
+    queryset = Category1.objects.all()
+    serializer_class = Category1Serializer
+
+class Category1Detail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View with GET, PUT, PATCH, DELETE Request for specific category 1 type
+    """
 
     queryset = Category1.objects.all()
     serializer_class = Category1Serializer
@@ -140,7 +148,15 @@ class Category2List(generics.ListCreateAPIView):
     Companies can be categorized by pk, name, year, description,
     products
     """
-    permission_classes = [IsAdminUserOrReadOnly]
+    # permission_classes = [IsAdminUserOrReadOnly]
+
+    queryset = Category2.objects.all()
+    serializer_class = Category2Serializer
+
+class Category2Detail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View with GET, PUT, PATCH, DELETE Request for specific category 2 type
+    """
 
     queryset = Category2.objects.all()
     serializer_class = Category2Serializer
@@ -151,7 +167,15 @@ class Category3List(generics.ListCreateAPIView):
     Companies can be categorized by pk, name, year, description,
     products
     """
-    permission_classes = [IsAdminUserOrReadOnly]
+    # permission_classes = [IsAdminUserOrReadOnly]
+
+    queryset = Category3.objects.all()
+    serializer_class = Category3Serializer
+
+class Category3Detail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View with GET, PUT, PATCH, DELETE Request for specific category 3 type
+    """
 
     queryset = Category3.objects.all()
     serializer_class = Category3Serializer
@@ -162,7 +186,15 @@ class Category4List(generics.ListCreateAPIView):
     Companies can be categorized by pk, name, year, description,
     products
     """
-    permission_classes = [IsAdminUserOrReadOnly]
+    # permission_classes = [IsAdminUserOrReadOnly]
+
+    queryset = Category4.objects.all()
+    serializer_class = Category4Serializer
+
+class Category4Detail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View with GET, PUT, PATCH, DELETE Request for specific category 4 type
+    """
 
     queryset = Category4.objects.all()
     serializer_class = Category4Serializer

@@ -122,7 +122,7 @@ class Category1Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category1
-        fields = ['pk', 'name']
+        fields = ['pk', 'name', 'description']
 
 
 class Category2Serializer(serializers.ModelSerializer):
@@ -132,7 +132,7 @@ class Category2Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category2
-        fields = ['pk', 'name']
+        fields = ['pk', 'name', 'description']
 
 
 class Category3Serializer(serializers.ModelSerializer):
@@ -142,7 +142,7 @@ class Category3Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category3
-        fields = ['pk', 'name']
+        fields = ['pk', 'name', 'description']
 
 
 class Category4Serializer(serializers.ModelSerializer):
@@ -152,4 +152,4 @@ class Category4Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category4
-        fields = ['pk', 'name']
+        fields = ['pk', 'name', 'description']
