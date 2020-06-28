@@ -21,6 +21,7 @@ class Company(models.Model):
 
 class Category1(models.Model):
     name = models.CharField(max_length=50)
+    description = models.CharField(max_length = 200, blank = True)
 
     def __str__(self):
         return self.name
@@ -28,6 +29,7 @@ class Category1(models.Model):
 
 class Category2(models.Model):
     name = models.CharField(max_length=50)
+    description = models.CharField(max_length = 200, blank = True)
 
     def __str__(self):
         return self.name
@@ -35,6 +37,7 @@ class Category2(models.Model):
 
 class Category3(models.Model):
     name = models.CharField(max_length=50)
+    description = models.CharField(max_length = 200, blank = True)
 
     def __str__(self):
         return self.name
@@ -42,6 +45,7 @@ class Category3(models.Model):
 
 class Category4(models.Model):
     name = models.CharField(max_length=50)
+    description = models.CharField(max_length = 200, blank = True)
 
     def __str__(self):
         return self.name
