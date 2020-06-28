@@ -85,12 +85,8 @@ WSGI_APPLICATION = 'reviewweb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'depco_web',
-        'USER': 'dbmanager',
-        'PASSWORD': 'Depco2019!',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3'
     }
 }
 
