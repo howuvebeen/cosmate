@@ -85,12 +85,8 @@ WSGI_APPLICATION = 'reviewweb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'depco_web',
-        'USER': 'dbmanager',
-        'PASSWORD': 'Depco2019!',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
     }
 }
 
@@ -133,13 +129,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-
-EMAIL_FILE_PATH = 'tmp/emails'
-DEFAULT_FROM_EMAIL = 'admin@admin.com'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -155,8 +146,8 @@ REST_FRAMEWORK = {
 
 REST_REGISTRATION = {
     'REGISTER_VERIFICATION_ENABLED': True,
-    'RESET_PASSWORD_VERIFICATION_ENABLED': False,
-    'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
+    'RESET_PASSWORD_VERIFICATION_ENABLED': True,
+    'REGISTER_EMAIL_VERIFICATION_ENABLED': True,
     'REGISTER_VERIFICATION_URL': '127.0.0.1:3000/account/confirm-email',
     'RESET_PASSWORD_VERIFICATION_URL': '127.0.0.1:3000/reset/confirm',
     'REGISTER_EMAIL_VERIFICATION_URL': '127.0.0.1:3000/account/confirm-email/',
@@ -165,3 +156,12 @@ REST_REGISTRATION = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Email sending
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'dhkim0067@gmail.com'
+EMAIL_HOST_PASSWORD = 'lmmdrbzulwlhnkpk'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'DepCoAdmin <noreply@depco.com>'
