@@ -4,16 +4,25 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getProduct } from "../../actions/authActions";
+import { getProduct, getInterestedProduct, getTokenUser } from "../../actions/authActions";
+import DeleteInterestedProduct from "./DeleteInterestedProduct.js";
+import AddInterestedProduct from "./AddInterestedProduct.js";
 
 class ProductInfo extends Component {
     static propTypes = {
       getProduct: PropTypes.func.isRequired,
       product: PropTypes.object,
+
+      getInterestedProduct: PropTypes.func.isRequired,
+      interest: PropTypes.object,
+
+      getTokenUser: PropTypes.func.isRequired,
+      user: PropTypes.object,
     };
   
     componentWillMount() {
       this.props.getProduct(this.props.UR);
+      this.props.getInterestedProduct(this.props.UR);
     }
 
     Tag(type) {
@@ -52,10 +61,52 @@ class ProductInfo extends Component {
       }
     };
 
+  renderAdd(){
+    const UR = this.props.UR;
+
+    return (
+      <div>
+        <AddInterestedProduct UR={UR}/>
+      </div>
+    );
+  }
+
+  renderDelete(pk){
+    const UR = this.props.UR;
+
+    return (
+      <div>
+        <DeleteInterestedProduct UR={UR} pk={pk}/>
+      </div>
+    );
+  }
+
+  renderInterest() {
+    const { product } = this.props.UR.match.params;
+    const interests  = this.props.interest;
+    let result = []; 
+
+    if (interests && interests.length != 0 && product != null){
+      let interest;
+      let i;
+      for (i = 0; i < interests.length; i++) {
+        interest = interests[i];
+        if (interest.product == product){
+          result.unshift(this.renderDelete(interest.pk));
+        } else {
+          result.push(this.renderAdd());
+        }
+      } 
+    } else if (interests && interests.length == 0){
+      return this.renderAdd();
+    } return result[0];
+    
+  }
+
+  
   renderProduct() {
     const product = this.props.product;
     const authenticated = this.props.authenticated;
-    let link; 
 
     if (product && !(authenticated)) {
       return (
@@ -66,7 +117,6 @@ class ProductInfo extends Component {
             <p>{this.Star(product.average_star)} {product.average_star} ({product.review_number})</p>
             <p>{product.description}</p>
             <p>{this.Tag(product.skintype)}</p>
-            <p>{product.ingredients}</p>
           </div>
           <hr/>
           <div class="p-3 text-center">
@@ -83,15 +133,16 @@ class ProductInfo extends Component {
             <p>{this.Star(product.average_star)} {product.average_star} ({product.review_number})</p>
             <p>{product.description}</p>
             <p>{this.Tag(product.skintype)}</p>
-            <button className="btn btn-light mr-3">Ingredients</button>
-            <button className="btn btn-warning">Add to Interested Product</button>
+            {this.renderInterest()}
           </div>
           <hr/>
           <div class="p-3 text-center">
             <h2>{product.average_star}</h2>
             <h2>{this.Star(product.average_star)}</h2>
-            <p>{product.review_number} Reviews </p>
-            <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/upload`} class="text-md-left"><button className="btn btn-info">Write Review</button></Link>
+            <p>{product.review_number} Reviews</p>
+            {/* <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/upload`} class="text-md-left"><button className="btn btn-info">Write Review</button></Link> */}
+            <Link to={`/skincare/moisturizers/${product.pk}/review/upload`} class="text-md-left"><button className="btn btn-info">Write Review</button></Link>
+
           </div>
         </div>
       );
@@ -113,9 +164,11 @@ class ProductInfo extends Component {
   function mapStateToProps(state) {
     return {
       product: state.auth.product,
-      authenticated: state.auth.authenticated
+      authenticated: state.auth.authenticated,
+      interest: state.auth.interest,
+      user: state.auth.user
     };
   }
   
-  export default connect(mapStateToProps, { getProduct })(ProductInfo);
+  export default connect(mapStateToProps, { getProduct, getInterestedProduct, getTokenUser })(ProductInfo);
   

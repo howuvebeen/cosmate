@@ -16,8 +16,12 @@ export default function(state = {}, action) {
             return { ...state, product: action.payload};
         case AuthTypes.INTEREST:
             return { ...state, interest: action.payload};
+        case AuthTypes.LIKE:
+            return { ...state, like: action.payload};
         case AuthTypes.REVIEW_LIST:
             return { ...state, review: action.payload};
+        case AuthTypes.SEARCH:
+            return { ...state, search: action.payload};
     }
     return state;
 }

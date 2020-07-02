@@ -14,7 +14,10 @@ export const AuthUrls = {
         PRODUCT_OR: `${ROOT_URL}products/products/?ordering=`,
     PRODUCT: `${ROOT_URL}products/products/`,
     INTEREST:`${ROOT_URL}users/interests/?author=`,
+        DELETE_IP: `${ROOT_URL}users/interests/`,
     REVIEW_LIST: `${ROOT_URL}reviews/reviews/?author=&product=`,
     REVIEW: `${ROOT_URL}reviews/reviews/`,
-    TOKEN: `${ROOT_URL}users/tokens/`
+        LIKE: `${ROOT_URL}reviews/likes/`,
+    TOKEN: `${ROOT_URL}users/tokens/`,
+    SEARCH:`${ROOT_URL}products/products-search/?search=`
 };

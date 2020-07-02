@@ -4,9 +4,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getTokenUser } from "../../actions/authActions";
-import { getProduct } from "../../actions/authActions";
-import { getReviewList } from "../../actions/authActions";
+import { getTokenUser, getProduct,getReviewList, getLike } from "../../actions/authActions";
+
+import LikeReview from "./LikeReview.js";
+import UnlikeReview from "./UnlikeReview.js";
+
 
 class ReviewList extends Component {
     static propTypes = {
@@ -19,47 +21,61 @@ class ReviewList extends Component {
       getTokenUser: PropTypes.func.isRequired,
       user: PropTypes.object,
   
+      getLike: PropTypes.func.isRequired,
+      like: PropTypes.object,
+
       authenticated: PropTypes.bool
     };
   
-    constructor(props) {
-      super(props);
-      this.handleLoginClick = this.handleLoginClick.bind(this);
-      this.handleLogoutClick = this.handleLogoutClick.bind(this);
-      this.state = {isLoggedIn: false};
-    }
-
     componentWillMount() {
         this.props.getProduct(this.props.UR);
         this.props.getReviewList(this.props.UR);
     
         const token = localStorage.getItem("token");
         this.props.getTokenUser(token);
+
+        this.props.getLike(this.props.UR);
       }
   
-      
-    handleLoginClick() {
-      this.setState({isLoggedIn: true});
-    }
-  
-    handleLogoutClick() {
-      this.setState({isLoggedIn: false});
-    }
-  
-    LikeButton(props) {
+
+    renderLike(pk){
+      const UR = this.props.UR;
+
       return (
-        <button onClick={props.onClick}>
-          Like
-        </button>
+        <div>
+          <LikeReview UR={UR} pk={pk}/>
+        </div>
       );
     }
-    
-    UnlikeButton(props) {
+
+    renderUnlike(pk){
+      const UR = this.props.UR;
+
       return (
-        <button onClick={props.onClick}>
-          Unlike
-        </button>
+        <div>
+          <UnlikeReview UR={UR} pk={pk}/>
+        </div>
       );
+    }
+
+    renderLikeUnlike(review) {
+      const likes  = this.props.like;
+      let result = []; 
+
+      if (likes && likes.length != 0 && review != null){
+        let like;
+        let i;
+        for (i = 0; i < likes.length; i++) {
+          like = likes[i];
+          if (like.review == review.pk){
+            result.unshift(this.renderUnlike(like.pk));
+          } else {
+            result.push(this.renderLike(review.pk));
+          }
+        } 
+      } else if (likes && likes.length == 0){
+        return this.renderLike(review.pk);
+      } return result[0];    
     }
 
     Tag(type) {
@@ -123,23 +139,24 @@ class ReviewList extends Component {
 
       return (
         <div>
-          <div class="row p-3 ml-3">
-            <div class="col-md-6">
+          <div class="row p-3">
+            <div class="col-md-4">
               <h4>{review.author}✅</h4>
               <p>{review.pub_date}</p>
               <p>Skin Type: {this.Tag(review.skintype)}</p>
               <p>Skin Issue: {this.List(review.skinissue)}</p>
               <p>Age: {review.age}</p>
             </div>
-            <div class="col-md-5 pt-2">
+            <div class="col-md-6 pt-2">
               <p>{this.Star(review.star)}</p>
               <h5>{review.title}</h5>
               <p>{review.review}</p>
-              <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
+              {/* <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link> */}
+              <Link to={`/skincare/moisturizers/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
               <Link to={`/skincare/moisturizers/${product.pk}/review/delete`} class="text-md-left">Delete</Link>
             </div>
             <div class="pr-auto pt-2">
-              <button action="submit" className="btn btn-light">Like</button>
+              {this.renderLikeUnlike(review)}
             </div>
           </div>
           <hr/>
@@ -150,21 +167,21 @@ class ReviewList extends Component {
     renderInfluencerN(review) {
       return (
         <div>
-          <div class="row p-3 ml-3">
-            <div class="col-md-6">
+          <div class="row p-3">
+            <div class="col-md-4">
               <h4>{review.author}✅</h4>
               <p>{review.pub_date}</p>
               <p>Skin Type: {this.Tag(review.skintype)}</p>
               <p>Skin Issue: {this.List(review.skinissue)}</p>
               <p>Age: {review.age}</p>
             </div>
-            <div class="col-md-5 pt-2">
+            <div class="col-md-6 pt-2">
               <p>{this.Star(review.star)}</p>
               <h5>{review.title}</h5>
               <p>{review.review}</p>
             </div>
             <div class="pr-auto pt-2">
-              <button action="submit" className="btn btn-light">Like</button>
+              {this.renderLikeUnlike(review)}
             </div>
           </div>
           <hr />
@@ -177,23 +194,24 @@ class ReviewList extends Component {
 
       return (
         <div>
-          <div class="row p-3 ml-3">
-            <div class="col-md-6">
+          <div class="row p-3">
+            <div class="col-md-4">
               <h4>{review.author}</h4>
               <p>{review.pub_date}</p>
               <p>Skin Type: {this.Tag(review.skintype)}</p>
               <p>Skin Issue: {this.List(review.skinissue)}</p>
               <p>Age: {review.age}</p>
             </div>
-            <div class="col-md-5 pt-2">
+            <div class="col-md-6 pt-2">
               <p>{this.Star(review.star)}</p>
               <h5>{review.title}</h5>
               <p>{review.review}</p>
-              <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
+              {/* <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link> */}
+              <Link to={`/skincare/moisturizers/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
               <Link to={`/skincare/moisturizers/${product.pk}/review/delete`} class="text-md-left">Delete</Link>
             </div>
             <div class="pr-auto pt-2">
-              <button action="submit" className="btn btn-light">Like</button>
+              {this.renderLikeUnlike(review)}
             </div>
           </div>
           <hr />
@@ -204,21 +222,21 @@ class ReviewList extends Component {
     renderNoninfluencerN(review) {
       return (
         <div>
-          <div class="row p-3 ml-3">
-            <div class="col-md-6">
+          <div class="row p-3">
+            <div class="col-md-4">
               <h4>{review.author}</h4>
               <p>{review.pub_date}</p>
               <p>Skin Type: {this.Tag(review.skintype)}</p>
               <p>Skin Issue: {this.List(review.skinissue)}</p>
               <p>Age: {review.age}</p>
             </div>
-            <div class="col-md-5 pt-2">
+            <div class="col-md-6 pt-2">
               <p>{this.Star(review.star)}</p>
               <h5>{review.title}</h5>
               <p>{review.review}</p>
             </div>
             <div class="pr-auto pt-2">
-              <button action="submit" className="btn btn-light">Like</button>
+              {this.renderLikeUnlike(review)}
             </div>
           </div>
           <hr />
@@ -242,6 +260,24 @@ class ReviewList extends Component {
       )
     }
 
+    renderEmptyI(){
+      return(
+        <div class="p-3">
+          <p>No reviews yet.</p>
+          <p>Be the first influencer to review!</p>
+        </div>
+      )
+    }
+
+    renderEmptyNI(){
+      return(
+        <div class="p-3">
+          <p>No reviews yet.</p>
+          <p>Be the first user to review!</p>
+        </div>
+      )
+    }
+
     renderReviewList() {
       const user = this.props.user;
 
@@ -251,7 +287,7 @@ class ReviewList extends Component {
 
       let result = []; 
 
-      if (reviews != null){
+      if (reviews != null && user != null){
         let review;
         let mine = 0;
         let i;
@@ -272,30 +308,37 @@ class ReviewList extends Component {
               reviewNI.unshift(i)
             } 
           }
+
         }
 
         result.push(this.renderTitleI());
         if (reviewI.length > 0) {
-          for (i = 0; i < reviewI.length; i++) {
+          i = 0;
+          if (mine == 1) {
+            review = reviews[reviewI[i++]];
+            result.push(this.renderInfluencerA(review));
+          } 
+          for (; i < reviewI.length; i++) {
             review = reviews[reviewI[i]];
-            if (mine == 1) {
-              result.push(this.renderInfluencerA(review));
-            } else {
-              result.push(this.renderInfluencerN(review));
-            }
+            result.push(this.renderInfluencerN(review));  
           }
+        } else {
+          result.push(this.renderEmptyI());
         }
 
         result.push(this.renderTitleNI());
         if (reviewNI.length > 0) {
-          for (i = 0; i < reviewNI.length; i++) {
+          i = 0;
+          if (mine == -1) {
+            review = reviews[reviewNI[i++]];
+            result.push(this.renderNoninfluencerA(review));
+          } 
+          for (; i < reviewNI.length; i++) {
             review = reviews[reviewNI[i]];
-            if (mine == -1) {
-              result.push(this.renderNoninfluencerA(review));
-            } else {
-              result.push(this.renderNoninfluencerN(review));
-            }
+            result.push(this.renderNoninfluencerN(review));
           }
+        } else {
+          result.push(this.renderEmptyNI());
         }
       } return result;
     }
@@ -315,9 +358,10 @@ class ReviewList extends Component {
       product: state.auth.product,
       review: state.auth.review,
       authenticated: state.auth.authenticated,
-      user: state.auth.user
+      user: state.auth.user,
+      like: state.auth.like
     };
   }
   
-  export default connect(mapStateToProps, { getProduct, getReviewList, getTokenUser})(ReviewList);
+  export default connect(mapStateToProps, { getProduct, getReviewList, getTokenUser, getLike})(ReviewList);
   

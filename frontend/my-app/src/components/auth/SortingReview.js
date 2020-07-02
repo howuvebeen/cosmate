@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm, Field, propTypes } from "redux-form";
-import { renderCheckbox, renderSelect, renderField } from "../../utils/renderUtils";
+import { renderCheckbox, renderRadio } from "../../utils/renderUtils";
 import { sortingReview } from "../../actions/authActions";
 
 class SortingReview extends Component {
@@ -16,6 +16,17 @@ class SortingReview extends Component {
             oily: false,
             neutral: false,
             combinational: false,
+
+            acne: false,
+            trouble: false,
+            sensitive_skin: false,
+
+            zero: false,
+            ten: false,
+            twenty: false,
+            thirty: false,
+            fourty: false,
+
         };
     
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -23,6 +34,7 @@ class SortingReview extends Component {
     
       handleInputChange(event) {
         const target = event.target;
+        // const value = target.type === 'radio' ? target.checked : target.value;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
@@ -33,32 +45,6 @@ class SortingReview extends Component {
 
     renderRanking(){
         const { handleSubmit } = this.props;
-        const options = [
-            {
-              label: 'Ranking (Descending)',
-              value: '-rank_score',
-            },
-            {
-              label: 'Ranking (Ascending)',
-              value: 'rank_score',
-            },
-            {
-              label: 'Number of Reviews (Descending)',
-              value: '-average_star',
-            },
-            {
-                label: 'Number of Reviews (Ascending)',
-                value: 'average_star',
-            },
-            {
-                label: 'Average Star (Descending)',
-                value: '-review_number',
-            },
-            {
-                label: 'Average Star (Ascending)',
-                value: 'review_number',
-            },
-          ];
 
         return (
             <div>
@@ -67,39 +53,79 @@ class SortingReview extends Component {
                     <div class="mb-4">
                         <p>Skin Type</p>
                         <fieldset>
-                            <Field label="oily" component={renderCheckbox}
-                                type="checkbox" name="oily"
+                            <Field component={renderRadio} type="radio" 
+                                checked={true} label="All" 
+                            /> 
+                        </fieldset>
+                        <fieldset>
+                            <Field component={renderRadio} type="radio" 
+                                value="dry" name="dry" label="Dry" 
+                            /> 
+                        </fieldset>
+                        <fieldset>
+                            <Field component={renderRadio} type="radio" 
+                                value="oily" name="oily" label="Oily"
+                            /> 
+                        </fieldset>
+                        <fieldset>
+                            <Field component={renderRadio} type="radio" 
+                                value="neutral" name="neutral" label="Neutral"
+                            /> 
+                        </fieldset>
+                        <fieldset>
+                            <Field component={renderRadio} type="radio" 
+                                value="combinational" name="combinational" label="Combinational"
+                            />
+                        </fieldset>
+                    </div>
+                    <div class="mb-4">
+                        <p>Skin Issue</p>
+                        <fieldset>
+                            <Field component={renderCheckbox} type="checkbox" 
+                                label="All"
                             />
                         </fieldset>
                         <fieldset>
-                            <Field label="dry" component={renderCheckbox}
-                                type="checkbox" name="dry"
+                            <Field component={renderCheckbox} type="checkbox" 
+                                value="acne" name="acne" label="Acne"
                             />
                         </fieldset>
                         <fieldset>
-                            <Field label="neutral" component={renderCheckbox}
-                                type="checkbox" name="neutral"
+                            <Field component={renderCheckbox} type="checkbox" 
+                                value="trouble" name="trouble" label="Trouble"
                             />
                         </fieldset>
                         <fieldset>
-                            <Field label="combinational" component={renderCheckbox}
-                                type="checkbox" name="combinational"
+                            <Field component={renderCheckbox} type="checkbox" 
+                                value="sensitive_skin" name="sensitive_skin" label="Sensitive Skin"
                             />
                         </fieldset>
                     </div>
                     <div class="mb-4">
                         <p>Price Range</p>
                         <fieldset>
-                            <Field name="price" component={renderField}
-                                type="text"
+                            <Field label="0-9" component={renderRadio}
+                                checked={true} type="radio" value="0+-+9" name="zero"
                             />
                         </fieldset>
-                    </div>
-                    <div class="mb-4">
-                        <p>Sort By</p>
                         <fieldset>
-                            <Field name="sortby" component={renderSelect}
-                                options={options}
+                            <Field label="10-19" component={renderRadio}
+                                type="radio" value="10+-+19" name="ten"
+                            />
+                        </fieldset>
+                        <fieldset>
+                            <Field label="20-29" component={renderRadio}
+                                type="radio" value="20+-+29" name="twenty"
+                            />
+                        </fieldset>
+                        <fieldset>
+                            <Field label="30-39" component={renderRadio}
+                                type="radio" value="30+-+39" name="thirty"
+                            />
+                        </fieldset>
+                        <fieldset>
+                            <Field label="40-49" component={renderRadio}
+                                type="radio" name="40+-+49" name="fourty"
                             />
                         </fieldset>
                     </div>
