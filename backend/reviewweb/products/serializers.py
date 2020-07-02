@@ -177,5 +177,5 @@ class InstagramSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Instagram
-        fields = ['title', 'photo', 'url']
+        fields = ['title', 'photo', 'url', 'upload_date']
     

@@ -117,12 +117,19 @@ class Event(models.Model):
     due_date = models.DateField(blank = True, null = True)
     display = models.BooleanField(default = False)
 
+    def __str__(self):
+        return self.title
+
 class Banner(models.Model):
     title = models.CharField(max_length=100)
     photo = models.ImageField(default='media/product_default_image.png', blank=True)
     display = models.BooleanField(default = False)
 
+    def __str__(self):
+        return self.title
+
 class Instagram(models.Model):
     title = models.CharField(max_length=100)
     photo = models.ImageField(default='media/product_default_image.png', blank=True)
     url = models.URLField(max_length=200, null=True, blank=True)
+    upload_date = models.DateField(auto_now_add=True)

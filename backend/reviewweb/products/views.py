@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from rest_framework import generics, permissions
 from .models import Product, Company, Category1, Category2, Category3, Category4, Event, Banner, Instagram
-from .serializers import ProductSerializer, CompanySerializer, Category1Serializer, Category2Serializer, Category3Serializer, Category4Serializer
+from .serializers import ProductSerializer, CompanySerializer, Category1Serializer, Category2Serializer, Category3Serializer, Category4Serializer, EventSerializer, BannerSerializer, InstagramSerializer
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -232,7 +232,7 @@ class InstagramList(generics.ListCreateAPIView):
     """
     View with POST, GET request for creating and listing instagram posts
     """
-    queryset = Instagram.objects.all()
+    queryset = Instagram.objects.all().order_by('-upload_date')[:12]
     serializer_class = InstagramSerializer
 
 class InstagramDetail(generics.RetrieveUpdateDestroyAPIView):
