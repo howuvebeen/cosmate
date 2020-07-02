@@ -10,6 +10,6 @@ urlpatterns = [
     path('profiles/', views.ProfileList.as_view(), name='profile-list'),
     path('profiles/<int:pk>/', views.ProfileDetail.as_view(), name='profile-detail'),
     path('tokens/<key>/', views.TokenDetail.as_view(), name='token-list'),
-    path('interests/', views.InterestList.as_view(), name = 'interest-list'),
-    path('interests/<int:pk>', views.InterestDetail.as_view(), name = 'interest-detail')
+    path('interests/', views.InterestList.as_view(), name='interest-list'),
+    path('interests/<int:pk>', views.InterestDetail.as_view(), name='interest-detail')
 ]

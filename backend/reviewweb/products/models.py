@@ -3,7 +3,8 @@ from users.models import SkinType, SkinIssue
 from users.choices import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES
 import datetime
 from django.db.models import signals
-from multiselectfield import MultiSelectField
+
+from reviewweb.storage_backends import ProductImageStorage
 
 from PIL import Image
 from django.core.files.base import ContentFile
@@ -50,11 +51,11 @@ class Category4(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=160)
     photo = models.ImageField(
-        default='media/product_default_image.png', blank=True)
+        default='media/product_default_image.png', blank=True, storage=ProductImageStorage())
     description = models.TextField(max_length=5000, default='No Description')
     price = models.IntegerField(default=0)
     quantity = models.IntegerField(default=0)
-    ingredients = models.CharField(max_length=200, blank = True)
+    ingredients = models.CharField(max_length=200, blank=True)
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name='products', null=True)
     category1 = models.ManyToManyField(Category1)
@@ -99,11 +100,11 @@ class Product(models.Model):
                 (((self.average_star/5) * 0.86) + ((self.review_number/total_reviews) * 0.14)), 5)
         super(Product, self).save(*args, **kwargs)
 
-        img = Image.open(self.photo.path)  # Open image using self
+        # img = Image.open(self.photo.path)  # Open image using self
 
-        new_img = (200, 200)
-        img.thumbnail(new_img)
-        img.save(self.photo.path)
+        # new_img = (200, 200)
+        # img.thumbnail(new_img)
+        # img.save(self.photo.path)
 
 
 # class Picture(models.Model):
