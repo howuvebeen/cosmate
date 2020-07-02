@@ -88,3 +88,12 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ['pk', 'author', 'review']
+
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    """
+    Serialize Feedback Model
+    """
+    class Meta:
+        model = Feedback
+        fields = ['author', 'title', 'subject', 'content']
