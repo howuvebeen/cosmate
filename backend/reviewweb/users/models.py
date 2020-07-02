@@ -7,7 +7,7 @@ from django.dispatch import receiver
 from .choices import GENDER_CHOICES, INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES, AGE_RANGE_CHOICES
 
 import datetime
-from multiselectfield import MultiSelectField
+
 
 
 class SkinType(models.Model):

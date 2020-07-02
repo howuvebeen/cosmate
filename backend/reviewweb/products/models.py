@@ -22,6 +22,7 @@ class Company(models.Model):
 
 class Category1(models.Model):
     name = models.CharField(max_length=50)
+    description = models.CharField(max_length = 200, blank = True)
 
     def __str__(self):
         return self.name
@@ -29,6 +30,7 @@ class Category1(models.Model):
 
 class Category2(models.Model):
     name = models.CharField(max_length=50)
+    description = models.CharField(max_length = 200, blank = True)
 
     def __str__(self):
         return self.name
@@ -36,6 +38,7 @@ class Category2(models.Model):
 
 class Category3(models.Model):
     name = models.CharField(max_length=50)
+    description = models.CharField(max_length = 200, blank = True)
 
     def __str__(self):
         return self.name
@@ -43,6 +46,7 @@ class Category3(models.Model):
 
 class Category4(models.Model):
     name = models.CharField(max_length=50)
+    description = models.CharField(max_length = 200, blank = True)
 
     def __str__(self):
         return self.name
@@ -106,17 +110,27 @@ class Product(models.Model):
         # img.thumbnail(new_img)
         # img.save(self.photo.path)
 
+class Event(models.Model):
+    title = models.CharField(max_length=100)
+    photo = models.ImageField(default='media/product_default_image.png', blank=True)
+    preview_photo = models.ImageField(default='media/product_default_image.png', blank=True)
+    pub_date = models.DateField(default=datetime.date.today, blank=True, null=True)
+    due_date = models.DateField(blank = True, null = True)
+    display = models.BooleanField(default = False)
 
-# class Picture(models.Model):
-#     picture = models.FileField(blank=True)
-#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.title
 
-        # use easy-thumbnails
+class Banner(models.Model):
+    title = models.CharField(max_length=100)
+    photo = models.ImageField(default='media/product_default_image.png', blank=True)
+    display = models.BooleanField(default = False)
 
-    # def save_product_update(sender, instance, *args, **kwargs):
-    #     profile = instance.profile
-    #     profile.interested_product = instance
-    #     profile.save()
+    def __str__(self):
+        return self.title
 
-
-# signals.post_save.connect(Product.save_product_update, sender=Product)
+class Instagram(models.Model):
+    title = models.CharField(max_length=100)
+    photo = models.ImageField(default='media/product_default_image.png', blank=True)
+    url = models.URLField(max_length=200, null=True, blank=True)
+    upload_date = models.DateField(auto_now_add=True)

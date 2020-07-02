@@ -13,7 +13,7 @@ class Product extends Component {
                     <ProductInfo UR={UR}/>
                     <div class="d-flex flex-row">
                         <div class="col-md-4">
-                            <SortingReview/>
+                            <SortingReview UR={UR}/>
                         </div>
                         <div class="col-md-8 mt-3">
                             <ReviewList UR={UR}/>

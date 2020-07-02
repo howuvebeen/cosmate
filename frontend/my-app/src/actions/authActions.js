@@ -21,13 +21,9 @@ export function loginUser(formValues, dispatch, props) {
   return axios
     .post(loginUrl, formValues)
     .then((response) => {
-      // If request is good update state to indicate user is authenticated
-      // Store key from data to const token
       const token = response.data.token;
-      // Dispatch token to function authLogin() and AuthTypes.LOGIN
       dispatch(authLogin(token));
       dispatch(getTokenUser(token));
-      // Store the changed token to token in localStorage
       localStorage.setItem("token", token);
       const lastlogin = localStorage.getItem("lastlogin");
 
@@ -112,14 +108,13 @@ export function signupUser(formValues) {
 }
 
 export function signupUserInfluencer(formValues) {
-  const signupUrl = AuthUrls.SIGNUP;
+  const userpk = localStorage.getItem("userpk");
+  const userprofileUrl = AuthUrls.USER_PROFILE+userpk+"/";
 
   return axios
-    .post(signupUrl, formValues)
+    .post(userprofileUrl, formValues)
     .then((response) => {
-      // email need to be verified, so don't login and send user to signup_done page.
-      // redirect to signup done page.
-      history.push("/signup/done");
+      // history.push("/signup/done");
     })
     .catch((error) => {
       console.log(error);
@@ -264,10 +259,9 @@ export function userProfileEdit(formValues, dispatch, props) {
     skintype: type(formValues)
   });
   
-  console.log(data);
 
-  const requestOne = axios.put(profileUrl, data);
-  const requestTwo = axios.put(userUrl, data);
+  const requestOne = axios.patch(profileUrl, data);
+  const requestTwo = axios.patch(userUrl, data);
 
   return axios
     .all([requestOne, requestTwo])
@@ -290,6 +284,36 @@ export function userProfileEdit(formValues, dispatch, props) {
     });
 }
 
+
+export function skinProfileEdit(formValues, dispatch, props) {
+  const userpk = localStorage.getItem("userpk");
+  const profileUrl = AuthUrls.USER_PROFILE+userpk+"/";
+
+  const data = Object.assign(formValues, {
+    skintype: type(formValues)
+  });
+  
+
+  return axios
+    .patch(profileUrl, data)
+    .then((response) => {
+      dispatch(
+        notifSend({
+          message: "Your profile has been updated successfully",
+          kind: "info",
+          dismissAfter: 5000,
+        })
+      );
+
+      history.push("/profile");
+    })
+    .catch((error) => {
+      // If request is bad...
+      // Show an error to the user
+      const processedError = processServerError(error.response.data);
+      throw new SubmissionError(processedError);
+    });
+}
 
 export function userProfileComplete(formValues, dispatch, props) {
   const userpk = localStorage.getItem("userpk");
@@ -433,11 +457,11 @@ export function editReview(formValues, dispatch, props) {
 
   const userpk = localStorage.getItem("userpk");
   const influencer = localStorage.getItem("influencer");
+  const stars = formValues.star.value;
 
   const data = Object.assign(formValues, {
-    product: product,
-    author: userpk,
-    influencer: influencer
+    influencer: influencer,
+    star: stars
   });
 
   const deleteReviewUrl = AuthUrls.REVIEW+"?author="+userpk+"&product="+product+"&author__influencer="+influencer;
@@ -446,7 +470,7 @@ export function editReview(formValues, dispatch, props) {
     .get(deleteReviewUrl)
     .then((response) => {
       const reviewpk = response.data[0].pk;
-      axios.put(AuthUrls.REVIEW+reviewpk+"/", data);
+      axios.patch(AuthUrls.REVIEW+reviewpk+"/", data);
       history.push("/skincare/"+category+"/"+product);
       // redirect to reset done page
     })
@@ -455,7 +479,6 @@ export function editReview(formValues, dispatch, props) {
 export function deleteReview(formValues, dispatch, props) {
   const { category } = "1";
   const { product } = props.match.params;
-
   const userpk = localStorage.getItem("userpk");
   const influencer = localStorage.getItem("influencer");
 
@@ -475,23 +498,6 @@ export function deleteReview(formValues, dispatch, props) {
       history.push("/skincare/"+category+"/"+product);
       // redirect to reset done page
     })
-}
-
-export function likeReview(formValues) {
-  const editReviewUrl = AuthUrls.REVIEW;
-
-  return axios
-    .put(editReviewUrl, formValues)
-    .then((response) => {
-      // redirect to reset done page
-      history.push("/review/edit");
-    })
-    .catch((error) => {
-      // If request is bad...
-      // Show an error to the user
-      const processedError = processServerError(error.response.data);
-      throw new SubmissionError(processedError);
-    });
 }
 
 function type(skintype){
@@ -522,18 +528,14 @@ export function sorting(formValues, dispatch) {
   const skintype = type(formValues);
 
   const ordering = (formValues.sortby != null) ? formValues.sortby.value : null;
-
   const sortingUrl = url(skintype, ordering);
 
   return axios
     .get(sortingUrl)
     .then((response) => {
-      // redirect to reset done page
       dispatch(setproductList(response.data));
     })
     .catch((error) => {
-      // If request is bad...
-      // Show an error to the user
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
@@ -584,6 +586,120 @@ export function getInterestedProduct() {
         // TODO: send notification and redirect
       });
   };
+}
+
+export function deleteInterestedProduct(formValues, dispatch, props) {
+  const userpk = localStorage.getItem("userpk");
+  const pk = props.pk;
+
+  const deleteInterestedProductUrl = AuthUrls.DELETE_IP+pk;
+  return axios.delete(deleteInterestedProductUrl)
+}
+
+export function addInterestedProduct(formValues, dispatch, props) {
+  const userpk = localStorage.getItem("userpk");
+  const { product } = props.UR.match.params;
+
+  const data = Object.assign(formValues, {
+    product: product,
+    author: userpk
+  });
+
+  const deleteInterestedProductUrl = AuthUrls.DELETE_IP;
+
+  return axios
+    .post(deleteInterestedProductUrl, data)
+}
+
+function setLike(payload) {
+  return {
+    type: AuthTypes.LIKE,
+    payload: payload
+  };
+}
+
+export function getLike() {
+  const userpk = localStorage.getItem("userpk");
+  const likeReviewUrl = AuthUrls.LIKE+"?author="+userpk;
+
+  console.log(likeReviewUrl);
+  return function (dispatch) {
+    axios
+      .get(likeReviewUrl)
+      .then((response) => {
+        dispatch(setLike(response.data));
+      })
+      .catch((error) => {
+        // If request is bad...
+        // Show an error to the user
+        // TODO: send notification and redirect
+      });
+  };
+}
+
+export function unlikeReview(formValues, dispatch, props) {
+  const reviewpk = props.pk;
+
+  const likeReviewUrl = AuthUrls.LIKE+reviewpk+"/";
+  return axios.delete(likeReviewUrl)
+}
+
+export function likeReview(formValues, dispatch, props) {
+  const reviewpk = props.pk;
+  const userpk = localStorage.getItem("userpk");
+
+  const data = Object.assign(formValues, {
+    review: reviewpk,
+    author: userpk
+  });
+  const likeReviewUrl = AuthUrls.LIKE;
+
+  return axios
+    .post(likeReviewUrl, data)
+}
+
+function setSearch(payload) {
+  return {
+    type: AuthTypes.SEARCH,
+    payload: payload
+  };
+}
+
+export function getSearch(props) {
+  const { product } = props.match.params;
+  const searchUrl = AuthUrls.SEARCH+product;
+
+  return function (dispatch) {
+    axios
+      .get(searchUrl)
+      .then((response) => {
+        dispatch(setSearch(response.data));
+      })
+      .catch((error) => {
+      });
+  };
+}
+
+
+export function search(formValues, dispatch, props) {
+  const product = (props.match != null) ? props.match.params : null;
+  const result = formValues.result;
+  const searchUrl = AuthUrls.SEARCH+result;
+
+  return axios
+    .get(searchUrl)
+    .then((response) => {
+      dispatch(setSearch(response.data));
+      if (product != null){
+        history.push("search/"+result);
+      } else {
+        history.replace(result);
+      }
+    })
+    .catch((error) => {
+      const processedError = processServerError(error.response.data);
+      throw new SubmissionError(processedError);
+    });
 }
 
 // util functions

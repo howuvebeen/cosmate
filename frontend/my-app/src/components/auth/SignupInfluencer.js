@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { reduxForm, Field, propTypes } from "redux-form";
 import { required } from "redux-form-validators"
-import { renderField, renderError } from "../../utils/renderUtils";
+import { renderLabelField2, renderError } from "../../utils/renderUtils";
 import { signupUserInfluencer } from "../../actions/authActions";
 
 class SignupInfluencer extends Component {
@@ -17,76 +17,32 @@ class SignupInfluencer extends Component {
         const { handleSubmit, error } = this.props;
 
         return (
-            <div className="d-flex flex-column align-items-center">
+            <div className="d-flex flex-column">
                 <form
-                    className="col col-sm-4 card mt-3 p-2"
+                    className="col col-sm-8 mt-3 p-2"
                     onSubmit={handleSubmit}
                 >
-                    <h4 className="text-md-center">Create an Account</h4>
+                    <h4>Sign Up for Influencer Account</h4>
 
-                    <p> We will verify that you are an influencer through your social media account. 
-                        It might take 1-3 days.</p>
+                    <p> Provide an URL to your account to verify that you are an influencer.
+                        After consideration, we will register you as an influencer.
+                        It can take 2-3 business days to verify your account.</p>
 
-                    <div className="form-group form-row">
-                        <fieldset className="col">
-                            <Field name="first_name" component={renderField}
-                                type="text" validate={[required({message: "This field is required."})]}
-                                placeholder="First Name"
-                            />
-                        </fieldset>
-
-                        <fieldset className="col">
-                            <Field name="last_name" component={renderField}
-                                type="text" validate={[required({message: "This field is required."})]}
-                                placeholder="Last Name"
-                            />
-                        </fieldset>
-                    </div>
-
-                    <fieldset className="form-group">
-                        <Field name="username" component={renderField}
-                               type="text" validate={[required({message: "This field is required."})]}
-                               placeholder="Id"
-                        />
-                    </fieldset>
-                    
-                    <fieldset className="form-group">
-                        <Field name="email" component={renderField}
-                               type="text"
-                               placeholder="Email"
-                        />
-                    </fieldset>
-
-
-                    <fieldset className="form-group">
-                        <Field name="password" component={renderField}
-                               type="password" validate={[required({message: "This field is required."})]}
-                               placeholder="Password"
-                        />
-                    </fieldset>
-
-                    <fieldset className="form-group">
-                        <Field name="password_confirm" component={renderField}
-                               type="password" validate={[required({message: "This field is required."})]}
-                               placeholder="Password Verification"
-                        />
-                    </fieldset>
-
-                    <fieldset className="form-group">
-                        <Field name="link" component={renderField}
+                    <fieldset className="form-group col-md-6">
+                        <Field name="influencer_link" component={renderLabelField2}
                                type="link" validate={[required({message: "This field is required."})]}
-                               placeholder="Link to your social media account"
+                               label="URL"
                         />
                     </fieldset>
 
                     { renderError(error) }
 
-                    <fieldset className="form-group">
-                        <button action="submit" className="btn btn-primary w-100">Create Account</button>
-                    </fieldset>
-
-                    <p class="text-md-left d-inline">Sign in to Depco</p>
-                    <Link to="/login"><button className="btn btn-light w-100">Sign in</button></Link>
+                    <div class="form-group form-row">
+                        <fieldset className="col">
+                            <button action="submit" className="mr-3 btn btn-primary">Confirm</button>
+                            <Link to="/profile"><button className="btn btn-light">Cancel</button></Link>
+                        </fieldset>
+                    </div>
                 </form>
             </div>
 
@@ -94,18 +50,7 @@ class SignupInfluencer extends Component {
     }
 }
 
-// Sync field level validation for password match
-const validateForm = values => {
-    const errors = {};
-    const { password, password_confirm } = values;
-    if (password !== password_confirm) {
-        errors.password_confirm = "Password does not match."
-    }
-    return errors;
-};
-
 export default reduxForm({
     form: "signupinfluencer",
-    validate: validateForm,
     onSubmit: signupUserInfluencer
 })(SignupInfluencer);

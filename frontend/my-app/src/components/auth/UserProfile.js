@@ -21,58 +21,26 @@ class UserProfile extends Component {
         this.props.getUserProfile();
     }
 
-    Tag(type) {
-        if (type != null){
-          var arrayLength = type.length;
-          var result = "";
-          for (var i = 0; i < arrayLength; i++) {
-            if (type[i] == "Oily") {
-              var result = result.concat("Oily");
-            } else if (type[i] == "Dry") {
-              var result = result.concat("Dry");
-            } else {
-              var result = result.concat("Combinational");
-            }
-            var result = result.concat(" ");
-          }
-          return result;
-        };  
-      }
-
-    List(type) {
-        if (type != null){
-          var arrayLength = type.length;
-          var result = "";
-          for (var i = 0; i < arrayLength; i++) {
-            if (type[i] == "T") {
-              var result = result.concat("Trouble");
-            } else if (type[i] == "A") {
-              var result = result.concat("Acne");
-            } else if (type[i] == "SS") {
-              var result = result.concat("Sensitive Skin");
-            } else {
-              var result = result.concat("None");
-            }
-            var result = result.concat(" ");
-          }
-          return result;
-        } 
-      };
-
     renderProfile() {
         const profile = this.props.profile;
         if (profile) {
             return (
-                <div>
-                    <p>{profile.firstname} {profile.lastname}</p>
-                    <p>{profile.user}</p>
-                    <p>Email: {profile.email}</p>
-                    <p>Gender: {profile.gender}</p>
-                    <p>Age: {profile.age}</p>
-                    <hr />
-                    <p><strong>Skin Type: {this.Tag(profile.skintype)}</strong> </p>
-                    <p><strong>Skin Issue: {this.List(profile.skinissue)}</strong> </p>
+              <div class="row">
+                <div class="col-md-4">
+                  <p><strong>Name</strong></p>
+                  <p><strong>ID</strong></p>
+                  <p><strong>Email</strong></p>
+                  <p><strong>Gender</strong></p>
+                  <p><strong>DOB</strong></p>
                 </div>
+                <div class="col-md-8 mt-auto">
+                  <p>{profile.firstname} {profile.lastname}</p>
+                  <p>{profile.user}</p>
+                  <p>{profile.email}</p>
+                  <p>{profile.gender}</p>
+                  <p>{profile.dob}</p>
+                </div>
+              </div>
             );
         }
         return null;
@@ -80,12 +48,9 @@ class UserProfile extends Component {
 
     render() {
         return (
-            <div className="m-5">
+            <div className="m-2 p-2">
                 {this.renderProfile()}
-                {" "}
-                <div class="float-right">
-                    <Link className="btn btn-light" to="/profile/edit">Edit Profile</Link>
-                </div>
+                <Link to="/profile/edit"><button class="btn btn-light">Edit</button></Link>
             </div>
         );
     }

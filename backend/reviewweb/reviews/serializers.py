@@ -82,7 +82,18 @@ class LikeSerializer(serializers.ModelSerializer):
     """
     Serialize Like Model
     """
-
+    author = serializers.PrimaryKeyRelatedField(required = True, queryset = Profile.objects.all())
+    review = serializers.PrimaryKeyRelatedField(required = True, queryset = Review.objects.all())
+    
     class Meta:
         model = Like
         fields = ['pk', 'author', 'review']
+
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    """
+    Serialize Feedback Model
+    """
+    class Meta:
+        model = Feedback
+        fields = ['author', 'title', 'subject', 'content']

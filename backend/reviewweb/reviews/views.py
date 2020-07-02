@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 
 from rest_framework import generics, filters, permissions
-from .models import Review, Like
-from .serializers import ReviewSerializer, LikeSerializer
+from .models import Review, Like, Feedback
+from .serializers import ReviewSerializer, LikeSerializer, FeedbackSerializer
 from .permissions import IsOwnerOrReadOnly
 
 from rest_framework.decorators import api_view
@@ -63,7 +63,7 @@ class LikeList(generics.ListCreateAPIView):
     serializer_class = LikeSerializer
 
 
-class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
+class LikeDetail(generics.RetrieveDestroyAPIView):
     """
     View GET, PUT, DELETE request for retrieving, updating, and destroying
     specific like object
@@ -73,3 +73,13 @@ class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
+
+class FeedbackList(generics.ListCreateAPIView):
+    
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer
+
+class FeedbackDetail(generics.RetrieveUpdateDestroyAPIView):
+    
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer

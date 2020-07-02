@@ -1,7 +1,12 @@
 import React from "react";
 import Select from "react-select";
-import Checkbox from "react-checkbox";
 
+export const renderRadio = ({ input, label, type, checked }) => (
+    <div>
+      <input {...input} type={type} checked={checked} onChange={value => input.onChange(value)}/>
+      <label>{label}</label>
+    </div>
+  );
 
 export const renderCheckbox = ({ input, label, name, type, meta: { touched, error } }) => (
     <div>
@@ -19,6 +24,17 @@ export const renderLabelField = ({ input, label, placeholder, type, meta: { touc
         <div>
             <label>{label}</label>
             <input className="form-control" {...input} type={type} placeholder={placeholder}/>
+        </div>
+        {touched && ((error && <div className="alert alert-danger p-1"><small>{error}</small></div>))}
+    </div>
+);
+
+
+export const renderLabelField2 = ({ input, label, placeholder, type, meta: { touched, error } }) => (
+    <div>
+        <div class="row">
+            <label class="col-md-4">{label}</label>
+            <input className="form-control col-md-8" {...input} type={type} placeholder={placeholder}/>
         </div>
         {touched && ((error && <div className="alert alert-danger p-1"><small>{error}</small></div>))}
     </div>

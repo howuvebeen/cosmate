@@ -1,6 +1,6 @@
 from rest_framework import serializers, fields
 
-from .models import Company, Product, Category1, Category2, Category3, Category4
+from .models import Company, Product, Category1, Category2, Category3, Category4, Event, Banner, Instagram
 from users.models import SkinType, SkinIssue
 
 from PIL import Image
@@ -122,7 +122,7 @@ class Category1Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category1
-        fields = ['pk', 'name']
+        fields = ['pk', 'name', 'description']
 
 
 class Category2Serializer(serializers.ModelSerializer):
@@ -132,7 +132,7 @@ class Category2Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category2
-        fields = ['pk', 'name']
+        fields = ['pk', 'name', 'description']
 
 
 class Category3Serializer(serializers.ModelSerializer):
@@ -142,7 +142,7 @@ class Category3Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category3
-        fields = ['pk', 'name']
+        fields = ['pk', 'name', 'description']
 
 
 class Category4Serializer(serializers.ModelSerializer):
@@ -152,4 +152,30 @@ class Category4Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category4
-        fields = ['pk', 'name']
+        fields = ['pk', 'name', 'description']
+
+class EventSerializer(serializers.ModelSerializer):
+    """
+    Serialize Event Model
+    """
+
+    class Meta:
+        model = Event
+        fields = ['title', 'photo', 'preview_photo', 'pub_date', 'due_date', 'display']
+
+class BannerSerializer(serializers.ModelSerializer):
+    """
+    Serialize Banner Model
+    """
+    class Meta:
+        model = Banner
+        fields = ['title', 'photo', 'display']
+
+class InstagramSerializer(serializers.ModelSerializer):
+    """
+    Serialize Instagram Model
+    """
+    class Meta:
+        model = Instagram
+        fields = ['title', 'photo', 'url', 'upload_date']
+    

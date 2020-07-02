@@ -11,10 +11,14 @@ import AccountActivation from "./auth/AccountActivation";
 import PasswordReset from "./auth/PasswordReset";
 import PasswordResetDone from "./auth/PasswordResetDone";
 import PasswordResetConfirm from "./auth/PasswordResetConfirm";
+import Search from "./auth/Search";
+import SearchEngine from "./auth/SearchEngine";
 import IdReset from "./auth/IdReset";
 import IdResetDone from "./auth/IdResetDone";
-import UserProfile from "./auth/UserProfile";
+import MyAccount from "./auth/MyAccount";
 import UserProfileEdit from "./auth/UserProfileEdit";
+import SkinProfileEdit from "./auth/SkinProfileEdit";
+import PasswordProfileEdit from "./auth/PasswordProfileEdit";
 import UserProfileComplete from "./auth/UserProfileComplete";
 import Skincare from "./auth/Skincare";
 import SkinCategory from "./auth/SkinCategory";
@@ -32,7 +36,6 @@ const MainContent = () => (
             <Route path="/login" component={Login}/>
             <Route path="/logout" component={Logout}/>
             <Route exact path="/signup" component={Signup}/>
-            <Route exact path="/signup/influencer" component={SignupInfluencer}/>
             <Route exact path="/signup/done" component={SignupDone}/>
             <Route path="/account/:confirm"  component={AccountActivation}/>
             <Route path="/reset_password" component={PasswordReset}/>
@@ -40,8 +43,13 @@ const MainContent = () => (
             <Route path="/reset/:confirm" component={PasswordResetConfirm}/>
             <Route path="/reset_id" component={IdReset}/>
             <Route path="/reset_id_done" component={IdResetDone}/>
-            <Route exact path="/profile" component={UserProfile}/>
+            <Route exact path="/search" component={SearchEngine}/>
+            <Route exact path="/search/:product" component={Search}/>
+            <Route exact path="/profile" component={MyAccount}/>
             <Route exact path="/profile/edit" component={UserProfileEdit}/>
+            <Route exact path="/profile/influencer" component={SignupInfluencer}/>
+            <Route exact path="/profile/skin" component={SkinProfileEdit}/>
+            <Route exact path="/profile/password" component={PasswordProfileEdit}/>
             <Route exact path="/profile/complete" component={UserProfileComplete}/>
             <Route exact path="/skincare" component={Skincare}/>
             <Route exact path="/skincare/moisturizers" component={SkinCategory}/>

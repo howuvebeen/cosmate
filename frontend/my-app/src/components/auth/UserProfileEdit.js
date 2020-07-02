@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { reduxForm, Field, Select, propTypes } from "redux-form";
-import { renderCheckbox, renderSelect, renderField } from "../../utils/renderUtils";
+import { renderLabelField, renderLabelField2 } from "../../utils/renderUtils";
+import { Link } from "react-router-dom";
 
 import { userProfileEdit } from "../../actions/authActions";
 
@@ -39,113 +40,65 @@ class UserProfileEdit extends Component {
         const { handleSubmit, error } = this.props;
 
         return (
-            <div className="d-flex flex-column align-items-center">
+            <div className="d-flex flex-column">
                 <form
-                    className="col col-sm-4 card mt-3 p-2"
+                    className="col col-sm-4 mt-3 p-2"
                     onSubmit={handleSubmit}
                 >
-                    <h4 className="text-md-center">Edit Profile</h4>
-
-                    <div className="form-group form-row">
-                        <fieldset className="col">
-                            <Field name="first_name" component={renderField}
-                                type="text"
-                                placeholder="First Name"
-                            />
-                        </fieldset>
-
-                        <fieldset className="col">
-                            <Field name="last_name" component={renderField}
-                                type="text"
-                                placeholder="Last Name"
-                            />
-                        </fieldset>
-                    </div>
+                    <h4 class="mb-5">Edit Personal Information</h4>
 
                     <fieldset className="form-group">
-                        <Field name="username" component={renderField}
-                               type="text"
-                               placeholder="Id"
+                        <Field name="first_name" component={renderLabelField2}
+                            type="text"
+                            placeholder="First Name"
+                            label="Name"
                         />
                     </fieldset>
 
                     <fieldset className="form-group">
-                        <Field name="gender" component={renderField}
+                        <Field name="last_name" component={renderLabelField2}
+                            type="text"
+                            placeholder="Last Name"
+                        />
+                    </fieldset>
+
+                    <fieldset className="form-group">
+                        <Field name="email" component={renderLabelField2}
+                            type="email"
+                            placeholder="Email"
+                            label="Email"
+                        />
+                    </fieldset>
+
+                    <fieldset className="form-group">
+                        <Field name="username" component={renderLabelField2}
+                               type="text"
+                               placeholder="ID"
+                               label="ID"
+                        />
+                    </fieldset>
+
+                    <fieldset className="form-group">
+                        <Field name="gender" component={renderLabelField2}
                                type="text"
                                placeholder="Gender"
+                               label="Gender"
                         />
                     </fieldset>
 
-                    <fieldset className="form-group">
-                        <Field name="dob" component={renderField}
+                    <fieldset className="form-group mb-5">
+                        <Field name="dob" component={renderLabelField2}
                                type="date"
-                               placeholder="Date of Birth"
+                               label="DOB"
                         />
                     </fieldset>
 
-                    <div class="mb-2 card">
-                    <p class="ml-2 mt-2 mb-0">Skin Type</p>
-                        <div class="ml-2 d-flex flex-row">
-                            <fieldset class="mr-3">
-                                <Field label="oily" component={renderCheckbox}
-                                    type="checkbox" name="oily"
-                                />
-                            </fieldset>
-                            <fieldset class="mr-3">
-                                <Field label="dry" component={renderCheckbox}
-                                    type="checkbox" name="dry"
-                                />
-                            </fieldset>
-                            <fieldset class="mr-3">
-                                <Field label="neutral" component={renderCheckbox}
-                                    type="checkbox" name="neutral"
-                                />
-                            </fieldset>
-                            <fieldset class="mr-3">
-                                <Field label="combinational" component={renderCheckbox}
-                                    type="checkbox" name="combinational"
-                                />
-                            </fieldset>
-                        </div>
-                    </div>
-
-                    <fieldset class="form-group row ml-2 mb-0">
-                        <p class="mr-3"> Are you an Influencer?</p>
-                        <label class="mr-3">
-                        Yes
-                        <input
-                            name="influencer_Y"            
-                            type="checkbox"
-                            checked={this.state.influencer_Y}
-                            unchecked={this.state.influencer_N}
-                            onChange={this.handleInputChange} />
-                        </label>
-                        <label>
-                        No
-                        <input
-                            name="influencer_N"            
-                            type="checkbox"
-                            checked={this.state.influencer_N}
-                            unchecked={this.state.influencer_Y}
-                            onChange={this.handleInputChange} />
-                        </label>
-                    </fieldset>
-
-                    {this.state.influencer_Y ? (
-                        <fieldset className="form-group">
-                            <Field name="influencer_link" component={renderField}
-                                type="text"
-                                placeholder="Link to your social media account"
-                            />
+                    <div class="form-group form-row">
+                        <fieldset className="col">
+                            <button action="submit" className="mr-3 btn btn-primary">Confirm</button>
+                            <Link to="/profile"><button className="btn btn-light">Cancel</button></Link>
                         </fieldset>
-                    ) : (
-                        null
-                    )}
-                    
-                    <fieldset className="form-group">
-                        <button action="submit" className="btn btn-primary w-100">Edit Profile</button>
-                    </fieldset>
-
+                    </div>
                 </form>
             </div>
         )

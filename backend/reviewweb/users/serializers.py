@@ -94,7 +94,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     skintype = SkinTypeSerializer(
         many=True, queryset=SkinType.objects.all(), required=False)
     skinissue = SkinIssueSerializer(
-        many=True, queryset=SkinIssue.objects.all())
+        many=True, queryset=SkinIssue.objects.all(), required=False)
 
     def get_last_login(self, obj):
         last_login = obj.user.last_login

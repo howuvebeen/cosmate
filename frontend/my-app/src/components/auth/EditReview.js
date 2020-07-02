@@ -16,23 +16,23 @@ class EditReview extends Component {
         const options = [
             {
               label: '★☆☆☆☆',
-              value: '1',
+              value: 1,
             },
             {
                 label: '★★☆☆☆',
-                value: '2',
+                value: 2,
               },
             {
                 label: '★★★☆☆',
-                value: '3',
+                value: 3,
             },
             {
                 label: '★★★★☆',
-                value: '4',
+                value: 4,
             },
             {
                 label: '★★★★★',
-                value: '5',
+                value: 5,
             },
           ];
 
@@ -46,19 +46,19 @@ class EditReview extends Component {
 
                     <fieldset className="form-group">
                         <Field label="Rating:" name="star" component={renderLabelSelect}
-                                options={options} validate={[required({message: "This field is required."})]}
+                                options={options} 
                         />
                     </fieldset>
 
                     <fieldset className="form-group">
                         <Field label="Review Title:" name="title" component={renderLabelField}
-                               type="text" validate={[required({message: "This field is required."})]}
+                               type="text"
                         />
                     </fieldset>
 
                     <fieldset className="form-group">
                         <Field label="Review:" name="review" component={renderLabelField}
-                               type="text" validate={[required({message: "This field is required."})]}
+                               type="text"
                         />
                     </fieldset>
 

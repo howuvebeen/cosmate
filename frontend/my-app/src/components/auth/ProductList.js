@@ -39,14 +39,15 @@ class ProductList extends Component {
         if (lproducts) {
             return (
                 <div>
-                    <div class="row ml-3 pl-4">
+                    <div class="row justify-content-md-center">
                         {lproducts.slice(0,3).map((lproduct, rank) => (
-                            <div class="m-3 card">
+                            <div class="m-3 card col-md-5">
                                 <div class="m-5">
                                     <div>
                                         <p>{rank+1}</p>
                                         <p>{lproduct.company}</p>
-                                        <Link to={`/skincare/${lproduct.category[0].toLowerCase()}/${lproduct.pk}/`}><h4>{lproduct.name}</h4></Link>
+                                        {/* <Link to={`/skincare/${lproduct.category[0].toLowerCase()}/${lproduct.pk}/`}><h4>{lproduct.name}</h4></Link> */}
+                                        <Link to={`/skincare/moisturizers/${lproduct.pk}/`}><h4>{lproduct.name}</h4></Link>
                                     </div>
                                     <div>
                                         {this.Star(lproduct.average_star)}
@@ -56,7 +57,7 @@ class ProductList extends Component {
                             </div>
                         ))}
                     </div>
-                    <div class="ml-3 pl-3">
+                    <div class="justify-content-md-center">
                     {lproducts.slice(3).map((lproduct) => (
                         <div class="card m-3">
                             <div class="row m-3">
@@ -64,7 +65,8 @@ class ProductList extends Component {
                                     <p>{lproduct.company}</p>
                                 </div>
                                 <div class="mr-4">
-                                    <Link to={`/skincare/${lproduct.category[0].toLowerCase()}/${lproduct.pk}/`}><h4>{lproduct.name}</h4></Link>
+                                    {/* <Link to={`/skincare/${lproduct.category[0].toLowerCase()}/${lproduct.pk}/`}><h4>{lproduct.name}</h4></Link> */}
+                                    <Link to={`/skincare/moisturizers/${lproduct.pk}/`}><h4>{lproduct.name}</h4></Link>
                                 </div>
                                 <div class="mr-4">
                                     {this.Star(lproduct.average_star)}

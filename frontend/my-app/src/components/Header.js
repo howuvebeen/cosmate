@@ -9,42 +9,25 @@ class Header extends Component {
         authenticated: PropTypes.bool
     };
 
-    constructor() {
-        super();
-        this.state = { search: ""};
-    }
-
-    updateSearch(event){
-        this.setState({search: event.target.value.substr(0,10)});
-    }
-
-    renderSearch() {
-        return (
-            <input type="text" value={this.state.search} onChange={this.updateSearch.bind(this)}/>
-        );
-    }
     //If authenticated, show Profile and Logout in nav-bar
     renderLinks() {
         if (this.props.authenticated) {
             return (
                 [
                     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                        <Link to="/" className="navbar-brand">Depco</Link>
+                        <Link to="/" className="navbar-brand mb-auto">Depco</Link>
                         <ul className="navbar-nav float-right">
-                            <li className="nav-item" key="search">
-                                {this.renderSearch()}
-                            </li>
                             <li className="nav-item" key="skincare">
                                 <Link className="nav-link" to="/skincare">Skincare Products</Link>
                             </li>
                             <li className="nav-item" key="makeup">
                                 <Link className="nav-link" to="/makeup">Makeup Products</Link>
                             </li>
-                            <li className="nav-item" key="interest">
-                                <Link className="nav-link" to="/interest">Interested Products</Link>
+                            <li className="nav-item" key="search">
+                                <Link className="nav-link" to="/search">Search</Link>
                             </li>
                             <li className="nav-item" key="logout">
-                                <Link className="nav-link" to="/profile">Account Information</Link>
+                                <Link className="nav-link" to="/profile">Account</Link>
                             </li>
                             <li className="nav-item" key="logout">
                                 <Link className="nav-link" to="/logout">Sign out</Link>
@@ -59,16 +42,16 @@ class Header extends Component {
             return (
                 [
                     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                        <Link to="/" className="navbar-brand">Depco</Link>
+                        <Link to="/" className="navbar-brand mb-auto">Depco</Link>
                         <ul className="navbar-nav pr-0">
-                            <li className="nav-item" key="search">
-                                {this.renderSearch()}
-                            </li>
                             <li className="nav-item" key="skincare">
                                 <Link className="nav-link" to="/skincare">Skincare Products</Link>
                             </li>
                             <li className="nav-item" key="makeup">
                                 <Link className="nav-link" to="/makeup">Makeup Products</Link>
+                            </li>
+                            <li className="nav-item" key="search">
+                                <Link className="nav-link" to="/search">Search</Link>
                             </li>
                             <li className="nav-item" key="signup">
                                 <Link className="nav-link" to="/signup">Create an Account</Link>

@@ -89,11 +89,18 @@ class Sorting extends Component {
                     </div>
                     <div class="mb-4">
                         <p>Price Range</p>
-                        <fieldset>
-                            <Field name="price" component={renderField}
-                                type="text"
-                            />
-                        </fieldset>
+                        <div>
+                            <fieldset>
+                                <Field name="price_min" component={renderField}
+                                    type="text"
+                                />
+                            </fieldset>
+                            <fieldset>
+                                <Field name="price_max" component={renderField}
+                                    type="text"
+                                />
+                            </fieldset>
+                        </div>
                     </div>
                     <div class="mb-4">
                         <p>Sort By</p>
