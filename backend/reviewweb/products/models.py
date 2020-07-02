@@ -109,17 +109,20 @@ class Product(models.Model):
         img.thumbnail(new_img)
         img.save(self.photo.path)
 
+class Event(models.Model):
+    title = models.CharField(max_length=100)
+    photo = models.ImageField(default='media/product_default_image.png', blank=True)
+    preview_photo = models.ImageField(default='media/product_default_image.png', blank=True)
+    pub_date = models.DateField(default=datetime.date.today, blank=True, null=True)
+    due_date = models.DateField(blank = True, null = True)
+    display = models.BooleanField(default = False)
 
-# class Picture(models.Model):
-#     picture = models.FileField(blank=True)
-#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+class Banner(models.Model):
+    title = models.CharField(max_length=100)
+    photo = models.ImageField(default='media/product_default_image.png', blank=True)
+    display = models.BooleanField(default = False)
 
-        # use easy-thumbnails
-
-    # def save_product_update(sender, instance, *args, **kwargs):
-    #     profile = instance.profile
-    #     profile.interested_product = instance
-    #     profile.save()
-
-
-# signals.post_save.connect(Product.save_product_update, sender=Product)
+class Instagram(models.Model):
+    title = models.CharField(max_length=100)
+    photo = models.ImageField(default='media/product_default_image.png', blank=True)
+    url = models.URLField(max_length=200, null=True, blank=True)
