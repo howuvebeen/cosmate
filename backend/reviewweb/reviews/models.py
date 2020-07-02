@@ -2,7 +2,7 @@ from django.db import models
 from users.models import Profile, SkinType, SkinIssue
 from products.models import Product
 from users.choices import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES, AGE_RANGE_CHOICES
-from .choices import STAR_CHOICES
+from .choices import STAR_CHOICES, SUBJECT_CHOICES
 import datetime
 from django.db.models.signals import post_save, pre_delete, post_delete
 from django.db.models import signals
@@ -150,4 +150,5 @@ signals.pre_delete.connect(Like.delete_like_update, sender=Like)
 class Feedback(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=100)
+    subject = models.CharField(max_length=100, choices=SUBJECT_CHOICES, default = 'Subject 1')
     content = models.TextField()

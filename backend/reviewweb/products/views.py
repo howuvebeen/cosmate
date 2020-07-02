@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 from rest_framework import generics, permissions
-from .models import Product, Company, Category1, Category2, Category3, Category4
-from .serializers import ProductSerializer, CompanySerializer, Category1Serializer, Category2Serializer, Category3Serializer, Category4Serializer
+from .models import Product, Company, Category1, Category2, Category3, Category4, Event, Banner, Instagram
+from .serializers import ProductSerializer, CompanySerializer, Category1Serializer, Category2Serializer, Category3Serializer, Category4Serializer, EventSerializer, BannerSerializer, InstagramSerializer
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -198,3 +198,47 @@ class Category4Detail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Category4.objects.all()
     serializer_class = Category4Serializer
+
+class EventList(generics.ListCreateAPIView):
+    """
+    View with POST, GET request for creating and listing events
+    """
+
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+class EventDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View with GET, PUT, PATCH, DELETE Request for specific Event
+    """
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+class BannerList(generics.ListCreateAPIView):
+    """
+    View with POST, GET request for creating and listing banners
+    """
+    queryset = Banner.objects.all()
+    serializer_class = BannerSerializer
+
+class BannerDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View with GET, PUT, PATCH, DELETE Request for specific Banner
+    """
+    queryset = Banner.objects.all()
+    serializer_class = BannerSerializer
+
+class InstagramList(generics.ListCreateAPIView):
+    """
+    View with POST, GET request for creating and listing instagram posts
+    """
+    queryset = Instagram.objects.all().order_by('-upload_date')[:12]
+    serializer_class = InstagramSerializer
+
+class InstagramDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View with GET, PUT, PATCH, DELETE Request for specific Banner
+    """
+    queryset = Instagram.objects.all()
+    serializer_class = InstagramSerializer
+

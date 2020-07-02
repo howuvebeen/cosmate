@@ -19,6 +19,12 @@ urlpatterns = [
     path('category3/<int:pk>/', views.Category3Detail.as_view(), name='category3-detail'),
     path('category4/', views.Category4List.as_view(), name='category4-list'),
     path('category4/<int:pk>/', views.Category4Detail.as_view(), name='category4-detail'),
+    path('events/', views.EventList.as_view(), name='event-list'),
+    path('events/<int:pk>/', views.EventDetail.as_view(), name = 'event-detail'),
+    path('banners/', views.BannerList.as_view(), name = 'banner-list'),
+    path('banners/<int:pk>/', views.BannerDetail.as_view(), name = 'banner-detail'),
+    path('instagram/', views.InstagramList.as_view(), name = 'instagram-list'),
+    path('instagram/<int:pk>/', views.InstagramDetail.as_view(), name = 'instagram-detail')
 
 ]
 
