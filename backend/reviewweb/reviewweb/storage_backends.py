@@ -12,7 +12,7 @@ class ProductImageStorage(S3Boto3Storage):
 
 
 class ProfileImageStorage(S3Boto3Storage):
-    location = settings.AWS_PRIVATE_MEDIA_LOCATION + '/images/profiles'
+    location = settings.AWS_PUBLIC_MEDIA_LOCATION + '/images/profiles'
 
 
 class ReviewImageStorage(S3Boto3Storage):
