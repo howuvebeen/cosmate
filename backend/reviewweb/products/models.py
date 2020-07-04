@@ -114,9 +114,9 @@ class Product(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=100)
     photo = models.ImageField(
-        default='media/product_default_image.png', storage=EventMainImageStorage)
+        default='media/product_default_image.png', storage=EventMainImageStorage())
     preview_photo = models.ImageField(
-        default='media/product_default_image.png', storage=EventPreviewImageStorage)
+        default='media/product_default_image.png', storage=EventPreviewImageStorage())
     pub_date = models.DateField(default=datetime.date.today)
     due_date = models.DateField(blank=True, null=True)
     display = models.BooleanField(default=False)
@@ -128,7 +128,7 @@ class Event(models.Model):
 class Banner(models.Model):
     title = models.CharField(max_length=100)
     photo = models.ImageField(
-        default='media/product_default_image.png', blank=True, storage=BannerImageStorage)
+        default='media/product_default_image.png', blank=True, storage=BannerImageStorage())
     display = models.BooleanField(default=False)
 
     def __str__(self):
@@ -138,6 +138,6 @@ class Banner(models.Model):
 class Instagram(models.Model):
     title = models.CharField(max_length=100)
     photo = models.ImageField(
-        default='media/product_default_image.png', storage=InstaImageStorage)
+        default='media/product_default_image.png', storage=InstaImageStorage())
     url = models.URLField(max_length=200, null=True, blank=True)
     upload_date = models.DateField(auto_now_add=True)
