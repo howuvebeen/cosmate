@@ -17,3 +17,19 @@ class ProfileImageStorage(S3Boto3Storage):
 
 class ReviewImageStorage(S3Boto3Storage):
     location = settings.AWS_PUBLIC_MEDIA_LOCATION + '/images/reviews'
+
+
+class EventMainImageStorage(S3Boto3Storage):
+    location = settings.AWS_PUBLIC_MEDIA_LOCATION + '/images/event_main'
+
+
+class EventPreviewImageStorage(S3Boto3Storage):
+    location = settings.AWS_PUBLIC_MEDIA_LOCATION + '/images/event_preview'
+
+
+class BannerImageStorage(S3Boto3Storage):
+    location = settings.AWS_PUBLIC_MEDIA_LOCATION + '/images/banner'
+
+
+class InstaImageStorage(S3Boto3Storage):
+    location = settings.AWS_PUBLIC_MEDIA_LOCATION + '/images/instagram'
