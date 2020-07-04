@@ -4,7 +4,7 @@ from users.choices import INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICE
 import datetime
 from django.db.models import signals
 
-from reviewweb.storage_backends import ProductImageStorage
+from reviewweb.storage_backends import ProductImageStorage, EventMainImageStorage, EventPreviewImageStorage, InstaImageStorage, BannerImageStorage
 
 from PIL import Image
 from django.core.files.base import ContentFile
@@ -22,7 +22,7 @@ class Company(models.Model):
 
 class Category1(models.Model):
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length = 200, blank = True)
+    description = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.name
@@ -30,7 +30,7 @@ class Category1(models.Model):
 
 class Category2(models.Model):
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length = 200, blank = True)
+    description = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.name
@@ -38,7 +38,7 @@ class Category2(models.Model):
 
 class Category3(models.Model):
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length = 200, blank = True)
+    description = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.name
@@ -46,7 +46,7 @@ class Category3(models.Model):
 
 class Category4(models.Model):
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length = 200, blank = True)
+    description = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.name
@@ -110,27 +110,34 @@ class Product(models.Model):
         # img.thumbnail(new_img)
         # img.save(self.photo.path)
 
+
 class Event(models.Model):
     title = models.CharField(max_length=100)
-    photo = models.ImageField(default='media/product_default_image.png', blank=True)
-    preview_photo = models.ImageField(default='media/product_default_image.png', blank=True)
-    pub_date = models.DateField(default=datetime.date.today, blank=True, null=True)
-    due_date = models.DateField(blank = True, null = True)
-    display = models.BooleanField(default = False)
+    photo = models.ImageField(
+        default='media/product_default_image.png', storage=EventMainImageStorage)
+    preview_photo = models.ImageField(
+        default='media/product_default_image.png', storage=EventPreviewImageStorage)
+    pub_date = models.DateField(default=datetime.date.today)
+    due_date = models.DateField(blank=True, null=True)
+    display = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
+
 
 class Banner(models.Model):
     title = models.CharField(max_length=100)
-    photo = models.ImageField(default='media/product_default_image.png', blank=True)
-    display = models.BooleanField(default = False)
+    photo = models.ImageField(
+        default='media/product_default_image.png', blank=True, storage=BannerImageStorage)
+    display = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
 
+
 class Instagram(models.Model):
     title = models.CharField(max_length=100)
-    photo = models.ImageField(default='media/product_default_image.png', blank=True)
+    photo = models.ImageField(
+        default='media/product_default_image.png', storage=InstaImageStorage)
     url = models.URLField(max_length=200, null=True, blank=True)
     upload_date = models.DateField(auto_now_add=True)
