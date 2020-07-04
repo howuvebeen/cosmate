@@ -47,6 +47,7 @@ class InterestSerializer(serializers.ModelSerializer):
     product_price = serializers.SerializerMethodField()
     product_quantity = serializers.SerializerMethodField()
     product_average_star = serializers.SerializerMethodField()
+    product_review_number = serializers.SerializerMethodField()
 
     def get_product_name(self, obj):
         product_name = obj.product.name
@@ -72,10 +73,14 @@ class InterestSerializer(serializers.ModelSerializer):
         product_average_star = obj.product.average_star
         return product_average_star
 
+    def get_product_review_number(self, obj):
+        product_review_number = obj.product.review_number
+        return product_review_number
+
     class Meta:
         model = Interest
         fields = ['pk', 'author', 'product', 'product_name', 'product_photo', 'product_company',
-                  'product_price', 'product_quantity', 'product_average_star']
+                  'product_price', 'product_quantity', 'product_average_star', 'product_review_number']
 
 
 class ProfileSerializer(serializers.ModelSerializer):

@@ -84,10 +84,25 @@ class LikeSerializer(serializers.ModelSerializer):
     """
     author = serializers.PrimaryKeyRelatedField(required = True, queryset = Profile.objects.all())
     review = serializers.PrimaryKeyRelatedField(required = True, queryset = Review.objects.all())
+    product_photo = serializers.SerializerMethodField()
+    product_name = serializers.SerializerMethodField()
+    product_company_name = serializers.SerializerMethodField()
+
+    def get_product_photo(self, obj):
+        product_photo = obj.review.product.photo.url
+        return product_photo
+
+    def get_product_name(self, obj):
+        product_name = obj.review.product.name
+        return product_name
+
+    def get_product_company_name(self, obj):
+        product_company_name = obj.review.product.company.name
+        return product_company_name
     
     class Meta:
         model = Like
-        fields = ['pk', 'author', 'review']
+        fields = ['pk', 'author', 'review', 'product_photo', 'product_name', 'product_company_name']
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
