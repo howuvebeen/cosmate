@@ -7,6 +7,7 @@ import datetime
 from django.db.models.signals import post_save, pre_delete, post_delete
 from django.db.models import signals
 from django.dispatch import receiver
+from reviewweb.storage_backends import ReviewImageStorage
 
 from PIL import Image
 
@@ -28,7 +29,7 @@ class Review(models.Model):
         Profile, on_delete=models.CASCADE, null=True, related_name='author')
     title = models.CharField(max_length=200, null=True)
     photo = models.ImageField(
-        blank=True, null=True)
+        blank=True, null=True, storage=ReviewImageStorage())
     influencer = models.CharField(
         max_length=20, choices=INFLUENCER_CHOICES, default="N")
     product = models.ForeignKey(
@@ -37,8 +38,8 @@ class Review(models.Model):
         default=5,
         choices=STAR_CHOICES
     )
-    skintype = models.ManyToManyField(SkinType, blank = True)
-    skinissue = models.ManyToManyField(SkinIssue, blank = True)
+    skintype = models.ManyToManyField(SkinType, blank=True)
+    skinissue = models.ManyToManyField(SkinIssue, blank=True)
     review = models.TextField(max_length=5000, null=True, blank=True)
     pub_date = models.DateField(default=datetime.date.today)
     like_number = models.IntegerField(default=0)
@@ -54,16 +55,15 @@ class Review(models.Model):
     def create(self, *args, **kwargs):
         super(Review, self).create(*args, **kwargs)
 
-    def save(self, *args, **kwargs):
-        super().save()  # saving image first
+    # def save(self, *args, **kwargs):
+    #     super().save()  # saving image first
 
-        if self.photo:
-            img = Image.open(self.photo.path) # Open image using self
+    #     if self.photo:
+    #         img = Image.open(self.photo.path)  # Open image using self
 
-        
-            new_img = (50, 50)
-            img.thumbnail(new_img)
-            img.save(self.photo.path)
+    #         new_img = (50, 50)
+    #         img.thumbnail(new_img)
+    #         img.save(self.photo.path)
 
     def after_save_review_update(sender, instance, *args, **kwargs):
         """
@@ -126,7 +126,8 @@ class Like(models.Model):
         review.like_number = len(likelist)
         review.save()
 
-@receiver(post_save, sender = Like)
+
+@receiver(post_save, sender=Like)
 def create_like(sender, instance, **kwargs):
     """
     Adding the number of likes of a review when a new like object was saved.
@@ -134,8 +135,8 @@ def create_like(sender, instance, **kwargs):
     """
     review = instance.review
     a = Like.objects.all().filter(
-        author= instance.author,
-        review= instance.review
+        author=instance.author,
+        review=instance.review
     )
     alist = list(a)
     if len(a) > 1:
@@ -144,11 +145,13 @@ def create_like(sender, instance, **kwargs):
     review.like_number = len(likelist)
     review.save()
 
+
 signals.pre_delete.connect(Like.delete_like_update, sender=Like)
 
 
 class Feedback(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=100)
-    subject = models.CharField(max_length=100, choices=SUBJECT_CHOICES, default = 'Subject 1')
+    subject = models.CharField(
+        max_length=100, choices=SUBJECT_CHOICES, default='Subject 1')
     content = models.TextField()
