@@ -46,6 +46,9 @@ class ReviewSerializer(serializers.ModelSerializer):
     skintype = serializers.SerializerMethodField()
     age = serializers.SerializerMethodField()
     age_range = serializers.SerializerMethodField()
+    company_name = serializers.SerializerMethodField()
+    product_image = serializers.SerializerMethodField()
+    product_pk = serializers.SerializerMethodField()
 
     def get_age(self, obj):
         age = obj.author.age
@@ -71,11 +74,24 @@ class ReviewSerializer(serializers.ModelSerializer):
             typelist.append(obj.name)
         return typelist
 
+    def get_company_name(self, obj):
+        company_name = obj.product.company.name
+        return company_name
+
+    def get_product_image(self, obj):
+        product_image = obj.product.photo.url
+        return product_image
+
+    def get_product_pk(self, obj):
+        product_pk = obj.product.pk
+        return product_pk
+
     class Meta:
         model = Review
         read_only_fields = ['pub_date', 'like_number', 'likes']
         fields = ['pk', 'author', 'title', 'photo', 'age', 'skintype', 'skinissue', 'influencer', 'product',
-                  'star', 'review', 'pub_date', 'like_number', 'likes', 'age_range']
+                  'star', 'review', 'pub_date', 'like_number', 'likes', 'age_range',
+                  'company_name', 'product_image', 'product_pk']
 
 
 class LikeSerializer(serializers.ModelSerializer):
