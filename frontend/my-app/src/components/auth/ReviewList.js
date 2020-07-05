@@ -61,6 +61,7 @@ class ReviewList extends Component {
     renderLikeUnlike(review) {
       const likes  = this.props.like;
       let result = []; 
+      const authenticated = this.props.authenticated;
 
       if (likes && likes.length != 0 && review != null){
         let like;
@@ -75,7 +76,9 @@ class ReviewList extends Component {
         } 
       } else if (likes && likes.length == 0){
         return this.renderLike(review.pk);
-      } return result[0];    
+      } else if (authenticated){
+        return null;
+      } return result[0];
     }
 
     Tag(type) {
@@ -280,6 +283,7 @@ class ReviewList extends Component {
 
     renderReviewList() {
       const user = this.props.user;
+      const authenticated = this.props.authenticated;
 
       const reviews = this.props.review;
       const reviewI = [];

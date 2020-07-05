@@ -14,6 +14,24 @@ class InterestedProduct extends Component {
         this.props.getInterestedProduct();
     }
 
+    Tag(type) {
+        if (type != null){
+          var arrayLength = type.length;
+          var result = "";
+          for (var i = 0; i < arrayLength; i++) {
+            if (type[i] == "O") {
+              var result = result.concat("Oily");
+            } else if (type[i] == "D") {
+              var result = result.concat("Dry");
+            } else {
+              var result = result.concat("Combinational");
+            }
+            var result = result.concat(" ");
+          }
+          return result;
+        };  
+      }
+
     Star(star){
         if (star != null){
         if (star < 1){
@@ -32,22 +50,53 @@ class InterestedProduct extends Component {
       }
     };
 
-    renderInterestedProduct() {
+    renderNoResult(){
+        return (
+            <div class="text-center mt-5">
+                <p>No Interested Products yet</p>
+            </div>
+        );
+    }
+
+    renderYesResult(){
         const interests  = this.props.interest;
 
-        if (interests) {
-            return (
-                <div>
-                    {interests.map((interest) => {
-                        return (
-                            <div class="p-3">
+        return (
+            <div>
+                <h3 class="mt-5 ml-3 mb-5">Interested Products</h3>
+                <p class="ml-3 mb-5">{interests.length} Products</p>
+                <div class="row justify-content-md-left">
+                    {interests.map((interest) => (
+                        <div class="col-md-3 card p-5 m-4">
+                            <div>
                                 <p>{interest.product_company}</p>
                                 <h4>{interest.product_name}</h4>
+                                <p>{this.Star(interest.product_average_star)} {interest.product_average_star} ({interest.product_review_number})</p>
                             </div>
-                        );
-                    })}
+                        </div>
+                    ))}
                 </div>
-            );
+            </div>
+        );
+    }
+
+    renderInterestedProduct() {
+        const interests  = this.props.interest;
+    
+        if (interests) {
+            if (interests.length==0){
+                return (
+                    <div>
+                        {this.renderNoResult()}
+                    </div>
+                );
+            } else {
+                return (
+                    <div>
+                        {this.renderYesResult()}
+                    </div>
+                );
+            }
         }
         return null;
     }
