@@ -15,11 +15,13 @@ import Search from "./auth/Search";
 import SearchEngine from "./auth/SearchEngine";
 import IdReset from "./auth/IdReset";
 import IdResetDone from "./auth/IdResetDone";
+import AccountNavigation from "./auth/AccountNavigation";
 import MyAccount from "./auth/MyAccount";
 import UserProfileEdit from "./auth/UserProfileEdit";
 import SkinProfileEdit from "./auth/SkinProfileEdit";
 import PasswordProfileEdit from "./auth/PasswordProfileEdit";
 import UserProfileComplete from "./auth/UserProfileComplete";
+import LikedReviews from "./auth/LikedReviews";
 import Skincare from "./auth/Skincare";
 import SkinCategory from "./auth/SkinCategory";
 import Product from "./auth/Product";
@@ -45,12 +47,15 @@ const MainContent = () => (
             <Route path="/reset_id_done" component={IdResetDone}/>
             <Route exact path="/search" component={SearchEngine}/>
             <Route exact path="/search/:product" component={Search}/>
+            <Route exact path="/account" component={AccountNavigation}/>
             <Route exact path="/profile" component={MyAccount}/>
             <Route exact path="/profile/edit" component={UserProfileEdit}/>
             <Route exact path="/profile/influencer" component={SignupInfluencer}/>
             <Route exact path="/profile/skin" component={SkinProfileEdit}/>
             <Route exact path="/profile/password" component={PasswordProfileEdit}/>
             <Route exact path="/profile/complete" component={UserProfileComplete}/>
+            <Route exact path="/like" component={LikedReviews}/>
+            <Route exact path="/review" component={LikedReviews}/>
             <Route exact path="/skincare" component={Skincare}/>
             <Route exact path="/skincare/moisturizers" component={SkinCategory}/>
             <Route exact path="/skincare/moisturizers/:product" component={Product}/>

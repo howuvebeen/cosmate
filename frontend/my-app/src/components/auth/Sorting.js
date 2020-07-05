@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm, Field, propTypes } from "redux-form";
-import { renderCheckbox, renderSelect, renderField } from "../../utils/renderUtils";
+import { renderCheckbox, renderRadio, renderField } from "../../utils/renderUtils";
 import { sorting } from "../../actions/authActions";
 
 class Sorting extends Component {
@@ -16,6 +16,11 @@ class Sorting extends Component {
             oily: false,
             neutral: false,
             combinational: false,
+
+            acne: false,
+            trouble: false,
+            sensitive_skin: false,
+
         };
     
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -67,25 +72,50 @@ class Sorting extends Component {
                     <div class="mb-4">
                         <p>Skin Type</p>
                         <fieldset>
-                            <Field label="oily" component={renderCheckbox}
-                                type="checkbox" name="oily"
+                            <Field component={renderRadio} type="radio" 
+                                value="dry" name="dry" label="Dry" 
+                            /> 
+                        </fieldset>
+                        <fieldset>
+                            <Field component={renderRadio} type="radio" 
+                                value="oily" name="oily" label="Oily"
+                            /> 
+                        </fieldset>
+                        <fieldset>
+                            <Field component={renderRadio} type="radio" 
+                                value="neutral" name="neutral" label="Neutral"
+                            /> 
+                        </fieldset>
+                        <fieldset>
+                            <Field component={renderRadio} type="radio" 
+                                value="combinational" name="combinational" label="Combinational"
+                            />
+                        </fieldset>
+                        <hr/>
+                    </div>
+                    <div class="mb-4">
+                        <p>Skin Issue</p>
+                        <fieldset>
+                            <Field component={renderCheckbox} type="checkbox" 
+                                label="All"
                             />
                         </fieldset>
                         <fieldset>
-                            <Field label="dry" component={renderCheckbox}
-                                type="checkbox" name="dry"
+                            <Field component={renderCheckbox} type="checkbox" 
+                                value="acne" name="acne" label="Acne"
                             />
                         </fieldset>
                         <fieldset>
-                            <Field label="neutral" component={renderCheckbox}
-                                type="checkbox" name="neutral"
+                            <Field component={renderCheckbox} type="checkbox" 
+                                value="trouble" name="trouble" label="Trouble"
                             />
                         </fieldset>
                         <fieldset>
-                            <Field label="combinational" component={renderCheckbox}
-                                type="checkbox" name="combinational"
+                            <Field component={renderCheckbox} type="checkbox" 
+                                value="sensitive_skin" name="sensitive_skin" label="Sensitive Skin"
                             />
                         </fieldset>
+                        <hr/>
                     </div>
                     <div class="mb-4">
                         <p>Price Range</p>
@@ -102,17 +132,9 @@ class Sorting extends Component {
                             </fieldset>
                         </div>
                     </div>
-                    <div class="mb-4">
-                        <p>Sort By</p>
-                        <fieldset>
-                            <Field name="sortby" component={renderSelect}
-                                options={options}
-                            />
-                        </fieldset>
-                    </div>
                     <div class="mt-5">
                         <fieldset>
-                            <button action="submit" className="btn btn-primary">Submit</button>
+                            <button action="submit" className="btn btn-primary w-100">Apply Filter</button>
                         </fieldset>
                     </div>
                 </div>

@@ -41,10 +41,10 @@ class ProductList extends Component {
                 <div>
                     <div class="row justify-content-md-center">
                         {lproducts.slice(0,3).map((lproduct, rank) => (
-                            <div class="m-3 card col-md-5">
-                                <div class="m-5">
-                                    <div>
-                                        <p>{rank+1}</p>
+                            <div class="m-3 card">
+                                <div class="m-5 p-3">
+                                    <div class="mr-1">
+                                        <p>0{rank+1}</p>
                                         <p>{lproduct.company}</p>
                                         {/* <Link to={`/skincare/${lproduct.category[0].toLowerCase()}/${lproduct.pk}/`}><h4>{lproduct.name}</h4></Link> */}
                                         <Link to={`/skincare/moisturizers/${lproduct.pk}/`}><h4>{lproduct.name}</h4></Link>
@@ -58,9 +58,11 @@ class ProductList extends Component {
                         ))}
                     </div>
                     <div class="justify-content-md-center">
-                    {lproducts.slice(3).map((lproduct) => (
-                        <div class="card m-3">
-                            <div class="row m-3">
+                        {lproducts.slice(3).map((lproduct, rank) => (
+                            <div class="row m-3 p-3">
+                                <div class="mr-4">
+                                    <p><stonrg>0{rank+3}</stonrg></p>
+                                </div>
                                 <div class="mr-4">
                                     <p>{lproduct.company}</p>
                                 </div>
@@ -75,8 +77,8 @@ class ProductList extends Component {
                                     <p>{lproduct.average_star} ({lproduct.review_number})</p>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                        <hr/>
                     </div>
                 </div>
             );
@@ -86,7 +88,7 @@ class ProductList extends Component {
 
     render() {
         return (
-            <div>
+            <div class="ml-3">
                 {this.renderProductList()}
             </div>
         );

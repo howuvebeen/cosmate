@@ -10,7 +10,7 @@ class UploadReview extends Component {
             <div>
                 <div>
                     <ReviewInfo UR={UR} />
-                    <ReviewForm/>
+                    <ReviewForm UR={UR} />
                 </div>
             </div>
         );

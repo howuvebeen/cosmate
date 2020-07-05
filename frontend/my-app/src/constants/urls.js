@@ -1,4 +1,4 @@
-const ROOT_URL = "http://localhost:8000/";
+const ROOT_URL = "http://0.0.0.0:8000/";
 
 export const AuthUrls = {
     LOGIN: `${ROOT_URL}users/login/`,
@@ -19,5 +19,7 @@ export const AuthUrls = {
     REVIEW: `${ROOT_URL}reviews/reviews/`,
         LIKE: `${ROOT_URL}reviews/likes/`,
     TOKEN: `${ROOT_URL}users/tokens/`,
-    SEARCH:`${ROOT_URL}products/products-search/?search=`
+    SEARCH:`${ROOT_URL}products/products-search/?search=`,
+    EVENT: `${ROOT_URL}products/events/`,
+    INSTAGRAM: `${ROOT_URL}products/instagram/`
 };
