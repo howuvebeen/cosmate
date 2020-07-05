@@ -4,8 +4,6 @@ import history from "../utils/historyUtils";
 import { actions as notifActions } from "redux-notifications";
 import { AuthTypes } from "../constants/actionTypes";
 import { AuthUrls } from "../constants/urls";
-import store from "../store";
-import { getUserToken } from "../utils/authUtils";
 const { notifSend } = notifActions;
 
 export function authLogin(token) {
@@ -415,7 +413,7 @@ export function getReviewList(props) {
 
 export function uploadReview(formValues, dispatch, props) {
   const { category } = "Moisturizers";
-  const { product } = props.match.params;
+  const { product } = props.UR.match.params;
 
   const userpk = localStorage.getItem("userpk");
   const influencer = localStorage.getItem("influencer");
@@ -514,21 +512,33 @@ function type(skintype){
   }
 }
 
-function url(skintype, ordering){
-  if (skintype == null){
-    return AuthUrls.PRODUCT_OR+ordering;
-  } else if (ordering == null){
-    return AuthUrls.PRODUCT_ST+skintype;
-  } else {
-    return AuthUrls.PRODUCT+"?average_star=&company=&name=&ordering="+ordering+"&skintype="+skintype;
-  }
+function url(skintype, ordering, price_min, price_max){
+  let result = AuthUrls.PRODUCT+"?";
+  let i;
+
+  if (skintype != null){
+    result += "&skintype="+skintype;
+  } 
+  if (ordering != null){
+    result += "&ordering="+ordering;
+  } 
+  if (price_min != null){
+    result += "&min_price="+price_min;
+  } 
+  if (price_max != null){
+    result += "&max_price="+price_max;
+  } 
+  
+  return result;
 }
 
 export function sorting(formValues, dispatch) {
   const skintype = type(formValues);
+  const price_min = formValues.price_min;
+  const price_max = formValues.price_max;
 
   const ordering = (formValues.sortby != null) ? formValues.sortby.value : null;
-  const sortingUrl = url(skintype, ordering);
+  const sortingUrl = url(skintype, ordering, price_min, price_max);
 
   return axios
     .get(sortingUrl)
@@ -541,10 +551,8 @@ export function sorting(formValues, dispatch) {
     });
 }
 
-
 export function sortingReview(formValues, dispatch) {
   const skintype = type(formValues);
-
   const ordering = (formValues.sortby != null) ? formValues.sortby.value : null;
 
   const sortingUrl = url(skintype, ordering);
@@ -579,6 +587,31 @@ export function getInterestedProduct() {
       .get(interestproductUrl)
       .then((response) => {
         dispatch(setInterestedProduct(response.data));
+      })
+      .catch((error) => {
+        // If request is bad...
+        // Show an error to the user
+        // TODO: send notification and redirect
+      });
+  };
+}
+
+function setLikedReviews(payload) {
+  return {
+    type: AuthTypes.LIKED_REVIEW,
+    payload: payload
+  };
+}
+
+export function getLikedReviews() {
+  const userpk = localStorage.getItem("userpk");
+  const likedReviewsUrl = AuthUrls.REVIEW+"?author="+userpk+"&product=&author__influencer=&age_range=";
+  
+  return function (dispatch) {
+    axios
+      .get(likedReviewsUrl)
+      .then((response) => {
+        dispatch(setLikedReviews(response.data));
       })
       .catch((error) => {
         // If request is bad...
@@ -680,10 +713,58 @@ export function getSearch(props) {
   };
 }
 
+function setEvents(payload) {
+  return {
+    type: AuthTypes.EVENT,
+    payload: payload
+  };
+}
+
+export function getEvents() {
+  const eventUrl = AuthUrls.EVENT;
+
+  return function (dispatch) {
+    axios
+      .get(eventUrl)
+      .then((response) => {
+        dispatch(setEvents(response.data));
+      })
+      .catch((error) => {
+        // If request is bad...
+        // Show an error to the user
+        // TODO: send notification and redirect
+      });
+  };
+}
+
+
+function setInstagram(payload) {
+  return {
+    type: AuthTypes.INSTAGRAM,
+    payload: payload
+  };
+}
+
+export function getInstagram() {
+  const instagramUrl = AuthUrls.INSTAGRAM;
+
+  return function (dispatch) {
+    axios
+      .get(instagramUrl)
+      .then((response) => {
+        dispatch(setInstagram(response.data));
+      })
+      .catch((error) => {
+        // If request is bad...
+        // Show an error to the user
+        // TODO: send notification and redirect
+      });
+  };
+}
 
 export function search(formValues, dispatch, props) {
   const product = (props.match != null) ? props.match.params : null;
-  const result = formValues.result;
+  const result = (formValues.result != null) ? (formValues.result).replace(/\s/g,"+") : null;
   const searchUrl = AuthUrls.SEARCH+result;
 
   return axios

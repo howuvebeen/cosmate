@@ -54,11 +54,6 @@ class SortingReview extends Component {
                         <p>Skin Type</p>
                         <fieldset>
                             <Field component={renderRadio} type="radio" 
-                                checked={true} label="All" 
-                            /> 
-                        </fieldset>
-                        <fieldset>
-                            <Field component={renderRadio} type="radio" 
                                 value="dry" name="dry" label="Dry" 
                             /> 
                         </fieldset>

@@ -14,53 +14,64 @@ class Header extends Component {
         if (this.props.authenticated) {
             return (
                 [
-                    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="row">
+                    <nav className="col-md-9 navbar navbar-expand-lg navbar-light bg-light">
                         <Link to="/" className="navbar-brand mb-auto">Depco</Link>
-                        <ul className="navbar-nav float-right">
+                        <ul className="navbar-nav">
                             <li className="nav-item" key="skincare">
                                 <Link className="nav-link" to="/skincare">Skincare Products</Link>
                             </li>
                             <li className="nav-item" key="makeup">
                                 <Link className="nav-link" to="/makeup">Makeup Products</Link>
                             </li>
+                        </ul>
+                    </nav>
+                    <nav className="col-md-3 navbar navbar-expand-lg navbar-light bg-light">
+                        <ul className="navbar-nav">
+                            <li className="nav-item" key="interest">
+                                <Link className="nav-link" to="/interest">Interest</Link>
+                            </li>
                             <li className="nav-item" key="search">
                                 <Link className="nav-link" to="/search">Search</Link>
                             </li>
-                            <li className="nav-item" key="logout">
-                                <Link className="nav-link" to="/profile">Account</Link>
-                            </li>
-                            <li className="nav-item" key="logout">
-                                <Link className="nav-link" to="/logout">Sign out</Link>
+                            <li className="nav-item" key="account">
+                                <Link className="nav-link" to="/account">Account</Link>
                             </li>
                         </ul>
                     </nav>
-                   
+                    </div>
                 ]
             );
         //If not authenticated, show Login and Sign up in nav-bar
         } else {
             return (
                 [
-                    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="row">
+                    <nav className="col-md-8 navbar navbar-expand-lg navbar-light bg-light">
                         <Link to="/" className="navbar-brand mb-auto">Depco</Link>
-                        <ul className="navbar-nav pr-0">
+                        <ul className="navbar-nav">
                             <li className="nav-item" key="skincare">
                                 <Link className="nav-link" to="/skincare">Skincare Products</Link>
                             </li>
                             <li className="nav-item" key="makeup">
                                 <Link className="nav-link" to="/makeup">Makeup Products</Link>
                             </li>
+                        </ul>
+                    </nav>
+                    <nav className="col-md-4 navbar navbar-expand-lg navbar-light bg-light">
+                        <ul className="navbar-nav">
+                        <li className="nav-item" key="signup">
+                            <Link className="nav-link" to="/signup">Create an Account</Link>
+                            </li>
                             <li className="nav-item" key="search">
                                 <Link className="nav-link" to="/search">Search</Link>
                             </li>
-                            <li className="nav-item" key="signup">
-                                <Link className="nav-link" to="/signup">Create an Account</Link>
-                            </li>
                             <li className="nav-item" key="login">
-                                <Link className="nav-link" to="/login">Sign In</Link>
+                            <Link className="nav-link" to="/login">Sign In</Link>
                             </li>
                         </ul>
                     </nav>
+                    </div>
                     
                 ]
             );

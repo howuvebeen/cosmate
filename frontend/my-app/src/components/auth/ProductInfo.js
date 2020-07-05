@@ -120,7 +120,9 @@ class ProductInfo extends Component {
           </div>
           <hr/>
           <div class="p-3 text-center">
-            <p>{this.Star(product.average_star)}{product.average_star}</p>
+            <h2>{product.average_star}</h2>
+            <h2>{this.Star(product.average_star)}</h2>
+            <p>{product.review_number} Reviews</p>
           </div>
         </div>
       );
@@ -142,7 +144,6 @@ class ProductInfo extends Component {
             <p>{product.review_number} Reviews</p>
             {/* <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/upload`} class="text-md-left"><button className="btn btn-info">Write Review</button></Link> */}
             <Link to={`/skincare/moisturizers/${product.pk}/review/upload`} class="text-md-left"><button className="btn btn-info">Write Review</button></Link>
-
           </div>
         </div>
       );
