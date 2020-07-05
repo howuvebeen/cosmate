@@ -46,9 +46,6 @@ class ReviewSerializer(serializers.ModelSerializer):
     skintype = serializers.SerializerMethodField()
     age = serializers.SerializerMethodField()
     age_range = serializers.SerializerMethodField()
-    company_name = serializers.SerializerMethodField()
-    product_image = serializers.SerializerMethodField()
-    product_pk = serializers.SerializerMethodField()
 
     def get_age(self, obj):
         age = obj.author.age
@@ -74,24 +71,11 @@ class ReviewSerializer(serializers.ModelSerializer):
             typelist.append(obj.name)
         return typelist
 
-    def get_company_name(self, obj):
-        company_name = obj.product.company.name
-        return company_name
-
-    def get_product_image(self, obj):
-        product_image = obj.product.photo.url
-        return product_image
-
-    def get_product_pk(self, obj):
-        product_pk = obj.product.pk
-        return product_pk
-
     class Meta:
         model = Review
         read_only_fields = ['pub_date', 'like_number', 'likes']
         fields = ['pk', 'author', 'title', 'photo', 'age', 'skintype', 'skinissue', 'influencer', 'product',
-                  'star', 'review', 'pub_date', 'like_number', 'likes', 'age_range',
-                  'company_name', 'product_image', 'product_pk']
+                  'star', 'review', 'pub_date', 'like_number', 'likes', 'age_range']
 
 
 class LikeSerializer(serializers.ModelSerializer):
@@ -100,10 +84,36 @@ class LikeSerializer(serializers.ModelSerializer):
     """
     author = serializers.PrimaryKeyRelatedField(
         required=True, queryset=Profile.objects.all())
-    review = ReviewSerializer()
+    review = serializers.PrimaryKeyRelatedField(
+        required=True, queryset=Review.objects.all())
+    review_star = serializers.SerializerMethodField()
+    review_pubdate = serializers.SerializerMethodField()
+    review_title = serializers.SerializerMethodField()
+    review_content = serializers.SerializerMethodField()
+    review_likenumber = serializers.SerializerMethodField()
     product_photo = serializers.SerializerMethodField()
     product_name = serializers.SerializerMethodField()
     product_company_name = serializers.SerializerMethodField()
+
+    def get_review_star(self, obj):
+        review_star = obj.review.star
+        return review_star
+
+    def get_review_pubdate(self, obj):
+        review_pubdate = obj.review.pub_date
+        return review_pubdate
+
+    def get_review_title(self, obj):
+        review_title = obj.review.title
+        return review_title
+
+    def get_review_content(self, obj):
+        review_content = obj.review.review
+        return review_content
+
+    def get_review_likenumber(self, obj):
+        review_likenumber = obj.review.like_number
+        return review_likenumber
 
     def get_product_photo(self, obj):
         product_photo = obj.review.product.photo.url
@@ -119,8 +129,9 @@ class LikeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Like
-        fields = ['pk', 'author', 'review', 'product_photo',
-                  'product_name', 'product_company_name']
+        fields = ['pk', 'author', 'review', 'review_star', 'review_pubdate',
+                  'review_title', 'review_content', 'review_likenumber',
+                  'product_photo', 'product_name', 'product_company_name']
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
