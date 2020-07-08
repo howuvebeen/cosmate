@@ -31,6 +31,7 @@ class Category1(models.Model):
 class Category2(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=200, blank=True)
+    super_category = models.ForeignKey(Category1, on_delete=models.CASCADE, related_name='child_category')
 
     def __str__(self):
         return self.name
@@ -39,6 +40,7 @@ class Category2(models.Model):
 class Category3(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=200, blank=True)
+    super_category = models.ForeignKey(Category2, on_delete=models.CASCADE, related_name='child_category')
 
     def __str__(self):
         return self.name
@@ -47,6 +49,7 @@ class Category3(models.Model):
 class Category4(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=200, blank=True)
+    super_category = models.ForeignKey(Category3, on_delete=models.CASCADE, related_name='child_categoru')
 
     def __str__(self):
         return self.name
