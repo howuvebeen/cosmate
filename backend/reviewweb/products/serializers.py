@@ -72,6 +72,7 @@ class ProductSerializer(serializers.ModelSerializer):
     """
     Serialize Product Model
     """
+    thumbnail = serializers.ImageField(use_url=True, required=False, allow_empty_file=True)
     photo = serializers.ImageField(
         use_url=True, required=False, allow_empty_file=True)
     # picture = PictureSerializer(source='picture_set', many=True, read_only=True)
@@ -94,7 +95,7 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only_fields = ['pk', 'reviews', 'average_star', 'price', 'star_number',
                             'star_sum', 'review_number',
                             'rank_score']
-        fields = ['pk', 'name', 'photo', 'price', 'quantity', 'description', 'company',
+        fields = ['pk', 'name', 'thumbnail', 'photo', 'price', 'quantity', 'description', 'company',
                   'category1', 'category2', 'category3', 'category4',
                   'skintype', 'skinissue', 'ingredients', 'reviews',
                   'average_star', 'star_number', 'star_sum', 'review_number', 'rank_score']
