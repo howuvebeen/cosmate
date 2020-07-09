@@ -29,8 +29,8 @@ class Profile(models.Model):
     from products.models import Product
     user = models.OneToOneField(
         'auth.User', related_name='profiles', on_delete=models.CASCADE)
-    photo = models.ImageField(
-        default='media/profile_default_image.png', blank=True, storage=ProfileImageStorage())
+    thumbnail = models.ImageField('media/product_default_image.png', blank=True, storage=ProfileImageStorage())
+    photo = models.ImageField(default='media/product_default_image.png', blank=True, storage=ProfileImageStorage())
     gender = models.CharField(
         max_length=50, choices=GENDER_CHOICES, default="D")
     dob = models.DateField(
@@ -42,10 +42,11 @@ class Profile(models.Model):
     age_range = models.CharField(
         max_length=20, choices=AGE_RANGE_CHOICES, default='20')
     skinissue = models.ManyToManyField(
-        SkinIssue, related_name='skinissue', blank=True, null=True)
+        SkinIssue, related_name='skinissue', blank=True, null = True)
     skintype = models.ManyToManyField(
-        SkinType, related_name='skintype', blank=True, null=True)
-
+        SkinType, related_name='skintype', blank=True, null = True)
+    terms = models.BooleanField(default=False)
+    
     def __str__(self):
         return self.user.username
 
@@ -74,30 +75,29 @@ class Profile(models.Model):
             self.age_range = "70+"
         super(Profile, self).save(*args, **kwargs)
 
-
 class Interest(models.Model):
     """
     Model for interested products
     """
     from products.models import Product
-    author = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name='interest')
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name = 'interest')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
 
-@receiver(post_save, sender=Interest)
+
+@receiver(post_save, sender = Interest)
 def create_interest(sender, instance, **kwargs):
     """
     Checks for duplicate interests and deletes if found
     """
     a = Interest.objects.all().filter(
-        author=instance.author,
-        product=instance.product
+        author= instance.author,
+        product= instance.product
     )
     alist = list(a)
     if len(a) > 1:
         instance.delete()
-
+        
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
