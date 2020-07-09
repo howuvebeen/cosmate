@@ -42,6 +42,7 @@ class Review(models.Model):
     skinissue = models.ManyToManyField(SkinIssue, blank=True)
     review = models.TextField(max_length=5000, null=True, blank=True)
     pub_date = models.DateField(default=datetime.date.today)
+    last_update_date = models.DateField(auto_now=True)
     like_number = models.IntegerField(default=0)
     age_range = models.CharField(
         max_length=20, choices=AGE_RANGE_CHOICES, default='20')
