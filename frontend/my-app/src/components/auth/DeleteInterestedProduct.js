@@ -15,7 +15,7 @@ class DeleteInterestedProduct extends Component {
             <div>
                 <form onSubmit={handleSubmit}>
                     <fieldset className="form-group">
-                        <button action="submit" className="btn btn-warning">Delete from Interested Product</button>
+                        <button action="submit" className="btn btn-warning">Delete</button>
                     </fieldset>
                 </form>
             </div>

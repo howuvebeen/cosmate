@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getInterestedProduct } from "../../actions/authActions";
+import DeleteInterestedProduct from "./DeleteInterestedProduct.js";
+import { Link } from "react-router-dom";
 
 class InterestedProduct extends Component {
 
@@ -67,11 +69,16 @@ class InterestedProduct extends Component {
                 <p class="ml-3 mb-5">{interests.length} Products</p>
                 <div class="row justify-content-md-left">
                     {interests.map((interest) => (
-                        <div class="col-md-3 card p-5 m-4">
-                            <div>
-                                <p>{interest.product_company}</p>
-                                <h4>{interest.product_name}</h4>
-                                <p>{this.Star(interest.product_average_star)} {interest.product_average_star} ({interest.product_review_number})</p>
+                        <div class="col-md-4">
+                            <div class="card p-5 m-4">
+                                <div>
+                                    <p>{interest.product_company}</p>
+                                    <h4>{interest.product_name}</h4>
+                                    <p>{this.Star(interest.product_average_star)} {interest.product_average_star} ({interest.product_review_number})</p>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <DeleteInterestedProduct pk={interest.pk}/>
                             </div>
                         </div>
                     ))}

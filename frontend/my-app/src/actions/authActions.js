@@ -596,17 +596,42 @@ export function getInterestedProduct() {
   };
 }
 
+function setReviewHistory(payload) {
+  return {
+    type: AuthTypes.REVIEW_HISTORY,
+    payload: payload
+  };
+}
+
+export function getReviewHistory() {
+  const userpk = localStorage.getItem("userpk");
+  const reviewHistoryUrl = AuthUrls.REVIEW+"?author="+userpk+"&product=&author__influencer=&age_range=";
+    
+  return function (dispatch) {
+    axios
+      .get(reviewHistoryUrl)
+      .then((response) => {
+        dispatch(setReviewHistory(response.data));
+      })
+      .catch((error) => {
+        // If request is bad...
+        // Show an error to the user
+        // TODO: send notification and redirect
+      });
+  };
+}
+
 function setLikedReviews(payload) {
   return {
-    type: AuthTypes.LIKED_REVIEW,
+    type: AuthTypes.LIKED_REVIEWS,
     payload: payload
   };
 }
 
 export function getLikedReviews() {
   const userpk = localStorage.getItem("userpk");
-  const likedReviewsUrl = AuthUrls.REVIEW+"?author="+userpk+"&product=&author__influencer=&age_range=";
-  
+  const likedReviewsUrl = AuthUrls.LIKE+"?author="+userpk;
+
   return function (dispatch) {
     axios
       .get(likedReviewsUrl)
@@ -622,7 +647,6 @@ export function getLikedReviews() {
 }
 
 export function deleteInterestedProduct(formValues, dispatch, props) {
-  const userpk = localStorage.getItem("userpk");
   const pk = props.pk;
 
   const deleteInterestedProductUrl = AuthUrls.DELETE_IP+pk;
@@ -655,7 +679,6 @@ export function getLike() {
   const userpk = localStorage.getItem("userpk");
   const likeReviewUrl = AuthUrls.LIKE+"?author="+userpk;
 
-  console.log(likeReviewUrl);
   return function (dispatch) {
     axios
       .get(likeReviewUrl)

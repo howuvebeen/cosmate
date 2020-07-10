@@ -22,6 +22,7 @@ import SkinProfileEdit from "./auth/SkinProfileEdit";
 import PasswordProfileEdit from "./auth/PasswordProfileEdit";
 import UserProfileComplete from "./auth/UserProfileComplete";
 import LikedReviews from "./auth/LikedReviews";
+import ReviewHistory from "./auth/ReviewHistory";
 import Skincare from "./auth/Skincare";
 import SkinCategory from "./auth/SkinCategory";
 import Product from "./auth/Product";
@@ -55,7 +56,7 @@ const MainContent = () => (
             <Route exact path="/profile/password" component={PasswordProfileEdit}/>
             <Route exact path="/profile/complete" component={UserProfileComplete}/>
             <Route exact path="/like" component={LikedReviews}/>
-            <Route exact path="/review" component={LikedReviews}/>
+            <Route exact path="/review" component={ReviewHistory}/>
             <Route exact path="/skincare" component={Skincare}/>
             <Route exact path="/skincare/moisturizers" component={SkinCategory}/>
             <Route exact path="/skincare/moisturizers/:product" component={Product}/>

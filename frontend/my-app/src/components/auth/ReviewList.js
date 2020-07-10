@@ -38,22 +38,22 @@ class ReviewList extends Component {
       }
   
 
-    renderLike(pk){
+    renderLike(pk, like){
       const UR = this.props.UR;
 
       return (
         <div>
-          <LikeReview UR={UR} pk={pk}/>
+          <LikeReview UR={UR} pk={pk} like={like}/>
         </div>
       );
     }
 
-    renderUnlike(pk){
+    renderUnlike(pk, like){
       const UR = this.props.UR;
 
       return (
         <div>
-          <UnlikeReview UR={UR} pk={pk}/>
+          <UnlikeReview UR={UR} pk={pk} like={like}/>
         </div>
       );
     }
@@ -69,13 +69,13 @@ class ReviewList extends Component {
         for (i = 0; i < likes.length; i++) {
           like = likes[i];
           if (like.review == review.pk){
-            result.unshift(this.renderUnlike(like.pk));
+            result.unshift(this.renderUnlike(like.pk, review.like_number));
           } else {
-            result.push(this.renderLike(review.pk));
+            result.push(this.renderLike(review.pk, review.like_number));
           }
         } 
       } else if (likes && likes.length == 0){
-        return this.renderLike(review.pk);
+        return this.renderLike(review.pk, review.like_number);
       } else if (authenticated){
         return null;
       } return result[0];
@@ -158,9 +158,6 @@ class ReviewList extends Component {
               <Link to={`/skincare/moisturizers/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
               <Link to={`/skincare/moisturizers/${product.pk}/review/delete`} class="text-md-left">Delete</Link>
             </div>
-            <div class="pr-auto pt-2">
-              {this.renderLikeUnlike(review)}
-            </div>
           </div>
           <hr/>
         </div>
@@ -212,9 +209,6 @@ class ReviewList extends Component {
               {/* <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link> */}
               <Link to={`/skincare/moisturizers/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
               <Link to={`/skincare/moisturizers/${product.pk}/review/delete`} class="text-md-left">Delete</Link>
-            </div>
-            <div class="pr-auto pt-2">
-              {this.renderLikeUnlike(review)}
             </div>
           </div>
           <hr />

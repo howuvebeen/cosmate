@@ -10,12 +10,13 @@ class LikeReview extends Component {
 
     render() {
         const { handleSubmit } = this.props;
+        const like = this.props.like;
 
         return (
             <div>
                 <form onSubmit={handleSubmit}>
                     <fieldset className="form-group">
-                        <button action="submit" className="btn btn-light">Like</button>
+                        <button action="submit" className="btn btn-light">Like {like}</button>
                     </fieldset>
                 </form>
             </div>

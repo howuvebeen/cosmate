@@ -20,8 +20,10 @@ export default function(state = {}, action) {
             return { ...state, like: action.payload};
         case AuthTypes.REVIEW_LIST:
             return { ...state, review: action.payload};
-        case AuthTypes.LIKED_REVIEW:
+        case AuthTypes.REVIEW_HISTORY:
             return { ...state, lreview: action.payload};
+        case AuthTypes.LIKED_REVIEWS:
+            return { ...state, likedreview: action.payload};
         case AuthTypes.SEARCH:
             return { ...state, search: action.payload};
         case AuthTypes.EVENT:
