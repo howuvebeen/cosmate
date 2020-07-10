@@ -87,7 +87,9 @@ class ProfileSerializer(serializers.ModelSerializer):
     """
     Serialize Profile model
     """
-
+    thumbnail = serializers.ImageField(use_url=True, required=False, allow_empty_file=True)
+    photo = serializers.ImageField(
+        use_url=True, required=False, allow_empty_file=True)
     interest = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     user = serializers.StringRelatedField(read_only=True)
     firstname = serializers.SerializerMethodField()
@@ -130,9 +132,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ['user',
                             'last_login', 'age_range']
         fields = ['user', 'firstname', 'lastname', 'email', 'last_login',
-                  'gender', 'dob', 'age', 'age_range',
+                  'thumbnail', 'photo', 'gender', 'dob', 'age', 'age_range',
                   'skintype', 'skinissue', 'influencer', 'influencer_link', 'interest',
-                  'reviews']
+                  'reviews', 'terms']
 
 
 class TokenSerializer(serializers.ModelSerializer):
@@ -162,3 +164,4 @@ class TokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
         fields = ['user_pk', 'username', 'influencer', 'last_login', 'key']
+

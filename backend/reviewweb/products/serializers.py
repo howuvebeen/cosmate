@@ -72,6 +72,7 @@ class ProductSerializer(serializers.ModelSerializer):
     """
     Serialize Product Model
     """
+    thumbnail = serializers.ImageField(use_url=True, required=False, allow_empty_file=True)
     photo = serializers.ImageField(
         use_url=True, required=False, allow_empty_file=True)
     # picture = PictureSerializer(source='picture_set', many=True, read_only=True)
@@ -94,7 +95,7 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only_fields = ['pk', 'reviews', 'average_star', 'price', 'star_number',
                             'star_sum', 'review_number',
                             'rank_score']
-        fields = ['pk', 'name', 'photo', 'price', 'quantity', 'description', 'company',
+        fields = ['pk', 'name', 'thumbnail', 'photo', 'price', 'quantity', 'description', 'company',
                   'category1', 'category2', 'category3', 'category4',
                   'skintype', 'skinissue', 'ingredients', 'reviews',
                   'average_star', 'star_number', 'star_sum', 'review_number', 'rank_score']
@@ -114,37 +115,6 @@ class ProductSerializer(serializers.ModelSerializer):
     #     #     Picture.objects.create(product=product, picture=each)
     #     return Product.objects.create(**validated_data)
 
-
-class Category1Serializer(serializers.ModelSerializer):
-    """
-    Serialize Category Model
-    """
-
-    class Meta:
-        model = Category1
-        fields = ['pk', 'name', 'description']
-
-
-class Category2Serializer(serializers.ModelSerializer):
-    """
-    Serialize Category Model
-    """
-
-    class Meta:
-        model = Category2
-        fields = ['pk', 'name', 'description']
-
-
-class Category3Serializer(serializers.ModelSerializer):
-    """
-    Serialize Category Model
-    """
-
-    class Meta:
-        model = Category3
-        fields = ['pk', 'name', 'description']
-
-
 class Category4Serializer(serializers.ModelSerializer):
     """
     Serialize Category Model
@@ -152,7 +122,40 @@ class Category4Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category4
-        fields = ['pk', 'name', 'description']
+        fields = ['pk', 'name', 'description', 'super_category']
+
+class Category3Serializer(serializers.ModelSerializer):
+    """
+    Serialize Category Model
+    """
+    child_category = Category4Serializer(many=True)
+
+    class Meta:
+        model = Category3
+        fields = ['pk', 'name', 'description', 'super_category', 'child_category']
+
+class Category2Serializer(serializers.ModelSerializer):
+    """
+    Serialize Category Model
+    """
+    child_category = Category3Serializer(many=True)
+
+    class Meta:
+        model = Category2
+        fields = ['pk', 'name', 'description', 'super_category', 'child_category']
+
+
+class Category1Serializer(serializers.ModelSerializer):
+    """
+    Serialize Category Model
+    """
+    child_category = Category2Serializer(many=True)
+
+    class Meta:
+        model = Category1
+        fields = ['pk', 'name', 'description', 'child_category']
+
+
 
 class EventSerializer(serializers.ModelSerializer):
     """
