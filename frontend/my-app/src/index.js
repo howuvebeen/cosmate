@@ -7,13 +7,14 @@ import { Provider } from "react-redux";
 
 import store from "./store";
 import history from "./utils/historyUtils";
-import { authLogin, getTokenUser} from "./actions/authActions";
+import { authLogin, getUserInfo} from "./actions/authActions";
 import App from "./components/App";
 
 const token = localStorage.getItem("token");
 
 if (token) {
     store.dispatch(authLogin(token));
+    store.dispatch(getUserInfo(token));
 }
 
 ReactDOM.render(

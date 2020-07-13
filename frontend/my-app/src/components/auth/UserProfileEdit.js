@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { reduxForm, Field, Select, propTypes } from "redux-form";
-import { renderLabelField, renderLabelField2 } from "../../utils/renderUtils";
+import { renderLabelField2 } from "../../utils/renderUtils";
 import { Link } from "react-router-dom";
 
-import { userProfileEdit } from "../../actions/authActions";
+import { editUserProfile } from "../../actions/authActions";
 
 class UserProfileEdit extends Component {
 
@@ -106,6 +106,6 @@ class UserProfileEdit extends Component {
 }
 
 export default (reduxForm({
-    form: "userProfileEdit",
-    onSubmit: userProfileEdit
+    form: "editUserProfile",
+    onSubmit: editUserProfile
 })(UserProfileEdit));

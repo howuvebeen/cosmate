@@ -1,6 +1,5 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import RequireAuth from "./auth/RequireAuth";
 import Landing from "./Landing";
 import Login from "./auth/Login";
 import Logout from "./auth/Logout";
@@ -40,12 +39,14 @@ const MainContent = () => (
             <Route path="/logout" component={Logout}/>
             <Route exact path="/signup" component={Signup}/>
             <Route exact path="/signup/done" component={SignupDone}/>
-            <Route path="/account/:confirm"  component={AccountActivation}/>
-            <Route path="/reset_password" component={PasswordReset}/>
-            <Route path="/reset_password_done" component={PasswordResetDone}/>
-            <Route path="/reset/:confirm" component={PasswordResetConfirm}/>
-            <Route path="/reset_id" component={IdReset}/>
-            <Route path="/reset_id_done" component={IdResetDone}/>
+            <Route path="/signup/:confirm"  component={AccountActivation}/>
+            <Route path="/password/reset" component={PasswordReset}/>
+            <Route path="/password/reset/done" component={PasswordResetDone}/>
+            <Route path="/password/reset/:confirm" component={PasswordResetConfirm}/>
+
+            <Route path="/id/reset" component={IdReset}/>
+            <Route path="/id/reset/done" component={IdResetDone}/>
+
             <Route exact path="/search" component={SearchEngine}/>
             <Route exact path="/search/:product" component={Search}/>
             <Route exact path="/account" component={AccountNavigation}/>

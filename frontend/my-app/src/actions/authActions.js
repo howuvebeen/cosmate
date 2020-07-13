@@ -4,8 +4,13 @@ import history from "../utils/historyUtils";
 import { actions as notifActions } from "redux-notifications";
 import { AuthTypes } from "../constants/actionTypes";
 import { AuthUrls } from "../constants/urls";
+
+import store from "../store";
+import { getToken, getUser } from "../utils/authUtils";
 const { notifSend } = notifActions;
 
+// dispatched by loginUser
+// return token 
 export function authLogin(token) {
   return {
     type: AuthTypes.LOGIN,
@@ -13,24 +18,22 @@ export function authLogin(token) {
   };
 }
 
-export function loginUser(formValues, dispatch, props) {
+// post the login form
+export function loginUser(formValues, dispatch) {
   const loginUrl = AuthUrls.LOGIN;
 
   return axios
     .post(loginUrl, formValues)
     .then((response) => {
       const token = response.data.token;
+      // dispatch the token to authLogin()
       dispatch(authLogin(token));
-      dispatch(getTokenUser(token));
       localStorage.setItem("token", token);
-      const lastlogin = localStorage.getItem("lastlogin");
 
-      // redirect to the route '/'
-      if (lastlogin=="null"){
-        history.push("/profile/complete");
-      } else {
-        history.push("/");
-      }
+      dispatch(getUserInfo(token));
+
+      // redirect to the home page
+      history.push("/");
     })
     .catch((error) => {
       const processedError = processServerError(error.response.data);
@@ -38,14 +41,17 @@ export function loginUser(formValues, dispatch, props) {
     });
 }
 
-function setTokenUser(payload) {
+// dispatched by getUser
+// return user information 
+export function authUser(payload) {
   return {
     type: AuthTypes.TOKEN,
     payload: payload
   };
 }
 
-export function getTokenUser(token) {
+// get user information
+export function getUserInfo(token) {
   const tokenUrl = AuthUrls.TOKEN+token+"/";
 
   return function (dispatch) {
@@ -64,67 +70,43 @@ export function getTokenUser(token) {
         const lastlogin = response.data.last_login;
         localStorage.setItem("lastlogin", lastlogin);
 
-        dispatch(setTokenUser(response.data));
+        // dispatch the data to getUser()
+        dispatch(authUser(response.data));
       })
-      .catch((error) => {
-        // If request is bad...
-        // Show an error to the user
-        // TODO: send notification and redirect
-      });
   };
 }
 
+// remove token from local storage
 export function logoutUser() {
-  // Remove the token from localStorage
-  localStorage.removeItem("userpk");
   localStorage.removeItem("token");
-  localStorage.removeItem("influencer");
 
+  // redirect to the login page
   history.push("/login");
+
   return {
-    type: AuthTypes.LOGOUT,
+    type: AuthTypes.LOGOUT
   };
 }
 
+// post signup form
 export function signupUser(formValues) {
   const signupUrl = AuthUrls.SIGNUP;
 
   return axios
     .post(signupUrl, formValues)
     .then((response) => {
-      // email need to be verified, so don't login and send user to signup_done page.
       // redirect to signup done page.
       history.push("/signup/done");
     })
     .catch((error) => {
       console.log(error);
-      // If request is bad...
-      // Show an error to the user
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
 }
 
-export function signupUserInfluencer(formValues) {
-  const userpk = localStorage.getItem("userpk");
-  const userprofileUrl = AuthUrls.USER_PROFILE+userpk+"/";
-
-  return axios
-    .post(userprofileUrl, formValues)
-    .then((response) => {
-      // history.push("/signup/done");
-    })
-    .catch((error) => {
-      console.log(error);
-      // If request is bad...
-      // Show an error to the user
-      const processedError = processServerError(error.response.data);
-      throw new SubmissionError(processedError);
-    });
-}
-
-export function activateUserAccount(formValues, dispatch, props) {
-  // Slice :key from the link
+//  post activation user information
+export function activateAccount(formValues, props) {
   const params = new URLSearchParams(props.location.search);
 
   const activateUserUrl = AuthUrls.USER_ACTIVATION;
@@ -137,25 +119,16 @@ export function activateUserAccount(formValues, dispatch, props) {
   return axios
     .post(activateUserUrl, data)
     .then((response) => {
-      dispatch(
-        notifSend({
-          message:
-            "Your account has been activated successfully, please log in",
-          kind: "info",
-          dismissAfter: 5000,
-        })
-      );
-
+      // redirect to login page
       history.push("/login");
     })
     .catch((error) => {
-      // If request is bad…
-      // Show an error to the user
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
 }
 
+// post reset password form
 export function resetPassword(formValues) {
   const resetPasswordUrl = AuthUrls.RESET_PASSWORD;
 
@@ -163,20 +136,20 @@ export function resetPassword(formValues) {
     .post(resetPasswordUrl, formValues)
     .then((response) => {
       // redirect to reset done page
-      history.push("/reset_password_done");
+      history.push("/password/reset/done");
     })
     .catch((error) => {
-      // If request is bad...
-      // Show an error to the user
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
 }
 
-export function confirmPasswordChange(formValues, dispatch, props) {
+// post reset password form
+export function confirmPassword(formValues, props) {
   const params = new URLSearchParams(props.location.search);
 
-  const resetPasswordConfirmUrl = AuthUrls.RESET_PASSWORD_CONFIRM;
+  // assign user_id, timestamp, signature to the formValues
+  const resetPasswordConfirmUrl = AuthUrls.CONFIRM_PASSWORD;
   const data = Object.assign(formValues, {
     user_id: params.get("user_id"),
     timestamp: params.get("timestamp"),
@@ -186,24 +159,16 @@ export function confirmPasswordChange(formValues, dispatch, props) {
   return axios
     .post(resetPasswordConfirmUrl, data)
     .then((response) => {
-      dispatch(
-        notifSend({
-          message: "Password has been reset successfully, please log in",
-          kind: "info",
-          dismissAfter: 5000,
-        })
-      );
-
+      // redirect to login page
       history.push("/login");
     })
     .catch((error) => {
-      // If request is bad...
-      // Show an error to the user
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
 }
 
+// post reset id form 
 export function resetId(formValues) {
   const resetIdUrl = AuthUrls.RESET_ID;
 
@@ -211,16 +176,22 @@ export function resetId(formValues) {
     .post(resetIdUrl, formValues)
     .then((response) => {
       // redirect to reset done page
-      history.push("/reset_id_done");
+      history.push("/id/reset/done");
     })
     .catch((error) => {
-      // If request is bad...
-      // Show an error to the user
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
 }
 
+
+
+
+
+
+
+
+// dispatched from getUserProfile
 function setUserProfile(payload) {
   return {
     type: AuthTypes.USER_PROFILE,
@@ -228,8 +199,9 @@ function setUserProfile(payload) {
   };
 }
 
+// get the profile information
 export function getUserProfile() {
-  const userpk = localStorage.getItem("userpk");
+  const userpk = getUser(store.getState()).user_pk;
   const profileUrl = AuthUrls.USER_PROFILE+userpk+"/";
 
   if (userpk != null){
@@ -240,16 +212,16 @@ export function getUserProfile() {
           dispatch(setUserProfile(response.data));
         })
         .catch((error) => {
-          // If request is bad...
-          // Show an error to the user
-          // TODO: send notification and redirect
+          const processedError = processServerError(error.response.data);
+          throw new SubmissionError(processedError);
         });
     };
   }
 }
 
-export function userProfileEdit(formValues, dispatch, props) {
-  const userpk = localStorage.getItem("userpk");
+// patch the edited user & profile information
+export function editUserProfile(formValues) {
+  const userpk = getUser(store.getState()).user_pk;
   const profileUrl = AuthUrls.USER_PROFILE+userpk+"/";
   const userUrl = AuthUrls.USER_USER+userpk+"/";
 
@@ -257,77 +229,62 @@ export function userProfileEdit(formValues, dispatch, props) {
     skintype: type(formValues)
   });
   
-
   const requestOne = axios.patch(profileUrl, data);
   const requestTwo = axios.patch(userUrl, data);
 
   return axios
     .all([requestOne, requestTwo])
     .then((response) => {
-      dispatch(
-        notifSend({
-          message: "Your profile has been updated successfully",
-          kind: "info",
-          dismissAfter: 5000,
-        })
-      );
-
       history.push("/profile");
     })
     .catch((error) => {
-      // If request is bad...
-      // Show an error to the user
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
 }
 
-
-export function skinProfileEdit(formValues, dispatch, props) {
-  const userpk = localStorage.getItem("userpk");
+// patch the edited skin information
+export function editSkinProfile(formValues) {
+  const userpk = getUser(store.getState()).user_pk;
   const profileUrl = AuthUrls.USER_PROFILE+userpk+"/";
 
   const data = Object.assign(formValues, {
     skintype: type(formValues)
   });
   
-
   return axios
     .patch(profileUrl, data)
     .then((response) => {
-      dispatch(
-        notifSend({
-          message: "Your profile has been updated successfully",
-          kind: "info",
-          dismissAfter: 5000,
-        })
-      );
-
       history.push("/profile");
     })
     .catch((error) => {
-      // If request is bad...
-      // Show an error to the user
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
 }
 
-export function userProfileComplete(formValues, dispatch, props) {
-  const userpk = localStorage.getItem("userpk");
+// post signup influencer form 
+export function signupInfluencer(formValues) {
+  const userpk = getUser(store.getState()).user_pk;
+  const userprofileUrl = AuthUrls.USER_PROFILE+userpk+"/";
+
+  return axios
+    .post(userprofileUrl, formValues)
+    .catch((error) => {
+      console.log(error);
+      const processedError = processServerError(error.response.data);
+      throw new SubmissionError(processedError);
+    });
+}
+
+export function userProfileComplete(formValues) {
+  const userpk = getUser(store.getState()).user_pk;
   const profileUrl = AuthUrls.USER_PROFILE+userpk+"/";
 
   return axios
     .put(profileUrl, formValues)
     .then((response) => {
-      dispatch(
-        notifSend({
-          message: "Your profile has been updated successfully",
-          kind: "info",
-          dismissAfter: 5000,
-        })
-      );
-
+      // redirect to the home page
       history.push("/");
     })
     .catch((error) => {
@@ -337,6 +294,13 @@ export function userProfileComplete(formValues, dispatch, props) {
       throw new SubmissionError(processedError);
     });
 }
+
+
+
+
+
+
+
 
 function setproductList(payload) {
   return {
@@ -496,40 +460,6 @@ export function deleteReview(formValues, dispatch, props) {
       history.push("/skincare/"+category+"/"+product);
       // redirect to reset done page
     })
-}
-
-function type(skintype){
-  if (skintype.oily == true){
-    return 2;
-  } else if (skintype.dry == true){
-    return 1;
-  } else if (skintype.neutral == true){
-    return 4;
-  } else if (skintype.combinational == true){
-    return 3;
-  } else {
-    return null;
-  }
-}
-
-function url(skintype, ordering, price_min, price_max){
-  let result = AuthUrls.PRODUCT+"?";
-  let i;
-
-  if (skintype != null){
-    result += "&skintype="+skintype;
-  } 
-  if (ordering != null){
-    result += "&ordering="+ordering;
-  } 
-  if (price_min != null){
-    result += "&min_price="+price_min;
-  } 
-  if (price_max != null){
-    result += "&max_price="+price_max;
-  } 
-  
-  return result;
 }
 
 export function sorting(formValues, dispatch) {
@@ -786,15 +716,15 @@ export function getInstagram() {
 }
 
 export function search(formValues, dispatch, props) {
-  const product = (props.match != null) ? props.match.params : null;
-  const result = (formValues.result != null) ? (formValues.result).replace(/\s/g,"+") : null;
+  const product = (props.match != null) ? props.match.params : "";
+  const result = (formValues.result != null) ? (formValues.result).replace(/\s/g,"+") : "";
   const searchUrl = AuthUrls.SEARCH+result;
 
   return axios
     .get(searchUrl)
     .then((response) => {
       dispatch(setSearch(response.data));
-      if (product != null){
+      if (product != ""){
         history.push("search/"+result);
       } else {
         history.replace(result);
@@ -804,6 +734,40 @@ export function search(formValues, dispatch, props) {
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
+}
+
+function type(skintype){
+  if (skintype.oily == true){
+    return 2;
+  } else if (skintype.dry == true){
+    return 1;
+  } else if (skintype.neutral == true){
+    return 4;
+  } else if (skintype.combinational == true){
+    return 3;
+  } else {
+    return null;
+  }
+}
+
+function url(skintype, ordering, price_min, price_max){
+  let result = AuthUrls.PRODUCT+"?";
+  let i;
+
+  if (skintype != null){
+    result += "&skintype="+skintype;
+  } 
+  if (ordering != null){
+    result += "&ordering="+ordering;
+  } 
+  if (price_min != null){
+    result += "&min_price="+price_min;
+  } 
+  if (price_max != null){
+    result += "&max_price="+price_max;
+  } 
+  
+  return result;
 }
 
 // util functions

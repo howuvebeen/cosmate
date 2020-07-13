@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { reduxForm, Field, propTypes } from "redux-form";
 import { required } from "redux-form-validators"
 import { renderField, renderError} from "../../utils/renderUtils";
-import { confirmPasswordChange } from "../../actions/authActions";
+import { confirmPassword } from "../../actions/authActions";
 
 class PasswordProfileEdit extends Component {
 
@@ -62,7 +62,7 @@ const validateForm = values => {
 };
 
 export default reduxForm({
-    form: "password_reset_confirm",
-    onSubmit: confirmPasswordChange,
+    form: "confirmPassword",
+    onSubmit: confirmPassword,
     validate: validateForm
 })(PasswordProfileEdit);

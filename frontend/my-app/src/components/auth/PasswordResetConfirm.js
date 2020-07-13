@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { reduxForm, Field, propTypes } from "redux-form";
 import { required } from "redux-form-validators"
-import { confirmPasswordChange } from "../../actions/authActions";
+import { confirmPassword } from "../../actions/authActions";
 import { renderField, renderError } from "../../utils/renderUtils";
 
 class PasswordResetConfirm extends Component {
@@ -56,6 +56,6 @@ const validateForm = values => {
 
 export default reduxForm({
     form: "password_reset_confirm",
-    onSubmit: confirmPasswordChange,
+    onSubmit: confirmPassword,
     validate: validateForm
 })(PasswordResetConfirm);
