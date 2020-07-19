@@ -33,16 +33,26 @@ export const AuthUrls = {
     // patch from skinProfileEdit
     USER_USER: `${ROOT_URL}users/users/`,
 
-
-
+    // get from getproductList
     PRODUCT_LIST: `${ROOT_URL}products/products/`,
-        PRODUCT_ST: `${ROOT_URL}products/products/?name=&company=&skintype=`,
-        PRODUCT_OR: `${ROOT_URL}products/products/?ordering=`,
+    
+    // get from getProduct
     PRODUCT: `${ROOT_URL}products/products/`,
+    
+    // get from getReviewList 
+    REVIEW_LIST: `${ROOT_URL}reviews/reviews/?author=&product=`,
+
+    // post from uploadReview
+    // get from editReview
+    // patch from editReview
+    // get from deleteReview
+    // delete from deleteReview
+    REVIEW: `${ROOT_URL}reviews/reviews/`,
+
+    PRODUCT_ST: `${ROOT_URL}products/products/?name=&company=&skintype=`,
+    PRODUCT_OR: `${ROOT_URL}products/products/?ordering=`,
     INTEREST:`${ROOT_URL}users/interests/?author=`,
         DELETE_IP: `${ROOT_URL}users/interests/`,
-    REVIEW_LIST: `${ROOT_URL}reviews/reviews/?author=&product=`,
-    REVIEW: `${ROOT_URL}reviews/reviews/`,
         LIKE: `${ROOT_URL}reviews/likes/`,
     SEARCH:`${ROOT_URL}products/products-search/?search=`,
     EVENT: `${ROOT_URL}products/events/`,

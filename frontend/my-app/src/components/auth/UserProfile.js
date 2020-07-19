@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getUserInfo } from "../../actions/authActions";
-import { getUserProfile } from "../../actions/authActions";
+import { getUserInfo, getUserProfile } from "../../actions/authActions";
 
 class UserProfile extends Component {
 
@@ -64,3 +63,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { getUserInfo, getUserProfile } )(UserProfile);
+

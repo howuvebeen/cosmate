@@ -1,15 +1,26 @@
 import React, { Component } from "react";
-import { reduxForm, Field, Select, propTypes } from "redux-form";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { reduxForm, Field } from "redux-form";
 import { renderLabelField2 } from "../../utils/renderUtils";
 import { Link } from "react-router-dom";
 
-import { editUserProfile } from "../../actions/authActions";
+import { getUserInfo, getUserProfile, editUserProfile } from "../../actions/authActions";
 
 class UserProfileEdit extends Component {
 
     static propTypes = {
-        ...propTypes
+        getUserInfo: PropTypes.func.isRequired,
+        profile: PropTypes.object,
+
+        getUserProfile: PropTypes.func.isRequired,
+        user: PropTypes.object
     };
+
+    componentWillMount() {
+        this.props.getUserInfo();
+        this.props.getUserProfile();
+    }
 
     constructor(props) {
         super(props);
@@ -24,7 +35,7 @@ class UserProfileEdit extends Component {
     
         this.handleInputChange = this.handleInputChange.bind(this);
       }
-    
+
       handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -33,11 +44,23 @@ class UserProfileEdit extends Component {
         this.setState({
           [name]: value
         });
-
     }
     
     render() {
-        const { handleSubmit, error } = this.props;
+        const { handleSubmit } = this.props;
+        const profile = this.props.profile;
+        const user = this.props.user;
+
+        console.log(profile, user);
+
+        this.props.initialize({
+            first_name: profile.firstname,
+            last_name: profile.lastname,
+            email: profile.email,
+            username: user.username,
+            gender: profile.gender,
+            dob: profile.dob,
+        });
 
         return (
             <div className="d-flex flex-column">
@@ -104,8 +127,17 @@ class UserProfileEdit extends Component {
         )
     }
 }
-
-export default (reduxForm({
-    form: "editUserProfile",
+UserProfileEdit = reduxForm({
+    form: 'editUserProfile',
     onSubmit: editUserProfile
-})(UserProfileEdit));
+})(UserProfileEdit);
+
+UserProfileEdit = connect(
+  state => ({
+    profile: state.auth.profile,
+    user: state.auth.user
+}),
+  { getUserInfo, getUserProfile }
+)(UserProfileEdit);
+
+export default UserProfileEdit;

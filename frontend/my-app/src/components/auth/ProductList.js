@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getproductList } from "../../actions/authActions";
+import { getProductList } from "../../actions/authActions";
 import { Link } from "react-router-dom";
 
 class ProductList extends Component {
 
     static propTypes = {
-        getproductList: PropTypes.func.isRequired,
+        getProductList: PropTypes.func.isRequired,
         lproduct: PropTypes.object
     };
 
     componentWillMount() {
-        this.props.getproductList();
+        this.props.getProductList();
     }
 
     Star(star){
@@ -101,4 +101,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { getproductList } )( ProductList );
+export default connect(mapStateToProps, { getProductList } )( ProductList );

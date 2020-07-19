@@ -108,8 +108,9 @@ export function signupUser(formValues) {
 //  post activation user information
 export function activateAccount(formValues, props) {
   const params = new URLSearchParams(props.location.search);
-
   const activateUserUrl = AuthUrls.USER_ACTIVATION;
+
+  // assign user_id, timestamp, signature to the formValues
   const data = Object.assign(formValues, {
     user_id: params.get("user_id"),
     timestamp: params.get("timestamp"),
@@ -147,9 +148,9 @@ export function resetPassword(formValues) {
 // post reset password form
 export function confirmPassword(formValues, props) {
   const params = new URLSearchParams(props.location.search);
+  const resetPasswordConfirmUrl = AuthUrls.CONFIRM_PASSWORD;
 
   // assign user_id, timestamp, signature to the formValues
-  const resetPasswordConfirmUrl = AuthUrls.CONFIRM_PASSWORD;
   const data = Object.assign(formValues, {
     user_id: params.get("user_id"),
     timestamp: params.get("timestamp"),
@@ -183,7 +184,6 @@ export function resetId(formValues) {
       throw new SubmissionError(processedError);
     });
 }
-
 
 
 
@@ -225,6 +225,7 @@ export function editUserProfile(formValues) {
   const profileUrl = AuthUrls.USER_PROFILE+userpk+"/";
   const userUrl = AuthUrls.USER_USER+userpk+"/";
 
+  // assign skintype to the formValues
   const data = Object.assign(formValues, {
     skintype: type(formValues)
   });
@@ -245,9 +246,10 @@ export function editUserProfile(formValues) {
 
 // patch the edited skin information
 export function editSkinProfile(formValues) {
-  const userpk = getUser(store.getState()).user_pk;
   const profileUrl = AuthUrls.USER_PROFILE+userpk+"/";
 
+  const userpk = getUser(store.getState()).user_pk;
+  // assign skintype to the formValues
   const data = Object.assign(formValues, {
     skintype: type(formValues)
   });
@@ -288,8 +290,6 @@ export function userProfileComplete(formValues) {
       history.push("/");
     })
     .catch((error) => {
-      // If request is bad...
-      // Show an error to the user
       const processedError = processServerError(error.response.data);
       throw new SubmissionError(processedError);
     });
@@ -301,30 +301,33 @@ export function userProfileComplete(formValues) {
 
 
 
-
-function setproductList(payload) {
+// dispatched from getproductList
+// return list of posts
+function setProductList(payload) {
   return {
     type: AuthTypes.PRODUCT_LIST,
     payload: payload
   };
 }
 
-export function getproductList() {
+// get list of posts
+export function getProductList() {
   const productListUrl = AuthUrls.PRODUCT_LIST;
   return function (dispatch) {
     axios
       .get(productListUrl)
       .then((response) => {
-        dispatch(setproductList(response.data));
+        dispatch(setProductList(response.data));
       })
       .catch((error) => {
-        // If request is bad...
-        // Show an error to the user
-        // TODO: send notification and redirect
+        // const processedError = processServerError(error.response.data);
+        // throw new SubmissionError(processedError);
       });
   };
 }
 
+// dispatched from getProduct
+// return specific product
 function setProduct(payload) {
   return {
     type: AuthTypes.PRODUCT,
@@ -332,6 +335,7 @@ function setProduct(payload) {
   };
 }
 
+// get a specific product
 export function getProduct(props) {
   const { product } = props.match.params;
   const productUrl = AuthUrls.PRODUCT+product+"/";
@@ -343,13 +347,14 @@ export function getProduct(props) {
         dispatch(setProduct(response.data));
       })
       .catch((error) => {
-        // If request is bad...
-        // Show an error to the user
-        // TODO: send notification and redirect
+        const processedError = processServerError(error.response.data);
+        throw new SubmissionError(processedError);
       });
   };
 }
 
+// dispatched from getReviewList
+// return list of reviews
 function setReviewList(payload) {
   return {
     type: AuthTypes.REVIEW_LIST,
@@ -357,6 +362,7 @@ function setReviewList(payload) {
   };
 }
 
+// get list of reviews
 export function getReviewList(props) {
   const { product } = props.match.params;
   const reviewListUrl = AuthUrls.REVIEW_LIST + product;
@@ -368,22 +374,21 @@ export function getReviewList(props) {
         dispatch(setReviewList(response.data));
       })
       .catch((error) => {
-        // If request is bad...
-        // Show an error to the user
-        // TODO: send notification and redirect
+        const processedError = processServerError(error.response.data);
+        throw new SubmissionError(processedError);
       });
   };
 }
 
+// post a new review
 export function uploadReview(formValues, dispatch, props) {
   const { category } = "Moisturizers";
   const { product } = props.UR.match.params;
-
-  const userpk = localStorage.getItem("userpk");
-  const influencer = localStorage.getItem("influencer");
-
   const uploadReviewUrl = AuthUrls.REVIEW;
 
+  const userpk = getUser(store.getState()).user_pk;
+  const influencer = getUser(store.getState()).influencer;
+  // assign star, product, author, influencer to the formValues
   const data = Object.assign(formValues, {
     star: formValues.star.value,
     product: product,
@@ -394,15 +399,7 @@ export function uploadReview(formValues, dispatch, props) {
   return axios
     .post(uploadReviewUrl, data)
     .then((response) => {
-      dispatch(
-        notifSend({
-          message:
-            "Your review has been uploaded successfully",
-          kind: "info",
-          dismissAfter: 5000,
-        })
-      );
-      // redirect to reset done page
+      // redirect to specific product page
       history.push("/skincare/"+category+"/"+product);
     })
     .catch((error) => {
@@ -413,55 +410,61 @@ export function uploadReview(formValues, dispatch, props) {
     });
 }
 
+// get a review primary key
+// patch edited review
 export function editReview(formValues, dispatch, props) {
   const { category } = "1";
   const { product } = props.match.params;
-
   const userpk = localStorage.getItem("userpk");
+  const deleteReviewUrl = AuthUrls.REVIEW+"?author="+userpk+"&product="+product+"&author__influencer="+influencer;
+
   const influencer = localStorage.getItem("influencer");
   const stars = formValues.star.value;
-
+  // assign influencer, star to the formValues
   const data = Object.assign(formValues, {
     influencer: influencer,
     star: stars
   });
-
-  const deleteReviewUrl = AuthUrls.REVIEW+"?author="+userpk+"&product="+product+"&author__influencer="+influencer;
 
   return axios
     .get(deleteReviewUrl)
     .then((response) => {
       const reviewpk = response.data[0].pk;
       axios.patch(AuthUrls.REVIEW+reviewpk+"/", data);
+
+      // redirect to specific product page
       history.push("/skincare/"+category+"/"+product);
-      // redirect to reset done page
     })
 }
 
+// get a review primary key
+// delete a review
 export function deleteReview(formValues, dispatch, props) {
   const { category } = "1";
   const { product } = props.match.params;
+  const deleteReviewUrl = AuthUrls.REVIEW+"?author="+userpk+"&product="+product+"&author__influencer="+influencer;
+
   const userpk = localStorage.getItem("userpk");
   const influencer = localStorage.getItem("influencer");
-
+  // assign product, author, influencer to the formValues
   const data = Object.assign(formValues, {
     product: product,
     author: userpk,
     influencer: influencer
   });
 
-  const deleteReviewUrl = AuthUrls.REVIEW+"?author="+userpk+"&product="+product+"&author__influencer="+influencer;
-
   return axios
     .get(deleteReviewUrl)
     .then((response) => {
       const reviewpk = response.data[0].pk;
       axios.delete(AuthUrls.REVIEW+reviewpk+"/", data);
+      
+      // redirect to specific product page
       history.push("/skincare/"+category+"/"+product);
-      // redirect to reset done page
     })
 }
 
+// 
 export function sorting(formValues, dispatch) {
   const skintype = type(formValues);
   const price_min = formValues.price_min;
@@ -473,7 +476,7 @@ export function sorting(formValues, dispatch) {
   return axios
     .get(sortingUrl)
     .then((response) => {
-      dispatch(setproductList(response.data));
+      dispatch(setProductList(response.data));
     })
     .catch((error) => {
       const processedError = processServerError(error.response.data);
@@ -491,7 +494,7 @@ export function sortingReview(formValues, dispatch) {
     .get(sortingUrl)
     .then((response) => {
       // redirect to reset done page
-      dispatch(setproductList(response.data));
+      dispatch(setProductList(response.data));
     })
     .catch((error) => {
       // If request is bad...
