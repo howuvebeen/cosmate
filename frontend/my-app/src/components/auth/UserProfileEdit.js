@@ -11,10 +11,11 @@ class UserProfileEdit extends Component {
 
     static propTypes = {
         getUserInfo: PropTypes.func.isRequired,
-        profile: PropTypes.object,
+        user: PropTypes.object,
 
         getUserProfile: PropTypes.func.isRequired,
-        user: PropTypes.object
+        profile: PropTypes.object
+
     };
 
     componentWillMount() {
@@ -47,11 +48,9 @@ class UserProfileEdit extends Component {
     }
     
     render() {
-        const { handleSubmit } = this.props;
+        const { handleSubmit } = this.props;       
         const profile = this.props.profile;
         const user = this.props.user;
-
-        console.log(profile, user);
 
         this.props.initialize({
             first_name: profile.firstname,
@@ -127,6 +126,7 @@ class UserProfileEdit extends Component {
         )
     }
 }
+
 UserProfileEdit = reduxForm({
     form: 'editUserProfile',
     onSubmit: editUserProfile

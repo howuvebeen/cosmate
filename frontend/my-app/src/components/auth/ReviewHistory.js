@@ -8,7 +8,7 @@ class ReviewHistory extends Component {
 
     static propTypes = {
         getReviewHistory: PropTypes.func.isRequired,
-        lreview: PropTypes.object
+        hreview: PropTypes.object
     };
 
     componentWillMount() {
@@ -80,30 +80,30 @@ class ReviewHistory extends Component {
     }
 
     renderYesResult(){
-        const lreviews  = this.props.lreview;
+        const hreviews  = this.props.hreview;
 
         return (
             <div>
                 <h3 class="mt-5 ml-3 mb-5">Review History</h3>
-                <p class="ml-3 mb-5">{lreviews.length} Reviews</p>
+                <p class="ml-3 mb-5">{hreviews.length} Reviews</p>
                 <div class="row justify-content-md-center">
-                    {lreviews.map((lreview) => (
+                    {hreviews.map((hreview) => (
                         <div class="w-100 p-5">
                             <div>
                                 <div class="row">
                                   <div class="col-md-4">
-                                      <p>{lreview.company_name}</p>
-                                      <h5>{lreview.product}</h5>
+                                      <p>{hreview.company_name}</p>
+                                      <h5>{hreview.product}</h5>
                                   </div>
                                   <div class="col-md-6">
-                                      <p>{this.Star(lreview.star)} {lreview.pub_date}</p>
-                                      <h5>{lreview.title}</h5>
-                                      <p>{lreview.review}</p>
+                                      <p>{this.Star(hreview.star)} {hreview.pub_date}</p>
+                                      <h5>{hreview.title}</h5>
+                                      <p>{hreview.review}</p>
                                       </div>
                                   <div class="pr-auto col text-right">
-                                    <Link to={`/skincare/moisturizers/${lreview.product_pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
-                                    <Link to={`/skincare/moisturizers/${lreview.product_pk}/review/delete`} class="text-md-left">Delete</Link>
-                                    <button action="submit" className="btn btn-light">like {lreview.like_number}</button>
+                                    <Link to={`/skincare/moisturizers/${hreview.product_pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
+                                    <Link to={`/skincare/moisturizers/${hreview.product_pk}/review/delete`} class="text-md-left">Delete</Link>
+                                    <button action="submit" className="btn btn-light">like {hreview.like_number}</button>
                                   </div>
                                 </div>
                                 <hr/>
@@ -116,10 +116,10 @@ class ReviewHistory extends Component {
     }
 
     renderReviewHistory() {
-        const lreviews  = this.props.lreview;
+        const hreviews  = this.props.hreview;
     
-        if (lreviews) {
-            if (lreviews.length==0){
+        if (hreviews) {
+            if (hreviews.length==0){
                 return (
                     <div>
                         {this.renderNoResult()}
@@ -147,7 +147,7 @@ class ReviewHistory extends Component {
 
 function mapStateToProps(state) {
     return {
-        lreview: state.auth.lreview
+        hreview: state.auth.hreview
     }
 }
 

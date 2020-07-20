@@ -347,8 +347,8 @@ export function getProduct(props) {
         dispatch(setProduct(response.data));
       })
       .catch((error) => {
-        const processedError = processServerError(error.response.data);
-        throw new SubmissionError(processedError);
+        // const processedError = processServerError(error.response.data);
+        // throw new SubmissionError(processedError);
       });
   };
 }
@@ -372,6 +372,35 @@ export function getReviewList(props) {
       .get(reviewListUrl)
       .then((response) => {
         dispatch(setReviewList(response.data));
+      })
+      .catch((error) => {
+        // const processedError = processServerError(error.response.data);
+        // throw new SubmissionError(processedError);
+      });
+  };
+}
+
+// dispatched from getProduct
+// return specific product
+function setReview(payload) {
+  return {
+    type: AuthTypes.REVIEW,
+    payload: payload,
+  };
+}
+
+// get a specific product
+export function getReview(props) {
+  const { product } = props.match.params;
+  const userpk = getUser(store.getState()).user_pk;
+  const influencer = getUser(store.getState()).influencer;
+  const reviewUrl = AuthUrls.REVIEW+"?author="+userpk+"&product="+product+"&author__influencer="+influencer;
+
+  return function (dispatch) {
+    axios
+      .get(reviewUrl)
+      .then((response) => {
+        dispatch(setReview(response.data[0]));
       })
       .catch((error) => {
         const processedError = processServerError(error.response.data);
@@ -412,13 +441,13 @@ export function uploadReview(formValues, dispatch, props) {
 
 // get a review primary key
 // patch edited review
-export function editReview(formValues, dispatch, props) {
+export function editReview(formValues, props) {
   const { category } = "1";
   const { product } = props.match.params;
-  const userpk = localStorage.getItem("userpk");
-  const deleteReviewUrl = AuthUrls.REVIEW+"?author="+userpk+"&product="+product+"&author__influencer="+influencer;
+  const userpk = getUser(store.getState()).user_pk;
+  const influencer = getUser(store.getState()).influencer;
+  const reviewKeyUrl = AuthUrls.REVIEW+"?author="+userpk+"&product="+product+"&author__influencer="+influencer;
 
-  const influencer = localStorage.getItem("influencer");
   const stars = formValues.star.value;
   // assign influencer, star to the formValues
   const data = Object.assign(formValues, {
@@ -427,10 +456,11 @@ export function editReview(formValues, dispatch, props) {
   });
 
   return axios
-    .get(deleteReviewUrl)
+    .get(reviewKeyUrl)
     .then((response) => {
       const reviewpk = response.data[0].pk;
-      axios.patch(AuthUrls.REVIEW+reviewpk+"/", data);
+      const editReviewUrl = AuthUrls.REVIEW+reviewpk+"/";
+      axios.patch(editReviewUrl, data);
 
       // redirect to specific product page
       history.push("/skincare/"+category+"/"+product);

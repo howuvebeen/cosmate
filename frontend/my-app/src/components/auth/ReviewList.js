@@ -16,7 +16,7 @@ class ReviewList extends Component {
       product: PropTypes.object,
   
       getReviewList: PropTypes.func.isRequired,
-      review: PropTypes.object,
+      lreview: PropTypes.object,
   
       getUserInfo: PropTypes.func.isRequired,
       user: PropTypes.object,
@@ -279,7 +279,7 @@ class ReviewList extends Component {
       const user = this.props.user;
       const authenticated = this.props.authenticated;
 
-      const reviews = this.props.review;
+      const reviews = this.props.lreview;
       const reviewI = [];
       const reviewNI = [];
 
@@ -354,7 +354,7 @@ class ReviewList extends Component {
   function mapStateToProps(state) {
     return {
       product: state.auth.product,
-      review: state.auth.review,
+      lreview: state.auth.lreview,
       authenticated: state.auth.authenticated,
       user: state.auth.user,
       like: state.auth.like
