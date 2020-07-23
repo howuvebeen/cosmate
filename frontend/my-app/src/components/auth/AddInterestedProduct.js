@@ -15,7 +15,7 @@ class AddInterestedProduct extends Component {
             <div>
                 <form onSubmit={handleSubmit}>
                     <fieldset className="form-group">
-                        <button action="submit" className="btn btn-warning">Add to Interested Product</button>
+                        <button action="submit" className="btn btn-warning">Add</button>
                     </fieldset>
                 </form>
             </div>

@@ -3,7 +3,7 @@ import { reduxForm, Field, Select, propTypes } from "redux-form";
 import { renderCheckbox, renderRadio } from "../../utils/renderUtils";
 import { Link } from "react-router-dom";
 
-import { skinProfileEdit } from "../../actions/authActions";
+import { editSkinProfile } from "../../actions/authActions";
 
 class SkinProfileEdit extends Component {
 
@@ -117,6 +117,6 @@ class SkinProfileEdit extends Component {
 }
 
 export default (reduxForm({
-    form: "skinProfileEdit",
-    onSubmit: skinProfileEdit
+    form: "editSkinProfile",
+    onSubmit: editSkinProfile
 })(SkinProfileEdit));

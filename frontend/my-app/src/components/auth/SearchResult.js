@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getSearch } from "../../actions/authActions";
-import { Link } from "react-router-dom";
 
 class SearchResult extends Component {
 

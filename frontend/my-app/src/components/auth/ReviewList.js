@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getTokenUser, getProduct,getReviewList, getLike } from "../../actions/authActions";
+import { getUserInfo, getProduct,getReviewList, getLike } from "../../actions/authActions";
 
 import LikeReview from "./LikeReview.js";
 import UnlikeReview from "./UnlikeReview.js";
@@ -16,9 +16,9 @@ class ReviewList extends Component {
       product: PropTypes.object,
   
       getReviewList: PropTypes.func.isRequired,
-      review: PropTypes.object,
+      lreview: PropTypes.object,
   
-      getTokenUser: PropTypes.func.isRequired,
+      getUserInfo: PropTypes.func.isRequired,
       user: PropTypes.object,
   
       getLike: PropTypes.func.isRequired,
@@ -32,28 +32,28 @@ class ReviewList extends Component {
         this.props.getReviewList(this.props.UR);
     
         const token = localStorage.getItem("token");
-        this.props.getTokenUser(token);
+        this.props.getUserInfo(token);
 
         this.props.getLike(this.props.UR);
       }
   
 
-    renderLike(pk){
+    renderLike(pk, like){
       const UR = this.props.UR;
 
       return (
         <div>
-          <LikeReview UR={UR} pk={pk}/>
+          <LikeReview UR={UR} pk={pk} like={like}/>
         </div>
       );
     }
 
-    renderUnlike(pk){
+    renderUnlike(pk, like){
       const UR = this.props.UR;
 
       return (
         <div>
-          <UnlikeReview UR={UR} pk={pk}/>
+          <UnlikeReview UR={UR} pk={pk} like={like}/>
         </div>
       );
     }
@@ -69,13 +69,13 @@ class ReviewList extends Component {
         for (i = 0; i < likes.length; i++) {
           like = likes[i];
           if (like.review == review.pk){
-            result.unshift(this.renderUnlike(like.pk));
+            result.unshift(this.renderUnlike(like.pk, review.like_number));
           } else {
-            result.push(this.renderLike(review.pk));
+            result.push(this.renderLike(review.pk, review.like_number));
           }
         } 
       } else if (likes && likes.length == 0){
-        return this.renderLike(review.pk);
+        return this.renderLike(review.pk, review.like_number);
       } else if (authenticated){
         return null;
       } return result[0];
@@ -158,9 +158,6 @@ class ReviewList extends Component {
               <Link to={`/skincare/moisturizers/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
               <Link to={`/skincare/moisturizers/${product.pk}/review/delete`} class="text-md-left">Delete</Link>
             </div>
-            <div class="pr-auto pt-2">
-              {this.renderLikeUnlike(review)}
-            </div>
           </div>
           <hr/>
         </div>
@@ -212,9 +209,6 @@ class ReviewList extends Component {
               {/* <Link to={`/skincare/${product.category[0].toLowerCase()}/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link> */}
               <Link to={`/skincare/moisturizers/${product.pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
               <Link to={`/skincare/moisturizers/${product.pk}/review/delete`} class="text-md-left">Delete</Link>
-            </div>
-            <div class="pr-auto pt-2">
-              {this.renderLikeUnlike(review)}
             </div>
           </div>
           <hr />
@@ -285,7 +279,7 @@ class ReviewList extends Component {
       const user = this.props.user;
       const authenticated = this.props.authenticated;
 
-      const reviews = this.props.review;
+      const reviews = this.props.lreview;
       const reviewI = [];
       const reviewNI = [];
 
@@ -360,12 +354,12 @@ class ReviewList extends Component {
   function mapStateToProps(state) {
     return {
       product: state.auth.product,
-      review: state.auth.review,
+      lreview: state.auth.lreview,
       authenticated: state.auth.authenticated,
       user: state.auth.user,
       like: state.auth.like
     };
   }
   
-  export default connect(mapStateToProps, { getProduct, getReviewList, getTokenUser, getLike})(ReviewList);
+  export default connect(mapStateToProps, { getProduct, getReviewList, getUserInfo, getLike})(ReviewList);
   

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { reduxForm, Field, propTypes } from "redux-form";
-import { renderCheckbox, renderSelect, renderField } from "../../utils/renderUtils";
+import { renderSelect } from "../../utils/renderUtils";
 import { sorting } from "../../actions/authActions";
 
-class SortingOrder extends Component {
+class Ordering extends Component {
 
     static propTypes = {
         ...propTypes
@@ -87,4 +87,4 @@ class SortingOrder extends Component {
 export default (reduxForm({
     form: "sorting",
     onSubmit: sorting
-})(SortingOrder));
+})(Ordering));

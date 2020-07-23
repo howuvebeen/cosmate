@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { reduxForm, Field, propTypes } from "redux-form";
 import { required } from "redux-form-validators"
 import { renderField, renderError} from "../../utils/renderUtils";
-import { resetId} from "../../actions/authActions";
+import { resetId } from "../../actions/authActions";
 
 class IdReset extends Component {
 
@@ -46,6 +46,6 @@ class IdReset extends Component {
 }
 
 export default reduxForm({
-    form: "id_reset",
+    form: "resetId",
     onSubmit: resetId
 })(IdReset);

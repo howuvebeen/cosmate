@@ -14,14 +14,21 @@ export default function(state = {}, action) {
             return { ...state, lproduct: action.payload};
         case AuthTypes.PRODUCT:
             return { ...state, product: action.payload};
+        case AuthTypes.REVIEW_LIST:
+            return { ...state, lreview: action.payload};
+        case AuthTypes.REVIEW:
+            return { ...state, review: action.payload};
+        case AuthTypes.REVIEW_HISTORY:
+            return { ...state, hreview: action.payload};
+
+
+
         case AuthTypes.INTEREST:
             return { ...state, interest: action.payload};
         case AuthTypes.LIKE:
             return { ...state, like: action.payload};
-        case AuthTypes.REVIEW_LIST:
-            return { ...state, review: action.payload};
-        case AuthTypes.LIKED_REVIEW:
-            return { ...state, lreview: action.payload};
+        case AuthTypes.LIKED_REVIEWS:
+            return { ...state, likedreview: action.payload};
         case AuthTypes.SEARCH:
             return { ...state, search: action.payload};
         case AuthTypes.EVENT:

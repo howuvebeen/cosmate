@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { reduxForm, Field, propTypes } from "redux-form";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { reduxForm, Field } from "redux-form";
 import { renderCheckbox, renderRadio, renderField } from "../../utils/renderUtils";
-import { sorting } from "../../actions/authActions";
+import { sorting, getUserProfile } from "../../actions/authActions";
 
-class Sorting extends Component {
+class SortingProduct extends Component {
 
     static propTypes = {
-        ...propTypes
+        getUserProfile: PropTypes.func.isRequired,
+        user: PropTypes.object
     };
 
     constructor(props) {
@@ -26,13 +29,26 @@ class Sorting extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
       }
     
-      handleInputChange(event) {
+    componentWillMount() {
+        this.props.getUserProfile();
+    }
+
+    handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
         this.setState({
-          [name]: value
+            [name]: value
+        });
+    }
+
+    onClick = () => {
+        const profile = this.props.profile;
+
+        this.props.initialize({
+            skintype: profile.skintype,
+            skinissue: profile.skinissue
         });
     }
 
@@ -69,6 +85,9 @@ class Sorting extends Component {
             <div>
                 <form onSubmit={handleSubmit}>
                 <div class="pl-0">
+                    <div class="mb-4">
+                        <button type="button" class="btn btn-dark w-100" onClick={this.onClick}>My Filter</button>
+                    </div>
                     <div class="mb-4">
                         <p>Skin Type</p>
                         <fieldset>
@@ -132,7 +151,7 @@ class Sorting extends Component {
                             </fieldset>
                         </div>
                     </div>
-                    <div class="mt-5">
+                    <div class="mt-1">
                         <fieldset>
                             <button action="submit" className="btn btn-primary w-100">Apply Filter</button>
                         </fieldset>
@@ -154,7 +173,16 @@ class Sorting extends Component {
     }
 }
 
-export default (reduxForm({
-    form: "sorting",
+SortingProduct = reduxForm({
+    form: 'sorting',
     onSubmit: sorting
-})(Sorting));
+})(SortingProduct);
+
+SortingProduct = connect(
+  state => ({
+    profile: state.auth.profile
+}),
+  { getUserProfile }
+)(SortingProduct);
+
+export default SortingProduct;

@@ -14,31 +14,38 @@ class Header extends Component {
         if (this.props.authenticated) {
             return (
                 [
-                    <div class="row">
-                    <nav className="col-md-9 navbar navbar-expand-lg navbar-light bg-light">
-                        <Link to="/" className="navbar-brand mb-auto">Depco</Link>
-                        <ul className="navbar-nav">
-                            <li className="nav-item" key="skincare">
-                                <Link className="nav-link" to="/skincare">Skincare Products</Link>
-                            </li>
-                            <li className="nav-item" key="makeup">
-                                <Link className="nav-link" to="/makeup">Makeup Products</Link>
-                            </li>
-                        </ul>
-                    </nav>
-                    <nav className="col-md-3 navbar navbar-expand-lg navbar-light bg-light">
-                        <ul className="navbar-nav">
-                            <li className="nav-item" key="interest">
-                                <Link className="nav-link" to="/interest">Interest</Link>
-                            </li>
-                            <li className="nav-item" key="search">
-                                <Link className="nav-link" to="/search">Search</Link>
-                            </li>
-                            <li className="nav-item" key="account">
-                                <Link className="nav-link" to="/account">Account</Link>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div>
+                        <div class="justify-content-md-center row pt-1 bg-info">
+                            <p>Have any suggestions?</p>
+                            <Link to="/contact" className="ml-1 mr-1">Contact</Link>
+                            <p>us.</p>
+                        </div>
+                        <div class="row">
+                            <nav className="col-md-9 navbar navbar-expand-lg navbar-light bg-light">
+                                <Link to="/" className="navbar-brand mb-auto">Depco</Link>
+                                <ul className="navbar-nav">
+                                    <li className="nav-item" key="skincare">
+                                        <Link className="nav-link" to="/skincare">Skincare Products</Link>
+                                    </li>
+                                    <li className="nav-item" key="makeup">
+                                        <Link className="nav-link" to="/makeup">Makeup Products</Link>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <nav className="col-md-3 navbar navbar-expand-lg navbar-light bg-light">
+                                <ul className="navbar-nav">
+                                    <li className="nav-item" key="interest">
+                                        <Link className="nav-link" to="/interest">Interest</Link>
+                                    </li>
+                                    <li className="nav-item" key="search">
+                                        <Link className="nav-link" to="/search">Search</Link>
+                                    </li>
+                                    <li className="nav-item" key="account">
+                                        <Link className="nav-link" to="/account">Account</Link>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 ]
             );
@@ -60,15 +67,15 @@ class Header extends Component {
                     </nav>
                     <nav className="col-md-4 navbar navbar-expand-lg navbar-light bg-light">
                         <ul className="navbar-nav">
-                        <li className="nav-item" key="signup">
-                            <Link className="nav-link" to="/signup">Create an Account</Link>
-                            </li>
-                            <li className="nav-item" key="search">
-                                <Link className="nav-link" to="/search">Search</Link>
-                            </li>
-                            <li className="nav-item" key="login">
+                        <li className="nav-item" key="login">
                             <Link className="nav-link" to="/login">Sign In</Link>
                             </li>
+                        <li className="nav-item" key="signup">
+                            <Link className="nav-link" to="/signup">Create an Account</Link>
+                        </li>
+                        <li className="nav-item" key="search">
+                            <Link className="nav-link" to="/search">Search</Link>
+                        </li>
                         </ul>
                     </nav>
                     </div>

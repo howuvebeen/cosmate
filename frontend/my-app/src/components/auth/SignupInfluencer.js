@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { reduxForm, Field, propTypes } from "redux-form";
 import { required } from "redux-form-validators"
 import { renderLabelField2, renderError } from "../../utils/renderUtils";
-import { signupUserInfluencer } from "../../actions/authActions";
+import { signupInfluencer } from "../../actions/authActions";
 
 class SignupInfluencer extends Component {
 
@@ -52,5 +52,5 @@ class SignupInfluencer extends Component {
 
 export default reduxForm({
     form: "signupinfluencer",
-    onSubmit: signupUserInfluencer
+    onSubmit: signupInfluencer
 })(SignupInfluencer);

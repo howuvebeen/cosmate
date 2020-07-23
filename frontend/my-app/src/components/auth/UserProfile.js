@@ -3,13 +3,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getTokenUser } from "../../actions/authActions";
-import { getUserProfile } from "../../actions/authActions";
+import { getUserInfo, getUserProfile } from "../../actions/authActions";
 
 class UserProfile extends Component {
 
     static propTypes = {
-        getTokenUser: PropTypes.func.isRequired,
+        getUserInfo: PropTypes.func.isRequired,
         profile: PropTypes.object,
 
         getUserProfile: PropTypes.func.isRequired,
@@ -17,7 +16,7 @@ class UserProfile extends Component {
     };
 
     componentWillMount() {
-        this.props.getTokenUser();
+        this.props.getUserInfo();
         this.props.getUserProfile();
     }
 
@@ -63,4 +62,5 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { getTokenUser, getUserProfile } )(UserProfile);
+export default connect(mapStateToProps, { getUserInfo, getUserProfile } )(UserProfile);
+

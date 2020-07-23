@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getLikedReviews } from "../../actions/authActions";
-import UnlikeReview from "./UnlikeReview.js";
+import { getReviewHistory } from "../../actions/authActions";
+import { Link } from "react-router-dom";
 
-class LikedReviews extends Component {
+class ReviewHistory extends Component {
 
     static propTypes = {
-        getLikedReviews: PropTypes.func.isRequired,
-        likedreview: PropTypes.object
+        getReviewHistory: PropTypes.func.isRequired,
+        hreview: PropTypes.object
     };
 
     componentWillMount() {
-        this.props.getLikedReviews();
+        this.props.getReviewHistory();
     }
 
     Tag(type) {
@@ -79,39 +79,32 @@ class LikedReviews extends Component {
         );
     }
 
-    renderUnlike(pk, like){
-      console.log(pk, like)      
-      return (
-        <div>
-          <UnlikeReview pk={pk} like={like}/>
-        </div>
-      );
-    }
-
-
     renderYesResult(){
-        const likedreviews  = this.props.likedreview;
+        const hreviews  = this.props.hreview;
 
         return (
             <div>
-                <h3 class="mt-5 ml-3 mb-5">Liked History</h3>
-                <p class="ml-3 mb-5">{likedreviews.length} Reviews</p>
+                <h3 class="mt-5 ml-3 mb-5">Review History</h3>
+                <p class="ml-3 mb-5">{hreviews.length} Reviews</p>
                 <div class="row justify-content-md-center">
-                    {likedreviews.map((likedreview) => (
+                    {hreviews.map((hreview) => (
                         <div class="w-100 p-5">
                             <div>
                                 <div class="row">
                                   <div class="col-md-4">
-                                      <p>{likedreview.product_company_name}</p>
-                                      <h5>{likedreview.product_name}</h5>
+                                      <p>{hreview.company_name}</p>
+                                      <h5>{hreview.product}</h5>
                                   </div>
                                   <div class="col-md-6">
-                                      <p>{this.Star(likedreview.review_star)} {likedreview.review_pubdate}</p>
-                                      <h5>{likedreview.review_title}</h5>
-                                      <p>{likedreview.review_content}</p>
+                                      <p>{this.Star(hreview.star)} {hreview.pub_date}</p>
+                                      <h5>{hreview.title}</h5>
+                                      <p>{hreview.review}</p>
                                       </div>
                                   <div class="pr-auto col text-right">
-                                    {this.renderUnlike(likedreview.pk, likedreview.review_likenumber)}                                  </div>
+                                    <Link to={`/skincare/moisturizers/${hreview.product_pk}/review/edit`} class="text-md-left mr-4">Edit</Link>
+                                    <Link to={`/skincare/moisturizers/${hreview.product_pk}/review/delete`} class="text-md-left">Delete</Link>
+                                    <button action="submit" className="btn btn-light">like {hreview.like_number}</button>
+                                  </div>
                                 </div>
                                 <hr/>
                             </div>
@@ -122,11 +115,11 @@ class LikedReviews extends Component {
         );
     }
 
-    renderLikedReviews() {
-        const likedreviews  = this.props.likedreview;
+    renderReviewHistory() {
+        const hreviews  = this.props.hreview;
     
-        if (likedreviews) {
-            if (likedreviews.length==0){
+        if (hreviews) {
+            if (hreviews.length==0){
                 return (
                     <div>
                         {this.renderNoResult()}
@@ -146,7 +139,7 @@ class LikedReviews extends Component {
     render() {
         return (
             <div>
-                {this.renderLikedReviews()}
+                {this.renderReviewHistory()}
             </div>
         );
     }
@@ -154,8 +147,8 @@ class LikedReviews extends Component {
 
 function mapStateToProps(state) {
     return {
-      likedreview: state.auth.likedreview
+        hreview: state.auth.hreview
     }
 }
 
-export default connect(mapStateToProps, { getLikedReviews } )( LikedReviews );
+export default connect(mapStateToProps, { getReviewHistory } )( ReviewHistory );
