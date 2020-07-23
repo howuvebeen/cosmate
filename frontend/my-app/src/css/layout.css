@@ -1,0 +1,174 @@
+@charset "utf-8";
+html{ font-size: 16px; }
+body { width: 100%; height: 100%; font-family:'AvenirLTPro','Dotum','돋움','sans-serif'; font-size:16px; font-weight: 500; line-height: 1.5em; word-break: keep-all; word-wrap: break-word; color: #515050; }
+.tahoma{ font-family: "Tahoma"; }
+.container{ position: relative; }
+.web{  }
+.mob{ display: none; }
+
+@media (max-width:991px) {
+	html, body{ font-size: 14px; }
+	.wrap{ padding: 50px 0 0 0; }
+	.web{ display: none; }
+	.mob{ display: block; }
+}
+
+@media (max-width:767px) {
+	html, body{ font-size: 12px; }
+}
+
+h1, .h1{ margin: 0; padding: 0; font-size: 2em; }/*32*/
+h2, .h2{ margin: 0; padding: 0; font-size: 1.63em; }/*26*/
+h3, .h3{ margin: 0; padding: 0; font-size: 1.50em; }/*24*/
+h4, .h4{ margin: 0; padding: 0; font-size: 1.38em; }/*22*/
+h5, .h5{ margin: 0; padding: 0; font-size: 1.25em; }/*20*/
+h6, .h6{ margin: 0; padding: 0; font-size: 1.12em; }/*18*/
+
+/* 컨텐츠 공통*/
+.con_pd{ padding-top: 50px; padding-bottom: 70px; }
+@media (max-width:991px) {
+	.con_pd{ padding-top: 20px; padding-bottom: 40px; }
+}
+
+/*기준색*/
+.main_co{ color: #4254f3 !important; }
+.sub_co{ color: #ff6363 !important; }
+.point_co{ color: #0ab725 !important; }
+
+.main_bg{ color: #fff !important; background: #4254f3 !important; }
+.sub_bg{ color: #fff !important; background: #ff6363 !important; }
+.point_bg{ color: #fff !important; background: #0ab725 !important; }
+
+.gray_bg{ background: #f5f5f5 !important; }
+.line_bg{ border: 1px solid #555; }
+
+.kakao_bg{ color: #361d1d; background: #ffd325 }
+.naver_bg{ color: #fff; background: #34b833; }
+.facebook_bg{ color: #fff; background: #3150b3; }
+
+.red_co{ color: #ff8989 !important; }
+
+.to_ban{ text-align: center; line-height: 50px; font-weight: 700; color: #191919; background: rgba(226, 29, 108, 0.1); }
+
+#quick{ position: absolute; right: 0; top: 190px; width: 100px; z-index: 100; border:1px solid #c8c8c8; background: #fff; }
+#quick ul li{ text-align: center; padding: 10px 5px; }
+#quick ul li:last-child span{ border-bottom: 0; }
+#quick span{ display: block; padding:5px; letter-spacing: -1px; color: #7a6a56; border-bottom: 1px solid #c8c8c8; }
+#quick img{ width: auto; }
+
+@media (max-width:1149px) {
+	#quick{ display: none; }
+}
+
+.hero{ padding: 3% 0; text-align: center; background: #e5e5e5; }
+.hero h1{ line-height: 1em; }
+.hero p{ padding: 1% 0 0 0; line-height: 1em; }
+@media (max-width:991px) {
+	.hero{ padding: 5% 0; }
+	.hero p{ padding: 2% 0 0 0; }
+}
+
+.location{ border-bottom: solid 1px #ddd; }
+.location .menu > li{ position: relative; float: left; width: 220px; border-right: 1px solid #ddd; padding: 0; vertical-align: middle; }
+.location .menu > li:nth-child(1){ width: 60px; border-left: 1px solid #ddd; }
+.location .menu > li > p{ display: block; padding: 20px; line-height: 20px; background: url(../../img/common/location_bg.png) right bottom no-repeat; cursor: pointer; }
+.location .menu .home a{ display: block; height: 60px; padding: 0; background: url(../../img/common/icon_home.png) no-repeat; background-position: center -60px; }
+.location .menu > li:hover .sub{ display: block; }
+.location .menu > li:hover > p{ background: url(../../img/common/location_bg.png) right bottom no-repeat, #f7f7f7; }
+.location .sub{ display: none; position: absolute; top:60px; left: -1px; right: -1px; z-index: 10; border: 1px solid #ddd; border-top: 0; background: #fff; }
+.location .sub a{ display: block; padding: 10px 20px; }
+.location .sub a:hover{ background: #f7f7f7; }
+@media (max-width:991px) {
+	.location .menu > li{width: 50%; border: 0; }
+	.location .menu > li:nth-child(2){ border-right: 1px solid #ddd; }
+	.location .menu > li > p{ padding: 15px; }
+	.location .menu .home{ display: none; }
+	.location .sub{ top:50px; }
+}
+
+/* 약관 모달 */
+.modal-body .scroll{ height: 550px; overflow-y: scroll; }
+.modal .close{ left: auto; right: 0; }
+
+/* -- 약관 -- */
+.terms .con{ padding:15px 10px; border-bottom: 1px solid #e5e5e5; }
+
+.terms ul li{ position: relative; }
+.terms .list01 li{ padding:0 0 0 25px; }
+.terms .list01 i { position: absolute; left: 10px; }
+.terms .list02 li{ padding:0 0 0 35px; }
+.terms .list02 i { position: absolute; left: 10px; }
+.terms .list03 li{ padding:0 0 0 30px; }
+.terms .list03 i { position: absolute; left: 10px; }
+
+.terms table{ border-top: 2px solid #15aae8; }
+.terms table th{ font-weight: 300; background: #eee; }
+.terms table th, .terms table td{ padding:10px; border-top: 1px solid #ddd; }
+
+.terms .tit{ padding: 15px 0 0 0; font-weight: 500; }
+.terms .sub_tit{ padding: 15px 0 5px 0; font-weight: 500; }
+/*.terms .sub_tit:before{ content: "■ "; }*/
+.terms p{ padding: 5px 5px 0 5px; }
+
+.terms .circle > li:nth-child(1) > i:before{ content: "①"; }
+.terms .circle > li:nth-child(2) > i:before{ content: "②"; }
+.terms .circle > li:nth-child(3) > i:before{ content: "③"; }
+.terms .circle > li:nth-child(4) > i:before{ content: "④"; }
+.terms .circle > li:nth-child(5) > i:before{ content: "⑤"; }
+.terms .circle > li:nth-child(6) > i:before{ content: "⑥"; }
+.terms .circle > li:nth-child(7) > i:before{ content: "⑦"; }
+.terms .circle > li:nth-child(8) > i:before{ content: "⑧"; }
+.terms .circle > li:nth-child(9) > i:before{ content: "⑨"; }
+.terms .circle > li:nth-child(10) > i:before{ content: "⑩"; }
+.terms .circle > li:nth-child(11) > i:before{ content: "⑪"; }
+
+.terms .num > li:nth-child(1) > i:before{ content: "1."; }
+.terms .num > li:nth-child(2) > i:before{ content: "2."; }
+.terms .num > li:nth-child(3) > i:before{ content: "3."; }
+.terms .num > li:nth-child(4) > i:before{ content: "4."; }
+.terms .num > li:nth-child(5) > i:before{ content: "5."; }
+.terms .num > li:nth-child(6) > i:before{ content: "6."; }
+.terms .num > li:nth-child(7) > i:before{ content: "7."; }
+.terms .num > li:nth-child(8) > i:before{ content: "8."; }
+.terms .num > li:nth-child(9) > i:before{ content: "9."; }
+.terms .num > li:nth-child(10) > i:before{ content: "10."; }
+.terms .num > li:nth-child(11) > i:before{ content: "11."; }
+.terms .num > li:nth-child(12) > i:before{ content: "12."; }
+.terms .num > li:nth-child(13) > i:before{ content: "13."; }
+.terms .num > li:nth-child(14) > i:before{ content: "14."; }
+.terms .num > li:nth-child(15) > i:before{ content: "15."; }
+
+.terms .brac > li:nth-child(1) > i:before{ content: "1)"; }
+.terms .brac > li:nth-child(2) > i:before{ content: "2)"; }
+.terms .brac > li:nth-child(3) > i:before{ content: "3)"; }
+.terms .brac > li:nth-child(4) > i:before{ content: "4)"; }
+.terms .brac > li:nth-child(5) > i:before{ content: "5)"; }
+.terms .brac > li:nth-child(6) > i:before{ content: "6)"; }
+.terms .brac > li:nth-child(7) > i:before{ content: "7)"; }
+.terms .brac > li:nth-child(8) > i:before{ content: "8)"; }
+.terms .brac > li:nth-child(9) > i:before{ content: "9)"; }
+.terms .brac > li:nth-child(10) > i:before{ content: "10)"; }
+.terms .brac > li:nth-child(11) > i:before{ content: "11)"; }
+.terms .brac > li:nth-child(12) > i:before{ content: "12)"; }
+.terms .brac > li:nth-child(13) > i:before{ content: "13)"; }
+.terms .brac > li:nth-child(14) > i:before{ content: "14)"; }
+.terms .brac > li:nth-child(15) > i:before{ content: "15)"; }
+.terms .brac > li:nth-child(16) > i:before{ content: "16)"; }
+.terms .brac > li:nth-child(17) > i:before{ content: "17)"; }
+.terms .brac > li:nth-child(18) > i:before{ content: "18)"; }
+.terms .brac > li:nth-child(19) > i:before{ content: "19)"; }
+.terms .brac > li:nth-child(20) > i:before{ content: "20)"; }
+.terms .brac > li:nth-child(21) > i:before{ content: "21)"; }
+.terms .brac > li:nth-child(22) > i:before{ content: "22)"; }
+.terms .brac > li:nth-child(23) > i:before{ content: "23)"; }
+.terms .brac > li:nth-child(24) > i:before{ content: "24)"; }
+.terms .brac > li:nth-child(25) > i:before{ content: "25)"; }
+
+.terms .han > li:nth-child(1) > i:before{ content: "가."; }
+.terms .han > li:nth-child(2) > i:before{ content: "나."; }
+.terms .han > li:nth-child(3) > i:before{ content: "다."; }
+.terms .han > li:nth-child(4) > i:before{ content: "라."; }
+.terms .han > li:nth-child(5) > i:before{ content: "마."; }
+
+.terms .hyphen > li > i:before{ content: "-"; }
+.terms .squ > li > i:before{ content: "\e9c6"; font-family: "xeicon"; }

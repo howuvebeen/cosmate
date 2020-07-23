@@ -1,34 +1,41 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+
 import Landing from "./Landing";
 import Login from "./auth/Login";
 import Logout from "./auth/Logout";
 import Signup from "./auth/Signup";
-import SignupInfluencer from "./auth/SignupInfluencer";
 import SignupDone from "./auth/SignupDone";
 import AccountActivation from "./auth/AccountActivation";
 import PasswordReset from "./auth/PasswordReset";
 import PasswordResetDone from "./auth/PasswordResetDone";
 import PasswordResetConfirm from "./auth/PasswordResetConfirm";
-import Search from "./auth/Search";
-import SearchEngine from "./auth/SearchEngine";
+
 import IdReset from "./auth/IdReset";
 import IdResetDone from "./auth/IdResetDone";
+
+import SearchEngine from "./auth/SearchEngine";
+import Search from "./auth/Search";
 import AccountNavigation from "./auth/AccountNavigation";
+
 import MyAccount from "./auth/MyAccount";
 import UserProfileEdit from "./auth/UserProfileEdit";
+import SignupInfluencer from "./auth/SignupInfluencer";
 import SkinProfileEdit from "./auth/SkinProfileEdit";
 import PasswordProfileEdit from "./auth/PasswordProfileEdit";
 import UserProfileComplete from "./auth/UserProfileComplete";
 import LikedReviews from "./auth/LikedReviews";
 import ReviewHistory from "./auth/ReviewHistory";
+import InterestedProduct from "./auth/InterestedProduct";
+
 import Skincare from "./auth/Skincare";
 import SkinCategory from "./auth/SkinCategory";
 import Product from "./auth/Product";
 import UploadReview from "./auth/UploadReview";
 import EditReview from "./auth/EditReview";
 import DeleteReview from "./auth/DeleteReview";
-import InterestedProduct from "./auth/InterestedProduct";
+
+import Contact from "./auth/Contact";
 import NoMatch from "./NoMatch";
 
 const MainContent = () => (
@@ -58,13 +65,16 @@ const MainContent = () => (
             <Route exact path="/profile/complete" component={UserProfileComplete}/>
             <Route exact path="/like" component={LikedReviews}/>
             <Route exact path="/review" component={ReviewHistory}/>
+            <Route exact path="/interest" component={InterestedProduct}/>
+
             <Route exact path="/skincare" component={Skincare}/>
             <Route exact path="/skincare/moisturizers" component={SkinCategory}/>
             <Route exact path="/skincare/moisturizers/:product" component={Product}/>
             <Route exact path="/skincare/moisturizers/:product/review/upload" component={UploadReview}/>
             <Route exact path="/skincare/moisturizers/:product/review/edit" component={EditReview}/>
             <Route exact path="/skincare/moisturizers/:product/review/delete" component={DeleteReview}/>
-            <Route exact path="/interest" component={InterestedProduct}/>
+
+            <Route exact path="/contact" component={Contact}/>
             <Route component={NoMatch}/>
         </Switch>
     </div>

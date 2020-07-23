@@ -1,0 +1,159 @@
+@charset "utf-8";
+
+/* -- 게시판 공통 -- */
+    #board { position: relative; width: 100%; }
+
+    #board .web_col{ display: table-column-group; }
+    #board .mob_col{ display: none; }
+    #board .web_td{ display: table-cell; }
+    #board .mob_td{ display: none; }
+    @media ( max-width: 991px) {
+		#board table th, #board table td { padding: 15px 5px; }
+
+	    #board .web_col{ display: none; }
+	    #board .mob_col{ display: table-column-group; }
+	    #board .web_td{ display: none; }
+	    #board .mob_td{ display: table-cell; }
+    }
+
+/* 게시판 제목 말줄임 */
+    #board .subject{ display: inline-block; width: 100%; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #board .subject2 { text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; /* 라인수 */ -webkit-box-orient: vertical; word-wrap:break-word; line-height: 1.2em; height: 2.4em; overflow: hidden; }
+    #board .subject3 { text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; /* 라인수 */ -webkit-box-orient: vertical; word-wrap:break-word; line-height: 1.2em; height: 3.6em; overflow: hidden; }
+
+/* -- 비밀번호 팝업 -- */
+	#board_pw .modal-body{ padding: 3rem; }
+    #board_pw .pw_title{ padding:0 0 1rem 0; text-align: center; }
+    #board_pw a{ display: block; height: 40px; line-height: 37px; text-align: center; border-radius: 5px; }
+    #board_pw input{ border-radius: 5px; }
+
+/* -- 글갯수 -- */
+    #board .total{ padding: 0 2px 10px 0; text-align: left; line-height: 1em; }
+    @media (max-width:991px) {
+        #board .total{ text-align: right; }
+    }
+
+/* -- 개시물 없음 -- */
+	.no_data{ padding: 10% 0; }
+	.no_data i{ font-size: 3em; }
+	.no_data p{ padding: 10px 0 0 0; }
+
+/* -- 첨부파일 -- */
+    .filebox{ overflow: hidden; }
+    .filebox .upload-name { vertical-align: middle; }
+    .filebox label{ padding: 0; }
+    .filebox label i{ display: block; height: 40px; line-height: 38px; text-align: center; border-radius: 40px; cursor: pointer; }
+    
+/* -- 버튼 -- */
+    .btn_wrap { padding: 3% 0 0 0; overflow: hidden; }
+    .btn_wrap .fl_center{ text-align: center; }
+    .btn_wrap .fl_left{ text-align: left; }
+    .btn_wrap .fl_right{ text-align: right; }
+    .btn_wrap a{ display: inline-block; height: 40px; margin: 0 3px; padding: 0 50px; vertical-align: middle; text-align: center; line-height: 40px; border-radius: 50px; }
+    .btn_wrap input[type="submit"]{ display: inline-block; vertical-align: middle; width: auto; padding: 0 50px; line-height: 40px; border-radius: 50px; }
+
+ /* 버튼 색상 */
+    .bt_main{ color: #fff !important; background: #4254f3; }
+    .bt_gray{ color: #fff !important; background: #808080; }
+
+/* -- 리스트 -- */
+    #board .list { border-top: 2px solid #f1f1f1; }
+    #board .list th, #board .list td { padding: 15px 10px; text-align: center; font-weight: 400; border-bottom: 1px solid #f1f1f1; }
+    #board .list th{ background: #fafafa; }
+    #board .list .icon{ display: inline-block; width: 30px; height: 30px; background: url(../../img/common/icon_notice.png) no-repeat center 0, #4254f3; border-radius: 50px; overflow: hidden; }
+
+/* -- 보기 -- */
+	#board .view th{ padding: 15px 10px; text-align: center; font-weight: 500; border-top: 2px solid #f1f1f1; border-bottom: 1px solid #f1f1f1; background: #fafafa; }
+    #board .view td{ padding: 15px 10px; text-align: center; border-bottom: 1px solid #f1f1f1; }
+	#board .view .date{ font-size: 0.9em; color: rgba(108,102,97,0.5); }
+	#board .view .con{ text-align: left; }
+	#board .view .con img{ display: block; width: auto; max-width: 100%; margin: 0 auto; }
+
+/* -- qna 답변 -- */
+	#board .answer span{ display: block; font-size: 0.9em; color: rgba(108,102,97,0.5); }
+	#board .answer th{ vertical-align: top; }
+	#board .answer td{ vertical-align: top; text-align: left; }
+
+/* -- FAQ -- */
+	.faq dt, .faq dd { position: relative; padding: 10px 50px; line-height: 30px; font-weight: 300; }
+	.faq dt{ cursor: pointer; border-top: 1px solid #9e9e9e; }
+	.faq dd{ display: none; border-top: 1px solid #eee; background: #fafafa; }
+	.faq dt i, .faq dd i{ position: absolute; left: 10px; display: inline-block; width: 30px; text-align: center; border-radius: 0 3px 3px 3px; }
+	.faq dt i{ color: #4254f3; border: 1px solid #4254f3; }
+	.faq dd i{ color: #999490; border: 1px solid #999490; }
+	.faq dt span{ position: absolute; right: 10px; display: inline-block; width: 30px; text-align: center; }
+	.faq dt span:before{ content: "\e942"; font-family: "xeicon"; }
+	.faq .active span:before{ content: "\e945"; font-family: "xeicon"; color: #4254f3; }
+
+/* -- 이벤트 -- */
+	.event_tab { color: rgba(108,102,97,0.5); }
+	.event_tab a{ display: inline-block; }
+	.event_tab .on, .event_tab a:hover{ color: #00ab33; }
+    .event li{ padding-top: 10px; }
+	.event a{ display: block; border: 1px solid #f1f1f1; border-radius: 0 10px 10px 10px; overflow: hidden; }
+	.event .img{ position: relative; }
+	.event .img i{ position: absolute; top: 0; left: 0; padding: 3px 10px; }
+	.event .ing{ color: #fff; background: rgba(0, 0, 0, 0.3); }
+	.event .end{ color: #000; background: rgba(0, 0, 0, 0.3); }
+	.event .ing:before{ content: "진행"; }
+	.event .end:before{ content: "종료"; }
+	.event .tit{ display: block; padding: 6% 4%; text-align: center; border-radius: 0 0 10px 10px; background: #fafafa; }
+	.event .date{ font-size: 0.9em; color: rgba(108,102,97,0.5); }
+    @media (max-width:991px) {
+        
+    }
+
+/* -- 비디오 -- */
+    .video li{ padding-top: 10px; }
+    #video_view .video{position: relative; padding-bottom: 56.25%;}
+    #video_view .video iframe{ position: absolute; width: 100%; height: 100%; }
+    #video_view .modal-body{ padding: 0; }
+
+    .view .video{position: relative; padding-bottom: 56.25%;}
+    .view .video iframe{position: absolute; width: 100%; height: 100%;}
+
+/* -- 칼럼 -- */
+    .column li{ overflow: hidden; }
+    .column .img{ float: left; width: 40%; }
+    .column .info{ float: left; width: 60%; padding: 10px; }
+
+
+/* -- 달력 -- */
+    .cal .month{ padding: 0 0 2rem 0; text-align: center; }
+    .cal .month a{ display: inline-block; width: 60px; height: 60px; line-height: 65px; text-align: center; border: 1px solid #ececec; border-radius: 60px; }
+    .cal .month p{ display: inline-block; padding: 0 2rem; }
+    .cal .month .bt_prev i{ display: inline-block; width: 31px; height: 20px; background: url(../../img/common/icon_lrbtn.png) no-repeat; }/*이전달*/
+    .cal .month .bt_next i{ display: inline-block; width: 31px; height: 20px; background: url(../../img/common/icon_lrbtn.png) 0 -20px no-repeat; }/*다음달*/
+
+    .cal th{ text-align: center; padding: 10px; border: 1px solid #ececec; }
+    .cal td{ position: relative; height: 150px; padding: 10px; vertical-align: bottom; border: 1px solid #ececec; }
+    .cal td:nth-child(1) { color: #ff8989; }
+    .cal td:nth-child(7) { color: #8998ff; }
+    .cal table p{ position: absolute; top: 10px; left: 10px; }
+    .cal .today{ background: #eee; }
+
+/* -- 페이징 -- */
+    #page { padding: 3% 0 0 0; text-align: center; clear: both; }
+    #page a{ display: inline-block; width: 40px; height: 40px; line-height: 40px; }
+    #page a:hover { color: #4254f3; }
+    #page .on {border-radius: 50%; color: #fff; background: #4254f3; }
+    #page .on:hover{ color: #fff; }
+    #page .first, #page .prev, #page .next ,#page .last{ width: 20px; height: 40px; background: url('../../img/common/arrow.png') no-repeat; vertical-align: top; }
+    #page .first{ background-position: -40px 8px; }
+    #page .prev{ background-position: 0px 8px; margin: 0 2% 0 0; }
+    #page .next{ background-position: -20px 8px; margin: 0 0 0 2%; }
+    #page .last{ background-position: -60px 8px; }
+
+/* -- 검색 -- */
+    .board_search { width: 45%; margin: 0 auto; padding: 3% 0 0 0; text-align: center; }
+    .board_search ul{ font-size: 0; }
+    .board_search ul li{ display: inline-block; width: 20%; padding: 0 1px; font-size: 16px; vertical-align: middle; }
+    .board_search ul li:nth-child(2){ width: 40%; }
+    .board_search input, .board_search select{ border-radius: 5px; }
+    @media (max-width:991px) {
+        .board_search { width: 95%; margin: 0 auto; }
+        .board_search ul li{ font-size: 14px; }
+    }
+    @media (max-width:767px) {
+        .board_search ul li{ font-size: 12px; }
+    }

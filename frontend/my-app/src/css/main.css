@@ -1,0 +1,51 @@
+@charset "UTF-8";
+/*.main{ background: #f5f5f3; }*/
+
+/*슬라이더*/
+.m_wrap .bx-wrapper .bx-pager, .m_wrap .bx-wrapper .bx-controls-auto { top: 10px; bottom: auto; padding: 0 1rem; text-align: right; }
+.m_wrap .bx-wrapper img{ width: 100%; }
+
+.m_wrap{ position: relative; }
+.m_wrap .scroll_wrap{ position: absolute; left: 0; right: 0; bottom: 10px; z-index: 50; width: 30px; height: 50px; margin: 0 auto; text-align: center; border: 1px solid #757575; border-radius: 100px; }
+.m_wrap .scroll{ display: inline-block; width: 5px; height: 5px; border-radius: 10px; background: #757575;
+	animation-name: scroll;	animation-duration: 2s;
+	animation-timing-function: cubic-bezier(0.650, -0.550, 0.250, 1.500);
+	animation-iteration-count: infinite;
+	transform-origin: 50% 20.5px;
+	will-change: transform, opacity;
+	opacity: 1; }
+
+	@keyframes scroll {
+		0%, 20% {
+			transform: translateY(0) scaleY(1);
+		}
+
+		100% {
+			transform: translateY(36px) scaleY(2);
+			opacity: 0;
+		}
+	}
+
+/*팝업창*/
+.pc_popup{ font-size:12px; z-index: 20 !important; }
+.pc_popup input{ width: 15px; height: 15px; display: inline-block; vertical-align: middle; margin:0; padding:0; }
+.pc_popup label{ display: inline-block; vertical-align: middle; margin:0; padding:0; }
+.pc_popup .close{ font-size:1em; margin-left:5px; font-weight: 500; text-shadow:none;opacity: 1; display: inline-block; vertical-align: middle; height: 27px; }
+.pc_popup p{ margin:0; padding:0; }
+.pc_popup .modal-content{ border:0; border-radius: 0; box-shadow:none; -webkit-box-shadow:none; }
+.pc_popup .modal-footer{ border:0; padding: 5px 10px; }
+.mobile_popup{display:none;}
+
+@media (max-width: 767px){
+	.pc_popup {display:none;}
+	.mobile_popup{ display:block; z-index: 20 !important;}
+	.mobile_popup { top:49px; left:0; right:0; display:block; font-size:12px; }
+	.mobile_popup .vertical-alignment-helper{ max-width:320px; margin:0 auto; }
+	.mobile_popup p{ margin:0; padding:0; }
+	.mobile_popup p img{ width: 100% !important; height: auto !important; }
+	.mobile_popup .modal-content{ border:0; box-shadow:none; -webkit-box-shadow:none; }
+	.mobile_popup .modal-footer{ border:0; background: #fff; }
+	.mobile_popup input{ width: 15px; height: 15px; display: inline-block; vertical-align: middle; margin:0; padding:0; }
+	.mobile_popup label{ display: inline-block; vertical-align: middle; font-weight:300; font-family: "Nanum", sans-serif; margin:0; padding:0; }
+	.mobile_popup .close{ font-family: "Nanum", sans-serif; font-size:1em; margin-left:5px; font-weight: 500; text-shadow:none;opacity: 1; display: inline-block; vertical-align: middle; height: 20px;}
+}
