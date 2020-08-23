@@ -39,9 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
     'corsheaders',
     'users',
+    'reviews',
+    'products',
     'rest_registration',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'reviewweb.urls'
@@ -81,7 +86,7 @@ WSGI_APPLICATION = 'reviewweb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'db.sqlite3'
     }
 }
 
@@ -122,27 +127,64 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CORS_ORIGIN_ALLOW_ALL = True
-
-EMAIL_FILE_PATH = 'tmp/emails'
-DEFAULT_FROM_EMAIL = 'admin@admin.com'
+CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ],
 }
 
 REST_REGISTRATION = {
     'REGISTER_VERIFICATION_ENABLED': True,
-    'RESET_PASSWORD_VERIFICATION_ENABLED': False,
-    'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
+    'RESET_PASSWORD_VERIFICATION_ENABLED': True,
+    'REGISTER_EMAIL_VERIFICATION_ENABLED': True,
     'REGISTER_VERIFICATION_URL': '127.0.0.1:3000/account/confirm-email',
     'RESET_PASSWORD_VERIFICATION_URL': '127.0.0.1:3000/reset/confirm',
     'REGISTER_EMAIL_VERIFICATION_URL': '127.0.0.1:3000/account/confirm-email/',
     'VERIFICATION_FROM_EMAIL': 'depcoteam@depco.com',
 }
+
+# AWS S3 Configuration
+
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+AWS_ACCESS_KEY_ID = 'AKIAV7T25VK725XOCVG5'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'depcoweb-static'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_STATIC_LOCATION = 'static'
+AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+AWS_PRIVATE_MEDIA_LOCATION = 'media/private'
+
+
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+MEDIA_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN,
+                                AWS_PUBLIC_MEDIA_LOCATION)
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+
+# Email sending
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'dhkim0067@gmail.com'
+EMAIL_HOST_PASSWORD = 'lmmdrbzulwlhnkpk'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'DepCoAdmin <noreply@depco.com>'
