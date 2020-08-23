@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
+from django.core.mail import send_mail
+
 from reviewweb.storage_backends import ProfileImageStorage
 
 from .choices import GENDER_CHOICES, INFLUENCER_CHOICES, SKINISSUE_CHOICES, SKINTYPE_CHOICES, AGE_RANGE_CHOICES
@@ -43,8 +45,8 @@ class Profile(models.Model):
         max_length=20, choices=AGE_RANGE_CHOICES, default='20')
     skinissue = models.ManyToManyField(
         SkinIssue, related_name='skinissue', blank=True, null = True)
-    skintype = models.ManyToManyField(
-        SkinType, related_name='skintype', blank=True, null = True)
+    skintype = models.ForeignKey( #다시 알아보기!
+        SkinType, related_name='skintype', on_delete=models.CASCADE, blank=True, null=True)
     terms = models.BooleanField(default=False)
     
     def __str__(self):
@@ -74,6 +76,14 @@ class Profile(models.Model):
         elif self.age >= 70:
             self.age_range = "70+"
         super(Profile, self).save(*args, **kwargs)
+
+class UsernameEmail(models.Model):
+    name = models.CharField(max_length= 100)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE) 
+    email = models.EmailField()
+    file = models.FileField(blank=True, null=True)
+
+
 
 class Interest(models.Model):
     """
@@ -114,6 +124,16 @@ def save_user_profile(sender, instance, **kwargs):
     Saving profile object when user is saved
     """
     instance.profiles.save()
+
+# @receiver(post_save, sender=UsernameEmail)
+# def create_email(sender, instance, **kwargs):
+#     """
+#     Saving email object when username is forgotten
+#     """
+#     name = instance.profile.user.first_name + ' ' + instance.profile.user.last_name
+#     instance.name = name
+#     instance.email = instance.profile.user.email
+#     return send_mail
 
 
 def get_username(self):

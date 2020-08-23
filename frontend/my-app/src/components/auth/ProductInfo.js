@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getProduct, getInterestedProduct, getTokenUser } from "../../actions/authActions";
+import { getProduct, getInterestedProduct, getUserInfo } from "../../actions/authActions";
 import DeleteInterestedProduct from "./DeleteInterestedProduct.js";
 import AddInterestedProduct from "./AddInterestedProduct.js";
 
@@ -16,7 +16,7 @@ class ProductInfo extends Component {
       getInterestedProduct: PropTypes.func.isRequired,
       interest: PropTypes.object,
 
-      getTokenUser: PropTypes.func.isRequired,
+      getUserInfo: PropTypes.func.isRequired,
       user: PropTypes.object,
     };
   
@@ -171,5 +171,5 @@ class ProductInfo extends Component {
     };
   }
   
-  export default connect(mapStateToProps, { getProduct, getInterestedProduct, getTokenUser })(ProductInfo);
+  export default connect(mapStateToProps, { getProduct, getInterestedProduct, getUserInfo })(ProductInfo);
   

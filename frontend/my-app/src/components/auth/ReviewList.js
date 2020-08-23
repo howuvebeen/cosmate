@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { getTokenUser, getProduct,getReviewList, getLike } from "../../actions/authActions";
+import { getUserInfo, getProduct,getReviewList, getLike } from "../../actions/authActions";
 
 import LikeReview from "./LikeReview.js";
 import UnlikeReview from "./UnlikeReview.js";
@@ -16,9 +16,9 @@ class ReviewList extends Component {
       product: PropTypes.object,
   
       getReviewList: PropTypes.func.isRequired,
-      review: PropTypes.object,
+      lreview: PropTypes.object,
   
-      getTokenUser: PropTypes.func.isRequired,
+      getUserInfo: PropTypes.func.isRequired,
       user: PropTypes.object,
   
       getLike: PropTypes.func.isRequired,
@@ -32,7 +32,7 @@ class ReviewList extends Component {
         this.props.getReviewList(this.props.UR);
     
         const token = localStorage.getItem("token");
-        this.props.getTokenUser(token);
+        this.props.getUserInfo(token);
 
         this.props.getLike(this.props.UR);
       }
@@ -279,7 +279,7 @@ class ReviewList extends Component {
       const user = this.props.user;
       const authenticated = this.props.authenticated;
 
-      const reviews = this.props.review;
+      const reviews = this.props.lreview;
       const reviewI = [];
       const reviewNI = [];
 
@@ -354,12 +354,12 @@ class ReviewList extends Component {
   function mapStateToProps(state) {
     return {
       product: state.auth.product,
-      review: state.auth.review,
+      lreview: state.auth.lreview,
       authenticated: state.auth.authenticated,
       user: state.auth.user,
       like: state.auth.like
     };
   }
   
-  export default connect(mapStateToProps, { getProduct, getReviewList, getTokenUser, getLike})(ReviewList);
+  export default connect(mapStateToProps, { getProduct, getReviewList, getUserInfo, getLike})(ReviewList);
   

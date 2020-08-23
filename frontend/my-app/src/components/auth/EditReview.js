@@ -1,18 +1,26 @@
 import React, { Component } from "react";
-import { reduxForm, Field, Select, propTypes } from "redux-form";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { reduxForm, Field } from "redux-form";
 import { renderLabelSelect, renderLabelField, renderError} from "../../utils/renderUtils";
-import { required } from "redux-form-validators"
 
-import { editReview } from "../../actions/authActions";
+import { editReview, getReview } from "../../actions/authActions";
 
 class EditReview extends Component {
 
     static propTypes = {
-        ...propTypes
+        getReview: PropTypes.func.isRequired,
+        review: PropTypes.object
     };
+
+    componentWillMount() {
+        this.props.getReview(this.props);
+    }
 
     render() {
         const { handleSubmit, error } = this.props;
+        const review = this.props.review;
+
         const options = [
             {
               label: '★☆☆☆☆',
@@ -36,6 +44,12 @@ class EditReview extends Component {
             },
           ];
 
+        this.props.initialize({
+            star: review.star,
+            title: review.title,
+            review: review.review,
+        });
+        
         return (
             <div className="d-flex flex-column align-items-center">
                 <form
@@ -72,7 +86,16 @@ class EditReview extends Component {
     }
 }
 
-export default (reduxForm({
-    form: "edit_review",
+EditReview = reduxForm({
+    form: 'editReview',
     onSubmit: editReview
-})(EditReview));
+})(EditReview);
+
+EditReview = connect(
+  state => ({
+    review: state.auth.review
+}),
+  { getReview }
+)(EditReview);
+
+export default EditReview;

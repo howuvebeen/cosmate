@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getProductList } from "../../actions/authActions";
 import { Link } from "react-router-dom";
 
-class ProductList extends Component {
+class TopProduct extends Component {
 
     static propTypes = {
         getProductList: PropTypes.func.isRequired,
@@ -39,10 +39,11 @@ class ProductList extends Component {
         if (lproducts) {
             return (
                 <div>
-                    <div class="row justify-content-md-center">
-                        {lproducts.slice(0,3).map((lproduct, rank) => (
-                            <div class="m-3 card">
-                                <div class="m-5 p-3">
+                    <h4>Top Products</h4>
+                    <div class="row justify-content-md-left">
+                        {lproducts.slice(0,6).map((lproduct, rank) => (
+                            <div class="m-3 card col-md-3">
+                                <div class="m-3 p-3">
                                     <div class="mr-1">
                                         <p>0{rank+1}</p>
                                         <p>{lproduct.company}</p>
@@ -57,29 +58,6 @@ class ProductList extends Component {
                             </div>
                         ))}
                     </div>
-                    <div class="justify-content-md-center">
-                        {lproducts.slice(3).map((lproduct, rank) => (
-                            <div class="row m-3 p-3">
-                                <div class="mr-4">
-                                    <p><stonrg>0{rank+3}</stonrg></p>
-                                </div>
-                                <div class="mr-4">
-                                    <p>{lproduct.company}</p>
-                                </div>
-                                <div class="mr-4">
-                                    {/* <Link to={`/skincare/${lproduct.category[0].toLowerCase()}/${lproduct.pk}/`}><h4>{lproduct.name}</h4></Link> */}
-                                    <Link to={`/skincare/moisturizers/${lproduct.pk}/`}><h4>{lproduct.name}</h4></Link>
-                                </div>
-                                <div class="mr-4">
-                                    {this.Star(lproduct.average_star)}
-                                </div>
-                                <div class="mr-4">
-                                    <p>{lproduct.average_star} ({lproduct.review_number})</p>
-                                </div>
-                            </div>
-                        ))}
-                        <hr/>
-                    </div>
                 </div>
             );
         }
@@ -88,7 +66,7 @@ class ProductList extends Component {
 
     render() {
         return (
-            <div class="ml-3">
+            <div class="mt-5 pt-5 pl-5">
                 {this.renderProductList()}
             </div>
         );
@@ -101,4 +79,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { getProductList } )( ProductList );
+export default connect(mapStateToProps, { getProductList } )( TopProduct );

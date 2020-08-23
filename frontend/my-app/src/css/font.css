@@ -1,0 +1,116 @@
+@charset "utf-8";
+
+/* 노토 */
+/**
+ * @license
+ * MyFonts Webfont Build ID 3927744, 2020-07-21T00:38:36-0400
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed ../font(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: AvenirLTPro-Light by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-35-light/
+ * 
+ * Webfont: AvenirLTPro-LightOblique by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-35-light-oblique/
+ * 
+ * Webfont: AvenirLTPro-Book by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-45-book/
+ * 
+ * Webfont: AvenirLTPro-BookOblique by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-45-book-oblique/
+ * 
+ * Webfont: AvenirLTPro-Roman by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-55-roman/
+ * 
+ * Webfont: AvenirLTPro-Oblique by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-55-oblique/
+ * 
+ * Webfont: AvenirLTPro-Medium by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-65-medium/
+ * 
+ * Webfont: AvenirLTPro-MediumOblique by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-65-medium-oblique/
+ * 
+ * Webfont: AvenirLTPro-Heavy by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-85-heavy/
+ * 
+ * Webfont: AvenirLTPro-HeavyOblique by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-85-heavy-oblique/
+ * 
+ * Webfont: AvenirLTPro-Black by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-95-black/
+ * 
+ * Webfont: AvenirLTPro-BlackOblique by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/avenir/pro-95-black-oblique/
+ * 
+ * 
+ * ../font copyright: Copyright &amp;#x00A9; 2014 Monotype GmbH. All rights reserved.
+ * 
+ * © 2020 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/3beec0");
+  
+
+@font-face {
+  font-family: 'AvenirLTPro';
+  font-weight: 100;
+  src: url('../font/AvenirLTPro-Light/font.woff2') format('woff2'), url('../font/AvenirLTPro-Light/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'AvenirLTPro';
+  font-weight: 200;
+  src: url('../font/AvenirLTPro-Book/font.woff2') format('woff2'), url('../font/AvenirLTPro-Book/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'AvenirLTPro';
+  font-weight: 300;
+  src: url('../font/AvenirLTPro-Roman/font.woff2') format('woff2'), url('../font/AvenirLTPro-Roman/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'AvenirLTPro';
+  font-weight: 500;
+  src: url('../font/AvenirLTPro-Medium/font.woff2') format('woff2'), url('../font/AvenirLTPro-Medium/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'AvenirLTPro';
+  font-weight: 700;
+  src: url('../font/AvenirLTPro-Heavy/font.woff2') format('woff2'), url('../font/AvenirLTPro-Heavy/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'AvenirLTPro';
+  font-weight: 800;
+  src: url('../font/AvenirLTPro-Black/font.woff2') format('woff2'), url('../font/AvenirLTPro-Black/font.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'AvenirLTPro-LightOblique';
+  src: url('../font/AvenirLTPro-LightOblique/font.woff2') format('woff2'), url('../font/AvenirLTPro-LightOblique/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'AvenirLTPro-BookOblique';
+  src: url('../font/AvenirLTPro-BookOblique/font.woff2') format('woff2'), url('../font/AvenirLTPro-BookOblique/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'AvenirLTPro-BlackOblique';
+  src: url('../font/AvenirLTPro-BlackOblique/font.woff2') format('woff2'), url('../font/AvenirLTPro-BlackOblique/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'AvenirLTPro-HeavyOblique';
+  src: url('../font/AvenirLTPro-HeavyOblique/font.woff2') format('woff2'), url('../font/AvenirLTPro-HeavyOblique/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'AvenirLTPro-MediumOblique';
+  src: url('../font/AvenirLTPro-MediumOblique/font.woff2') format('woff2'), url('../font/AvenirLTPro-MediumOblique/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'AvenirLTPro-Oblique';
+  src: url('../font/AvenirLTPro-Oblique/font.woff2') format('woff2'), url('../font/AvenirLTPro-Oblique/font.woff') format('woff');
+}
+
