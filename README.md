@@ -4,7 +4,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <img src="gifs/preview.png" alt="preview">
+    <img src="images/preview.png" alt="preview">
 </p>
 
 <h2 align="center">Cosmate</h2>
