@@ -1,4 +1,4 @@
-# cosmate
+# depco
 
 
 <!-- PROJECT LOGO -->
@@ -10,7 +10,7 @@
 <h2 align="center">Cosmate</h2>
 
 <p align="center">
-<strong>Cosmate is an AI based cosmetics products recommender and information aggregator in Vietnam. </strong>
+<strong>Depco is an AI based cosmetics products recommender and information aggregator in Vietnam. </strong>
 <br />
 <br />
 <code>Javascript</code>
