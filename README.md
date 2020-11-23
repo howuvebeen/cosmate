@@ -26,8 +26,8 @@
 
 
 <!-- TABLE OF CONTENTS -->
+<!---
 # Table of Contents
-
 * [About the Project](#about-the-project)
   * [Contributors](#contributors)
 * [Getting Started](#getting-started)
@@ -36,3 +36,4 @@
   * [Play the Game](#play-the-game)
 * [Building Process](#building-process)
 * [License](#license)
+-->
